@@ -16,7 +16,7 @@
       />
       <!-- Category Badge Overlay -->
       <div class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold bg-white/90 dark:bg-gray-900/90 text-gray-900 dark:text-white backdrop-blur-sm">
-        {{ article.category }}
+        {{ getCategoryLabel(article.category) }}
       </div>
     </div>
     <div
@@ -38,7 +38,7 @@
       </svg>
       <!-- Category Badge Overlay -->
       <div class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold bg-white/90 dark:bg-gray-900/90 text-gray-900 dark:text-white backdrop-blur-sm">
-        {{ article.category }}
+        {{ getCategoryLabel(article.category) }}
       </div>
     </div>
 
@@ -90,6 +90,7 @@
 
 <script setup lang="ts">
 const localePath = useLocalePath()
+const { t } = useI18n()
 
 interface Article {
   path?: string
@@ -115,6 +116,18 @@ const formatDate = (dateString: string) => {
     month: 'long',
     day: 'numeric'
   })
+}
+
+// Get category label with i18n
+const getCategoryLabel = (category: string) => {
+  const categoryMap: Record<string, string> = {
+    '心得': t('blog.categoryReflection'),
+    '技術': t('blog.categoryTech'),
+    '生活': t('blog.categoryLife'),
+    'Insight': t('blog.categoryInsight'),
+    '專案': t('blog.categoryProject')
+  }
+  return categoryMap[category] || category
 }
 
 // Simple reading time estimation (based on ~200 words per minute)

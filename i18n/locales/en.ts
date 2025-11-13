@@ -163,6 +163,7 @@ export default {
     categoryLife: 'Life',
     categoryInsight: 'Insight',
     categoryProject: 'Project',
+    categoryReflection: 'Reflection',
     categoryOther: 'Other'
   },
 
