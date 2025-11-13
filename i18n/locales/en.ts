@@ -164,7 +164,13 @@ export default {
     categoryInsight: 'Insight',
     categoryProject: 'Project',
     categoryReflection: 'Reflection',
-    categoryOther: 'Other'
+    categoryOther: 'Other',
+    pagination: {
+      previous: 'Previous',
+      next: 'Next',
+      page: 'Page {page}',
+      showing: 'Showing {start}-{end} of {total} articles'
+    }
   },
 
   // Common

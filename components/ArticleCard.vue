@@ -102,6 +102,7 @@ interface Article {
   image?: string
   author?: string
   draft?: boolean
+  body?: any // Nuxt Content body (AST)
 }
 
 const props = defineProps<{
@@ -130,13 +131,11 @@ const getCategoryLabel = (category: string) => {
   return categoryMap[category] || category
 }
 
-// Simple reading time estimation (based on ~200 words per minute)
-// Estimate ~250 words per article on average, can be improved later with actual word count
+// Calculate reading time using the shared composable
+// Supports mixed Chinese (500 chars/min) and English (200 words/min) content
 const readingTime = computed(() => {
-  // Rough estimation: title + description length as proxy
-  const textLength = props.article.title.length + props.article.description.length
-  const estimatedWords = Math.max(Math.floor(textLength / 5), 250) // Minimum 250 words
-  return Math.max(Math.ceil(estimatedWords / 200), 1) // Minimum 1 minute
+  if (!props.article.body) return 1
+  return useReadingTime(props.article.body)
 })
 </script>
 

@@ -163,7 +163,13 @@ export default {
     categoryInsight: 'Insight',
     categoryProject: 'プロジェクト',
     categoryReflection: '感想',
-    categoryOther: 'その他'
+    categoryOther: 'その他',
+    pagination: {
+      previous: '前へ',
+      next: '次へ',
+      page: 'ページ {page}',
+      showing: '{total}件中 {start}-{end}件を表示'
+    }
   },
 
   // Common

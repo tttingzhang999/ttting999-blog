@@ -210,18 +210,9 @@ if (!article.value) {
 // Get Table of Contents
 const toc = computed(() => article.value?.body?.toc)
 
-// Calculate reading time (based on word count)
-const readingTime = computed(() => {
-  if (!article.value?.body) return 1
-
-  // Count words in the content
-  const text = JSON.stringify(article.value.body)
-  const wordCount = text.split(/\s+/).length
-  const wordsPerMinute = 200
-  const time = Math.ceil(wordCount / wordsPerMinute)
-
-  return Math.max(time, 1) // Minimum 1 minute
-})
+// Calculate reading time using the shared composable
+// Supports mixed Chinese (500 chars/min) and English (200 words/min) content
+const readingTime = useArticleReadingTime(article)
 
 // Format date
 const formatDate = (dateString: string) => {

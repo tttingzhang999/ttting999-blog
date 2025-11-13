@@ -163,7 +163,13 @@ export default {
     categoryInsight: 'Insight',
     categoryProject: '專案',
     categoryReflection: '心得',
-    categoryOther: '其他'
+    categoryOther: '其他',
+    pagination: {
+      previous: '上一頁',
+      next: '下一頁',
+      page: '第 {page} 頁',
+      showing: '顯示 {start}-{end} 共 {total} 篇文章'
+    }
   },
 
   // Common
