@@ -162,6 +162,7 @@ export default {
     categoryLife: '生活',
     categoryInsight: 'Insight',
     categoryProject: '專案',
+    categoryReflection: '心得',
     categoryOther: '其他'
   },
 
