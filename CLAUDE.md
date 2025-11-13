@@ -599,3 +599,8 @@ console.log(articles.value)
 - Official docs: https://nuxt.com/docs
 - Nuxt Content v3: https://content.nuxt.com
 
+## md files (notes) instrustions
+
+- always use tradional chinese if not mentioned in prompt
+- help me to make the content more engaging and interesting
+- help me to make the content more easy to read and understand
