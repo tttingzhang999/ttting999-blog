@@ -36,7 +36,8 @@ export default defineNuxtConfig({
       title: 'tingzhang999-blog',
       meta: [
         { name: 'description', content: 'Personal portfolio and technical blog of Ting Zhang, a Full Stack Engineer specializing in Python, TypeScript, Vue.js, and cloud technologies.' },
-        { name: 'format-detection', content: 'telephone=no' }
+        { name: 'format-detection', content: 'telephone=no' },
+        { name: 'google-site-verification', content: 'VnxfwULSkIZXrgyXntU8p5Ylmxp29hFi4dxOdwFVoWQ' }
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
