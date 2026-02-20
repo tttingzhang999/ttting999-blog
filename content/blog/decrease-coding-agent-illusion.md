@@ -5,7 +5,7 @@ date: '2026-02-20'
 tags: ['Tooling', 'Development']
 category: '技術'
 author: 'Ting Zhang'
-image: ''
+image: '/images/blog/decrease-coding-agent-illusion/banner.png'
 draft: false
 ---
 

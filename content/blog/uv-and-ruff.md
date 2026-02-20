@@ -6,10 +6,8 @@ tags: ['Python', 'Tooling', 'Development', 'uv', 'Ruff']
 category: '技術'
 author: 'Ting Zhang'
 image: ''
-draft: true
+draft: false
 ---
-
-<!-- TODO: Add cover image at /public/images/blog/uv-and-ruff/cover.png -->
 
 # 這篇文章的用處？
 
@@ -29,9 +27,6 @@ draft: true
     - 一個工具解決多個需求，簡化開發工作流程
 - 確保所有環境部署時依賴相同 (`uv.lock`)
 - 方便切換 python 版本，以及在設定檔中鎖定 python 版本
-
-<!-- TODO: Add image at /public/images/blog/uv-and-ruff/uv-features.png -->
-![uv features](/images/blog/uv-and-ruff/uv-features.png)
 
 ## requirements.txt vs pyproject.toml
 
@@ -127,36 +122,6 @@ my-project/
 └── src/
 ```
 
-## pip + venv vs poetry vs uv
-
-這邊大致把 python 軟體開發的「開發前設定」分成三個階段：
-- **CPython setting** - 下載 python
-- **venv creating** - 建立虛擬環境
-- **dependency installing** - 下載模組
-
-### pip + venv
-
-傳統方式三個部分都由不同的工具管理
-
-<!-- TODO: Add image at /public/images/blog/uv-and-ruff/pip-venv.png -->
-![pip + venv workflow](/images/blog/uv-and-ruff/pip-venv.png)
-
-### Poetry (原本的改善)
-
-整合 venv + 依賴管理
-
-<!-- TODO: Add image at /public/images/blog/uv-and-ruff/poetry.png -->
-![Poetry workflow](/images/blog/uv-and-ruff/poetry.png)
-
-### uv
-
-全部整合，簡單快速
-
-<!-- TODO: Add image at /public/images/blog/uv-and-ruff/uv-workflow.png -->
-![uv workflow (勘誤：最右邊 poetry.lock → uv.lock)](/images/blog/uv-and-ruff/uv-workflow.png)
-
-*勘誤：最右邊 poetry.lock → uv.lock*
-
 ---
 
 # ruff
@@ -172,9 +137,6 @@ my-project/
     - 支援 800+ 個 lint 規則
     - 整合了 Flake8、isort、pycodestyle、pyflakes 等工具的規則
 - **無需配置即可使用**
-
-<!-- TODO: Add image at /public/images/blog/uv-and-ruff/ruff-features.png -->
-![ruff features](/images/blog/uv-and-ruff/ruff-features.png)
 
 ---
 
