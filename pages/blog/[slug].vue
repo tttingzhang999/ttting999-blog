@@ -290,11 +290,13 @@ useHead({
         author: {
           '@type': 'Person',
           name: article.value.author || 'Ting Zhang',
+          alternateName: '張碩庭',
           url: 'https://ttting999-blog.vercel.app'
         },
         publisher: {
           '@type': 'Person',
           name: 'Ting Zhang',
+          alternateName: '張碩庭',
           url: 'https://ttting999-blog.vercel.app'
         },
         keywords: article.value.tags?.join(', '),

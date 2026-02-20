@@ -6,7 +6,7 @@ tags: ['Python', 'Tooling', 'Development', 'uv', 'Ruff']
 category: '技術'
 author: 'Ting Zhang'
 image: ''
-draft: false
+draft: true
 ---
 
 <!-- TODO: Add cover image at /public/images/blog/uv-and-ruff/cover.png -->

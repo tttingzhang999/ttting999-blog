@@ -26,9 +26,9 @@ Context7 是一個 MCP Tool, 可以自動查詢最新文檔
 ### 文檔來源
 任何人都可以到官網去發一個 Add Library Request，這邊可以看到目前正在進行 Parsing & Crawling 的目標文檔，我嘗試把我自己的repo丟上去也可以跑，並且有辦法在 Dashboard 搜尋到
 
-![](../../public/images/blog/decrease-coding-agent-illusion/image1.png)
-![](../../public/images/blog/decrease-coding-agent-illusion/image2.png)
-![](../../public/images/blog/decrease-coding-agent-illusion/image3.png)
+![](/images/blog/decrease-coding-agent-illusion/image1.png)
+![](/images/blog/decrease-coding-agent-illusion/image2.png)
+![](/images/blog/decrease-coding-agent-illusion/image3.png)
 
 ### 使用
 可以選擇自架 MCP Server or 使用官方服務
@@ -46,7 +46,7 @@ Always use Context7 MCP when I need library/API documentation, code generation, 
 ```
 幫我寫一個 strands agent graph pattern example, 記得遵照文檔教學執行/必須使用 context 7...
 ```
-![](../../public/images/blog/decrease-coding-agent-illusion/image4.png)
+![](/images/blog/decrease-coding-agent-illusion/image4.png)
 
 ### How it works?
 
@@ -73,8 +73,8 @@ MCP tools · /mcp
 - 號稱有濾除有安全疑慮的 Skill (不安全的 script / prompt injection…)
 - 可以自動偵測本機上有安裝的 Coding LLM 然後安裝進去 (但是看起來不支援 Kiro🥲)
 
-![](../../public/images/blog/decrease-coding-agent-illusion/image5.png)
-![](../../public/images/blog/decrease-coding-agent-illusion/image6.png)
+![](/images/blog/decrease-coding-agent-illusion/image5.png)
+![](/images/blog/decrease-coding-agent-illusion/image6.png)
 
 
 ## Skill
