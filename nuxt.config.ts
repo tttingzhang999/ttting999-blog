@@ -33,9 +33,9 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
-      title: 'tingzhang999-blog',
+      title: 'Ting Zhang 張碩庭 | Sr. Software Engineer',
       meta: [
-        { name: 'description', content: 'Personal portfolio and technical blog of Ting Zhang, a Full Stack Engineer specializing in Python, TypeScript, Vue.js, and cloud technologies.' },
+        { name: 'description', content: 'Ting Zhang (張碩庭) - 資深軟體工程師 | Sr. Software Engineer at Going Cloud, formerly 智電系統 (Smart Power System). Python, TypeScript, Vue.js, GCP. Creator of Moniit.' },
         { name: 'format-detection', content: 'telephone=no' },
         { name: 'google-site-verification', content: 'VnxfwULSkIZXrgyXntU8p5Ylmxp29hFi4dxOdwFVoWQ' }
       ],

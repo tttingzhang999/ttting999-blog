@@ -189,20 +189,20 @@ export default {
   // SEO
   seo: {
     home: {
-      title: '張碩庭的個人作品集與技術部落格 | tingzhang999-blog | ttting999' ,
-      description: '張碩庭的個人作品集與技術部落格，專注於 Python、TypeScript、Vue.js 和雲端技術的全端工程師。'
+      title: '張碩庭 Ting Zhang | 資深軟體工程師 | Going Cloud',
+      description: '張碩庭 (Ting Zhang) 的個人作品集與技術部落格。資深軟體工程師，現職 Going Cloud，前智電系統。專精 Python、TypeScript、Vue.js、GCP 雲端架構。Side Project: Moniit 資產管理應用。'
     },
     resume: {
-      title: '履歴 | 張碩庭 | tingzhang999-blog | ttting999',
-      description: '查看張碩庭的完整履歷，包括工作經歷、教育背景和技術技能。'
+      title: '履歷 | 張碩庭 Ting Zhang | 軟體工程師 | Going Cloud・智電系統',
+      description: '張碩庭 (Ting Zhang) 的完整履歷。資深軟體工程師，曾任職 Going Cloud、智電系統 (Smart Power System)。專精 Python、TypeScript、Vue.js、MongoDB、GCP、Kubernetes。Side Project: Moniit。'
     },
     projects: {
-      title: '專案作品 | 張碩庭 | tingzhang999-blog | ttting999',
-      description: '探索張碩庭參與過的專案和技術作品。'
+      title: '專案作品 | 張碩庭 Ting Zhang | Moniit・智電系統',
+      description: '探索張碩庭 (Ting Zhang) 的專案作品，包含 Moniit 資產管理應用、電力轉供管理平台等技術作品。'
     },
     blog: {
-      title: '技術部落格 | 張碩庭 | tingzhang999-blog | ttting999',
-      description: '閱讀張碩庭的技術文章、學習筆記和開發心得。'
+      title: '技術部落格 | 張碩庭 Ting Zhang | 軟體工程師',
+      description: '張碩庭 (Ting Zhang) 的技術部落格，分享軟體工程、Python、TypeScript、Vue.js 開發心得與面試經驗。'
     }
   }
 }

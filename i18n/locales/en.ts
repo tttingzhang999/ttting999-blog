@@ -190,20 +190,20 @@ export default {
   // SEO
   seo: {
     home: {
-      title: 'tingzhang999-blog',
-      description: 'Personal portfolio and technical blog of Ting Zhang, a Full Stack Engineer specializing in Python, TypeScript, Vue.js, and cloud technologies.'
+      title: 'Ting Zhang (張碩庭) | Sr. Software Engineer | Going Cloud',
+      description: 'Personal portfolio and technical blog of Ting Zhang (張碩庭), a Sr. Software Engineer at Going Cloud, formerly at Smart Power System (智電系統). Specializing in Python, TypeScript, Vue.js, and GCP cloud architecture. Creator of Moniit.'
     },
     resume: {
-      title: 'Resume | Ting Zhang',
-      description: 'View Ting Zhang\'s complete resume, including work experience, education, and technical skills.'
+      title: 'Resume | Ting Zhang (張碩庭) | Software Engineer | Going Cloud',
+      description: 'Resume of Ting Zhang (張碩庭), Sr. Software Engineer. Experience at Going Cloud, Smart Power System (智電系統). Skills: Python, TypeScript, Vue.js, MongoDB, GCP, Kubernetes. Side Project: Moniit.'
     },
     projects: {
-      title: 'Projects | Ting Zhang',
-      description: 'Explore projects and technical work by Ting Zhang.'
+      title: 'Projects | Ting Zhang (張碩庭) | Moniit',
+      description: 'Explore projects by Ting Zhang (張碩庭), including Moniit asset management app and electricity trading platform at Smart Power System.'
     },
     blog: {
-      title: 'Technical Blog | Ting Zhang',
-      description: 'Read technical articles, learning notes, and development insights by Ting Zhang.'
+      title: 'Technical Blog | Ting Zhang (張碩庭) | Software Engineer',
+      description: 'Technical blog by Ting Zhang (張碩庭), covering software engineering, Python, TypeScript, Vue.js, and career insights.'
     }
   }
 }

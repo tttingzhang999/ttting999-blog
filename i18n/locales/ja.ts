@@ -189,20 +189,20 @@ export default {
   // SEO
   seo: {
     home: {
-      title: 'tingzhang999-blog',
-      description: 'Python、TypeScript、Vue.js、クラウド技術を専門とするフルスタックエンジニア、Ting Zhangの個人ポートフォリオと技術ブログ。'
+      title: 'Ting Zhang (張碩庭) | シニアソフトウェアエンジニア | Going Cloud',
+      description: 'Ting Zhang（張碩庭）のポートフォリオと技術ブログ。Going Cloud のシニアソフトウェアエンジニア、元智電系統（Smart Power System）。Python、TypeScript、Vue.js、GCP。Moniit 開発者。'
     },
     resume: {
-      title: '履歴書 | Ting Zhang',
-      description: 'Ting Zhangの完全な履歴書、職務経歴、学歴、技術スキルを確認できます。'
+      title: '履歴書 | Ting Zhang (張碩庭) | ソフトウェアエンジニア',
+      description: 'Ting Zhang（張碩庭）の履歴書。Going Cloud、智電系統での経験。Python、TypeScript、Vue.js、MongoDB、GCP、Kubernetes。'
     },
     projects: {
-      title: 'プロジェクト | Ting Zhang',
-      description: 'Ting Zhangのプロジェクトと技術成果を探索します。'
+      title: 'プロジェクト | Ting Zhang (張碩庭) | Moniit',
+      description: 'Ting Zhang（張碩庭）のプロジェクト。Moniit 資産管理アプリ、電力取引プラットフォームなど。'
     },
     blog: {
-      title: '技術ブログ | Ting Zhang',
-      description: 'Ting Zhangの技術記事、学習ノート、開発知見を読む。'
+      title: '技術ブログ | Ting Zhang (張碩庭) | ソフトウェアエンジニア',
+      description: 'Ting Zhang（張碩庭）の技術ブログ。ソフトウェア開発、Python、TypeScript、Vue.js の知見を共有。'
     }
   }
 }

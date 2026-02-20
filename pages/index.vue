@@ -38,9 +38,9 @@
             :initial="{ opacity: 0, scale: 0.9 }"
             :enter="{ opacity: 1, scale: 1, transition: { delay: 600, duration: 600 } }"
           >
-            <!-- <p class="text-2xl sm:text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600 dark:from-primary-400 dark:to-secondary-400">
+            <p class="text-2xl sm:text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600 dark:from-primary-400 dark:to-secondary-400">
               {{ $t('home.hero.title') }}
-            </p> -->
+            </p>
             <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400">
               {{ $t('home.hero.techStack') }}
             </p>
@@ -244,12 +244,17 @@ useHead({
         '@context': 'https://schema.org',
         '@type': 'Person',
         name: 'Ting Zhang',
+        alternateName: '張碩庭',
         jobTitle: t('home.hero.title'),
         description: t('seo.home.description'),
         url: 'https://ttting999-blog.vercel.app',
         sameAs: [
           'https://github.com/perplex0204',
           'https://www.linkedin.com/in/tingzhang98/'
+        ],
+        worksFor: [
+          { '@type': 'Organization', name: 'Going Cloud' },
+          { '@type': 'Organization', name: '智電系統', alternateName: 'Smart Power System' }
         ],
         knowsAbout: ['Python', 'TypeScript', 'Vue.js', 'FastAPI', 'Flask', 'MongoDB', 'PostgreSQL', 'GCP', 'Docker', 'Kubernetes'],
         email: 'tttingzhang999@gmail.com'

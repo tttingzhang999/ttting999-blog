@@ -41,7 +41,8 @@ useHead({
       innerHTML: computed(() => JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Person',
-        name: resumeData.value.personalInfo.name,
+        name: 'Ting Zhang',
+        alternateName: '張碩庭',
         jobTitle: resumeData.value.personalInfo.title,
         email: resumeData.value.personalInfo.email,
         description: resumeData.value.personalInfo.bio,
@@ -50,6 +51,10 @@ useHead({
           resumeData.value.socialLinks?.github,
           resumeData.value.socialLinks?.linkedin
         ].filter(Boolean),
+        worksFor: resumeData.value.workExperience.map(exp => ({
+          '@type': 'Organization',
+          name: exp.company
+        })),
         knowsAbout: resumeData.value.technicalSkills.flatMap(skill => skill.skills)
       }))
     }
