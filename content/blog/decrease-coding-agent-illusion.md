@@ -1,7 +1,7 @@
 ---
 title: '如何降低 Coding Agent的幻覺？'
 description: '介紹透過 context7 & agent skills 來提升 Coding agent one shot 機率的方法'
-date: '2026-02-20'
+date: '2026-01-26'
 tags: ['Tooling', 'Development']
 category: '技術'
 author: 'Ting Zhang'
