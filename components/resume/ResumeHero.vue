@@ -80,20 +80,6 @@
             </div>
           </div>
 
-          <!-- Motto Section -->
-          <div
-            v-if="personalInfo.motto"
-            class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700"
-            v-motion
-            :initial="{ opacity: 0, y: 20 }"
-            :enter="{ opacity: 1, y: 0, transition: { delay: 1200, duration: 600 } }"
-          >
-            <div class="text-center">
-              <p class="text-lg font-light text-gray-600 dark:text-gray-400 italic">
-                "{{ personalInfo.motto }}"
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -109,7 +95,6 @@ interface Props {
     location?: string
     bio: string
     avatar?: string
-    motto?: string
   }
   socialLinks?: {
     github?: string

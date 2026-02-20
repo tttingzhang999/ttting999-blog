@@ -7,8 +7,7 @@ export const resumeDataZhTW: Resume = {
     email: 'tttingzhang999@gmail.com',
     location: '台灣',
     bio: '熱衷於建構可擴展的網頁應用程式和雲端基礎設施。專精於 Python、TypeScript 和現代網頁框架。擁有優化系統效能、實施 CI/CD 流程以及在 GCP, AWS 上建置雲原生解決方案的豐富經驗。',
-    avatar: '/images/avatar.jpg',
-    motto: '努力工作，享受生活 | Work hard, play hard'
+    avatar: '/images/avatar.jpg'
   },
 
   workExperience: [

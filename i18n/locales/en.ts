@@ -16,7 +16,7 @@ export default {
   footer: {
     builtWith: 'Built with',
     allRightsReserved: 'All rights reserved',
-    tagline: 'Full Stack Engineer | Work hard, play hard',
+    tagline: 'Full Stack Engineer',
     tech: 'Built with {nuxt} + {tailwind} | Deployed on {vercel}'
   },
 
@@ -25,29 +25,15 @@ export default {
     hero: {
       greeting: 'Hi, I\'m',
       name: 'Ting Zhang',
-      title: 'Sr. Software Engineer',
+      title: 'Software Engineer',
       techStack: 'Python • TypeScript • Vue.js • Cloud Architecture',
       viewResume: 'View Resume',
       viewProjects: 'View Projects'
     },
-    motto: {
-      title: 'Motto',
-      quote: 'Work hard, play hard',
-      quoteEn: 'Work hard, play hard'
-    },
     about: {
       title: 'About Me',
-      description1: 'Software Engineer with a passion for building scalable web applications and cloud infrastructure. Specialized in Python, TypeScript, and modern web frameworks like Vue.js and FastAPI.',
-      description2: 'Experienced in optimizing system performance, implementing CI/CD pipelines, and architecting cloud-native solutions on GCP. Passionate about clean code, design patterns, and building tools that make developers\' lives easier.',
-      techStack: 'Tech Stack',
-      frontend: 'Frontend',
-      frontendTech: 'Vue.js, TypeScript, Nuxt',
-      backend: 'Backend',
-      backendTech: 'Python, FastAPI, Flask',
-      database: 'Database',
-      databaseTech: 'MongoDB, PostgreSQL, Redis',
-      devops: 'DevOps',
-      devopsTech: 'GCP, Docker, Kubernetes'
+      description1: 'Hi, I\'m Ting. I\'ve been working as a software engineer for about 3 years, specializing in Web Applications and Cloud Infrastructure.',
+      description2: 'I started this blog to capture my thoughts before they slip away — a place to leave behind of my thinking and notes.',
     },
     quickNav: {
       title: 'Explore My Work',
@@ -190,12 +176,12 @@ export default {
   // SEO
   seo: {
     home: {
-      title: 'Ting Zhang (張碩庭) | Sr. Software Engineer | Going Cloud',
-      description: 'Personal portfolio and technical blog of Ting Zhang (張碩庭), a Sr. Software Engineer at Going Cloud, formerly at Smart Power System (智電系統). Specializing in Python, TypeScript, Vue.js, and GCP cloud architecture. Creator of Moniit.'
+      title: 'Ting Zhang (張碩庭) | Software Engineer | Going Cloud',
+      description: 'Personal portfolio and technical blog of Ting Zhang (張碩庭), a Software Engineer at Going Cloud, formerly at Smart Power System (智電系統). Specializing in Python, TypeScript, Vue.js, and GCP cloud architecture. Creator of Moniit.'
     },
     resume: {
       title: 'Resume | Ting Zhang (張碩庭) | Software Engineer | Going Cloud',
-      description: 'Resume of Ting Zhang (張碩庭), Sr. Software Engineer. Experience at Going Cloud, Smart Power System (智電系統). Skills: Python, TypeScript, Vue.js, MongoDB, GCP, Kubernetes. Side Project: Moniit.'
+      description: 'Resume of Ting Zhang (張碩庭), Software Engineer. Experience at Going Cloud, Smart Power System (智電系統). Skills: Python, TypeScript, Vue.js, MongoDB, GCP, Kubernetes. Side Project: Moniit.'
     },
     projects: {
       title: 'Projects | Ting Zhang (張碩庭) | Moniit',

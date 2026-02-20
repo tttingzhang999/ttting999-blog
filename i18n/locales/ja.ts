@@ -16,7 +16,7 @@ export default {
   footer: {
     builtWith: '使用技術',
     allRightsReserved: '全著作権所有',
-    tagline: 'フルスタックエンジニア | 努力して、楽しむ',
+    tagline: 'フルスタックエンジニア',
     tech: '{nuxt} + {tailwind} で構築 | {vercel} にデプロイ'
   },
 
@@ -30,24 +30,10 @@ export default {
       viewResume: '履歴書を見る',
       viewProjects: 'プロジェクトを見る'
     },
-    motto: {
-      title: '座右の銘',
-      quote: '努力して、楽しむ',
-      quoteEn: 'Work hard, play hard'
-    },
     about: {
       title: 'About Me',
-      description1: 'スケーラブルなWebアプリケーションとクラウドインフラストラクチャの構築に情熱を注ぐシニアソフトウェアエンジニアです。Python、TypeScript、Vue.jsやFastAPIなどの最新Webフレームワークを専門としています。',
-      description2: 'システムパフォーマンスの最適化、CI/CDパイプラインの実装、GCP上でのクラウドネイティブソリューションの設計において豊富な経験があります。クリーンなコード、デザインパターン、開発者の生活を楽にするツールの構築に情熱を持っています。',
-      techStack: '技術スタック',
-      frontend: 'フロントエンド',
-      frontendTech: 'Vue.js、TypeScript、Nuxt',
-      backend: 'バックエンド',
-      backendTech: 'Python、FastAPI、Flask',
-      database: 'データベース',
-      databaseTech: 'MongoDB、PostgreSQL、Redis',
-      devops: 'DevOps',
-      devopsTech: 'GCP、Docker、Kubernetes'
+      description1: 'こんにちは、Tingです。ソフトウェアエンジニアとして約3年、Web ApplicationとCloud Infraを専門としています。',
+      description2: '自分のアイデアを逃さないために、このブログを作りました。思考と記録を少しずつ残していきます。',
     },
     quickNav: {
       title: 'Explore My Work',

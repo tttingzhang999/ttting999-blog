@@ -7,8 +7,7 @@ export const resumeDataEn: Resume = {
     email: 'tttingzhang999@gmail.com',
     location: 'Taiwan',
     bio: 'Software Engineer with a passion for building scalable web applications and cloud infrastructure. Specialized in Python, TypeScript, and modern web frameworks. Experienced in optimizing system performance, implementing CI/CD pipelines, and architecting cloud-native solutions.',
-    avatar: '/images/avatar.jpg',
-    motto: 'Work hard, play hard | 努力工作，享受生活'
+    avatar: '/images/avatar.jpg'
   },
 
   workExperience: [

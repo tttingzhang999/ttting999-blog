@@ -7,8 +7,7 @@ export const resumeDataJa: Resume = {
     email: 'tttingzhang999@gmail.com',
     location: '台湾',
     bio: 'スケーラブルなWebアプリケーションとクラウドインフラストラクチャの構築に情熱を注ぐシニアソフトウェアエンジニアです。Python、TypeScript、最新Webフレームワークを専門としています。システムパフォーマンスの最適化、CI/CDパイプラインの実装、GCP上でのクラウドネイティブソリューションの設計において豊富な経験があります。',
-    avatar: '/images/avatar.jpg',
-    motto: '心を込めて一行一行のコードを作成 | Crafting Every Line of Code with Heart'
+    avatar: '/images/avatar.jpg'
   },
 
   workExperience: [

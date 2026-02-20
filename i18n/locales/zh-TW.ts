@@ -16,7 +16,7 @@ export default {
   footer: {
     builtWith: '使用以下技術建構',
     allRightsReserved: '版權所有',
-    tagline: 'Full Stack Engineer | 努力工作，享受生活',
+    tagline: 'Full Stack Engineer',
     tech: 'Built with {nuxt} + {tailwind} | Deployed on {vercel}'
   },
 
@@ -30,24 +30,10 @@ export default {
       viewResume: '查看履歷',
       viewProjects: '瀏覽專案'
     },
-    motto: {
-      title: '座右銘',
-      quote: '努力工作，享受生活',
-      quoteEn: 'Work hard, play hard'
-    },
     about: {
       title: 'About Me',
-      description1: '資深軟體工程師，熱衷於建構可擴展的網頁應用程式和雲端基礎設施。專精於 Python、TypeScript 和現代網頁框架，如 Vue.js 和 FastAPI。',
-      description2: '擁有優化系統效能、實施 CI/CD 流程以及在 GCP 上架構雲原生解決方案的豐富經驗。熱愛乾淨的程式碼、設計模式，以及打造讓開發者生活更輕鬆的工具。',
-      techStack: '技術棧',
-      frontend: '前端開發',
-      frontendTech: 'Vue.js、TypeScript、Nuxt',
-      backend: '後端開發',
-      backendTech: 'Python、FastAPI、Flask',
-      database: '資料庫',
-      databaseTech: 'MongoDB、PostgreSQL、Redis',
-      devops: 'DevOps',
-      devopsTech: 'GCP、Docker、Kubernetes'
+      description1: 'Hi，我是Ting，目前擔任軟體工程師已經三年左右，專精於 Web Application 與 Cloud Infra',
+      description2: '為了不讓自己的想法溜走，所以有了這個 Blog，留下一點我的思緒與紀錄。',
     },
     quickNav: {
       title: 'Explore My Work',

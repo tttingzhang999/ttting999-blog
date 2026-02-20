@@ -33,9 +33,9 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
-      title: 'Ting Zhang 張碩庭 | Sr. Software Engineer',
+      title: 'Ting Zhang 張碩庭 | Software Engineer',
       meta: [
-        { name: 'description', content: 'Ting Zhang (張碩庭) - 資深軟體工程師 | Sr. Software Engineer at Going Cloud, formerly 智電系統 (Smart Power System). Python, TypeScript, Vue.js, GCP. Creator of Moniit.' },
+        { name: 'description', content: 'Ting Zhang (張碩庭) - 資深軟體工程師 | Software Engineer at Going Cloud, formerly 智電系統 (Smart Power System). Python, TypeScript, Vue.js, GCP. Creator of Moniit.' },
         { name: 'format-detection', content: 'telephone=no' },
         { name: 'google-site-verification', content: 'VnxfwULSkIZXrgyXntU8p5Ylmxp29hFi4dxOdwFVoWQ' }
       ],

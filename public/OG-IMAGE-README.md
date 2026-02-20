@@ -22,7 +22,7 @@
 
 ### Content Suggestions
 - Your name: "Ting Zhang"
-- Title: "Sr. Software Engineer"
+- Title: "Software Engineer"
 - Tagline: "Building Scalable Solutions"
 - Background: Gradient from primary to secondary color
 - Optional: Tech stack icons or keywords

@@ -84,30 +84,6 @@
       </div>
     </section>
 
-    <!-- Motto Section -->
-    <section class="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div
-          class="max-w-4xl mx-auto"
-          v-motion
-          :initial="{ opacity: 0, y: 30 }"
-          :visible-once="{ opacity: 1, y: 0, transition: { duration: 600 } }"
-        >
-          <div class="relative">
-            <div class="absolute top-0 left-0 text-8xl text-primary-200 dark:text-primary-900/30 font-serif">"</div>
-            <blockquote class="text-center px-8 pt-12">
-              <p class="text-2xl sm:text-3xl font-light text-gray-800 dark:text-gray-200 leading-relaxed mb-6">
-                {{ $t('home.motto.quote') }}
-              </p>
-              <p v-if="$t('home.motto.quoteEn') !== $t('home.motto.quote')" class="text-xl sm:text-2xl text-gray-600 dark:text-gray-400 italic">
-                {{ $t('home.motto.quoteEn') }}
-              </p>
-            </blockquote>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- About Section -->
     <section class="py-20 bg-gradient-to-br from-gray-50 to-primary-50/30 dark:from-gray-800 dark:to-gray-900 transition-colors duration-300">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -132,24 +108,6 @@
           >
             <p class="text-gray-700 dark:text-gray-300 leading-relaxed" v-html="$t('home.about.description1')"></p>
             <p class="text-gray-700 dark:text-gray-300 leading-relaxed" v-html="$t('home.about.description2')"></p>
-          </div>
-
-          <!-- Tech Stack Grid -->
-          <div
-            class="grid grid-cols-2 md:grid-cols-4 gap-6"
-            v-motion
-            :initial="{ opacity: 0, y: 30 }"
-            :visible-once="{ opacity: 1, y: 0, transition: { delay: 400, duration: 600 } }"
-          >
-            <div
-              v-for="(stack, index) in techStacks"
-              :key="index"
-              class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300 border border-gray-200 dark:border-gray-700"
-            >
-              <div class="text-4xl mb-3 text-center">{{ stack.icon }}</div>
-              <h3 class="text-sm font-semibold text-gray-900 dark:text-white text-center mb-2">{{ stack.category }}</h3>
-              <p class="text-xs text-gray-600 dark:text-gray-400 text-center">{{ stack.tech }}</p>
-            </div>
           </div>
         </div>
       </div>
@@ -262,33 +220,6 @@ useHead({
     }
   ]
 })
-
-// Contact info
-const email = 'tttingzhang999@gmail.com'
-
-// Tech Stack Data
-const techStacks = computed(() => [
-  {
-    icon: '💻',
-    category: t('home.about.frontend'),
-    tech: t('home.about.frontendTech')
-  },
-  {
-    icon: '⚙️',
-    category: t('home.about.backend'),
-    tech: t('home.about.backendTech')
-  },
-  {
-    icon: '🗄️',
-    category: t('home.about.database'),
-    tech: t('home.about.databaseTech')
-  },
-  {
-    icon: '☁️',
-    category: t('home.about.devops'),
-    tech: t('home.about.devopsTech')
-  }
-])
 
 // SVG Icon Components
 const ResumeIcon = h('svg', {

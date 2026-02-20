@@ -34,7 +34,6 @@ export interface Resume {
     location?: string
     bio: string
     avatar?: string
-    motto?: string
   }
   workExperience: WorkExperience[]
   sideProjects: SideProject[]
