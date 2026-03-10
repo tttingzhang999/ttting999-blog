@@ -592,6 +592,32 @@ console.log(articles.value)
    - Verify URL contains correct locale prefix
    - Verify content displays in selected language
 
+## Tools: Cross-Platform Article Publisher
+
+Located at `tools/publisher/`. A Python CLI tool that publishes blog articles from `content/blog/` to external platforms.
+
+**Tech Stack**: Python + uv, typer + rich + questionary (interactive CLI), httpx (HTTP), python-frontmatter (reading), sqlite3 (state)
+
+**Current Status**: DEV.to adapter complete with create/update/publish/unpublish/stats. Phase 2 planned (Hashnode). Phase 3 planned (Medium/Vocus via Playwright).
+
+**Usage**:
+```bash
+cd tools/publisher
+uv sync
+cp .env.example .env   # Fill in DEVTO_API_KEY
+uv run publish          # Main menu: publish/update, dashboard, exit
+uv run publish status   # Show crosspost status table
+```
+
+**Key Points**:
+- Crosspost state stored in SQLite (`tools/publisher/publisher.db`, gitignored)
+- Markdown files stay clean — no crosspost metadata in frontmatter
+- Auto-detects create vs update based on DB records
+- Platform dashboard: view stats, publish/unpublish drafts
+- Adapter pattern: all platforms implement `PlatformAdapter` Protocol with capabilities enum
+- Detailed docs: `tools/publisher/CLAUDE.md`
+- Plan document: `docs/plan-cross-platform-publisher.md`
+
 ## References
 
 - Detailed implementation guide: `NUXT3_MIGRATION_GUIDE.md`

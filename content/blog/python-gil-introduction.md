@@ -1,16 +1,17 @@
 ---
-title: 'Python GIL 介紹'
-description: 'Python 全域直譯器鎖（GIL）介紹'
+title: Python GIL 介紹
+description: Python 全域直譯器鎖（GIL）介紹
 date: '2025-10-24'
-tags: ['Python', 'GIL', 'Threading', 'Concurrency']
-category: '技術'
-author: 'Ting Zhang'
+tags:
+  - Python
+  - GIL
+  - Threading
+  - Concurrency
+category: 技術
+author: Ting Zhang
 image: ''
 draft: false
 ---
-
-<!-- 图片占位符 - 请自行添加图片路径 -->
-![Python GIL Illustration]()
 
 ## 什麼是 GIL？
 
