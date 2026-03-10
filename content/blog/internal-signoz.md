@@ -1,6 +1,15 @@
-## 前言
+---
+title: '架設公司內部使用的 SigNoz 服務的紀錄隨筆'
+description: '記錄如何架設與部署 SigNoz 作為公司內部的 Observability 服務，適用於統一管理 Metrics、Traces 和 Logs。'
+date: '2026-03-10'
+tags: ['SigNoz', 'Observability', 'APM', '分散式追蹤', '技術架設']
+category: '技術隨筆'
+author: 'Ting Zhang'
+image: '/images/blog/internal-signoz/banner.png'
+draft: false
+---
 
-## 用處
+## 前言
 
 如果有分散式服務，目前可能遇到的問題：
 
