@@ -1,0 +1,51 @@
+/* ==============================================
+   Warm Ink Theme — CSS Custom Properties
+   All site colors defined here. Dark mode via .dark class.
+   SFC files use semantic Tailwind classes (bg-surface, text-accent, etc.)
+   ============================================== */
+
+:root {
+  /* Surfaces */
+  --color-surface: #faf8f5;
+  --color-surface-card: #ffffff;
+  --color-surface-elevated: #f5f0eb;
+
+  /* Text */
+  --color-foreground: #2c2c2c;
+  --color-foreground-muted: #6b6560;
+
+  /* Accent: Terracotta */
+  --color-accent: #c4652a;
+  --color-accent-hover: #b05a24;
+
+  /* Accent Alt: Teal */
+  --color-accent-alt: #2a6f6a;
+  --color-accent-alt-hover: #23605b;
+
+  /* Borders */
+  --color-border: #e0dbd5;
+  --color-border-muted: #ebe7e1;
+}
+
+.dark {
+  /* Surfaces */
+  --color-surface: #1c1b19;
+  --color-surface-card: #252420;
+  --color-surface-elevated: #2e2d28;
+
+  /* Text */
+  --color-foreground: #e8e4df;
+  --color-foreground-muted: #a39e98;
+
+  /* Accent: Softer Terracotta */
+  --color-accent: #d4845a;
+  --color-accent-hover: #e0956b;
+
+  /* Accent Alt: Lighter Teal */
+  --color-accent-alt: #5fb3ad;
+  --color-accent-alt-hover: #72c4be;
+
+  /* Borders */
+  --color-border: #3a3835;
+  --color-border-muted: #2e2d28;
+}
