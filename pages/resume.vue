@@ -46,7 +46,7 @@ useHead({
         jobTitle: resumeData.value.personalInfo.title,
         email: resumeData.value.personalInfo.email,
         description: resumeData.value.personalInfo.bio,
-        url: 'https://ttting999-blog.vercel.app/resume',
+        url: 'https://ttting999.vercel.app/resume',
         sameAs: [
           resumeData.value.socialLinks?.github,
           resumeData.value.socialLinks?.linkedin
