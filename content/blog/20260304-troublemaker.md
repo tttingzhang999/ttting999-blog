@@ -9,11 +9,9 @@ image: '/images/blog/20260304-troublemaker/banner.png'
 draft: false
 ---
 
-身為工程師，你可能聽過同事不小心把 Production 資料庫砍了、或是忘記關 EC2 多燒了幾百塊。但你有聽過**一天燒掉 14,000 美金**的嗎？
+身為工程師，你可能聽過同事不小心把 Production 資料庫砍了、或是忘記關 EC2 多燒了幾百塊。但你有聽過**用雲服務一天燒掉 14,000 美金**的嗎？
 
-沒錯，這件事發生在我身上。
-
-而且最後查出來——根本不是我的問題。
+沒錯，這件事發生在我身上...嗎？
 
 ## TL;DR
 
@@ -25,7 +23,7 @@ draft: false
 
 AgentCore Policy 讓你可以用 [Cedar](https://www.cedarpolicy.com/) 語言來定義 Agent 的授權策略，控制 Agent 能存取哪些工具和資源。Cedar 是 AWS 開源的授權語言，語法可讀性很高，設計上是要讓非工程師也能看得懂的那種。
 
-而 AgentCore 很貼心地提供了一個 **Natural Language Policy Generator**——你用自然語言描述你要的權限規則，它就幫你生成對應的 Cedar Policy。聽起來很美好對吧？
+而 AgentCore 很貼心地提供了一個 **Natural Language Policy Generator**——你用自然語言描述你要的權限規則，它就幫你生成對應的 Cedar Policy。聽起來很 User-friendly 對吧？
 
 我就照著文件走了一遍流程：
 
