@@ -1,15 +1,15 @@
 <template>
-  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-surface border-b border-border transition-colors duration-300">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <!-- Logo / Brand -->
         <NuxtLink
           :to="localePath('/')"
-          class="flex items-center space-x-2 text-xl font-bold text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
+          class="flex items-center space-x-2 text-xl font-bold text-foreground hover:text-accent transition-colors duration-200"
         >
-          <span class="text-primary-600 dark:text-primary-400">&lt;</span>
+          <span class="text-accent">&lt;</span>
           <span>ttting999</span>
-          <span class="text-primary-600 dark:text-primary-400">/&gt;</span>
+          <span class="text-accent">/&gt;</span>
         </NuxtLink>
 
         <!-- Desktop Navigation Links -->
@@ -18,11 +18,11 @@
             v-for="link in navLinks"
             :key="link.path"
             :to="link.path"
-            class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 relative group"
+            class="text-sm font-medium text-foreground-muted hover:text-accent transition-colors duration-200 relative group"
           >
             {{ link.label }}
             <!-- Underline animation -->
-            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 dark:bg-primary-400 group-hover:w-full transition-all duration-300"></span>
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
           </NuxtLink>
 
           <!-- Language Switcher -->
@@ -31,7 +31,7 @@
           <!-- Theme Toggle Button -->
           <button
             @click="toggleTheme($event)"
-            class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
+            class="p-2 rounded-lg bg-surface-elevated text-foreground-muted hover:text-accent transition-all duration-200"
             :aria-label="$t('nav.toggleTheme')"
           >
             <ClientOnly>
@@ -72,7 +72,7 @@
         <!-- Mobile Menu Button -->
         <button
           @click="toggleMobileMenu"
-          class="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
+          class="md:hidden p-2 rounded-lg bg-surface-elevated text-foreground-muted hover:text-accent transition-all duration-200"
           :aria-label="$t('nav.toggleMenu')"
         >
           <svg
@@ -99,22 +99,18 @@ const colorMode = useColorMode()
 const { t } = useI18n()
 const localePath = useLocalePath()
 
-// Navigation links
 const navLinks = computed(() => [
   { path: localePath('/resume'), label: t('nav.resume') },
   { path: localePath('/projects'), label: t('nav.projects') },
   { path: localePath('/blog'), label: t('nav.blog') }
 ])
 
-// Theme transition composable
 const { toggleThemeWithTransition } = useThemeTransition()
 
-// Theme toggle function with circular reveal animation
 const toggleTheme = (event: MouseEvent) => {
   toggleThemeWithTransition(event, colorMode)
 }
 
-// Mobile menu state (will be handled by Sidebar component)
 const { toggleSidebar } = useSidebarState()
 
 const toggleMobileMenu = () => {

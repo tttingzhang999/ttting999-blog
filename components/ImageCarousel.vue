@@ -4,7 +4,7 @@
     <div class="relative group">
       <!-- Main Image Container -->
       <div
-        class="relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 min-h-[300px] max-h-[600px] flex items-center justify-center"
+        class="relative overflow-hidden rounded-lg bg-surface-elevated min-h-[300px] max-h-[600px] flex items-center justify-center"
         @touchstart="handleTouchStart"
         @touchmove="handleTouchMove"
         @touchend="handleTouchEnd"
@@ -36,7 +36,7 @@
       <button
         v-if="images.length > 1"
         @click="prev"
-        class="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-800 dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
+        class="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-surface-card text-foreground hover:bg-surface-elevated transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
         aria-label="Previous image"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,7 +46,7 @@
       <button
         v-if="images.length > 1"
         @click="next"
-        class="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-800 dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
+        class="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-surface-card text-foreground hover:bg-surface-elevated transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
         aria-label="Next image"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,8 +86,8 @@
         :class="[
           'flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all',
           currentIndex === index
-            ? 'border-primary-500 ring-2 ring-primary-500/50'
-            : 'border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-600'
+            ? 'border-accent ring-2 ring-accent/50'
+            : 'border-border hover:border-accent'
         ]"
         :aria-label="`View image ${index + 1}`"
       >

@@ -10,9 +10,8 @@
       :aria-label="$t('blog.pagination.previous')"
       class="px-4 py-2 rounded-lg font-medium transition-all duration-200
              disabled:opacity-50 disabled:cursor-not-allowed
-             enabled:hover:bg-primary-50 enabled:dark:hover:bg-gray-700
-             enabled:hover:text-primary-600 enabled:dark:hover:text-primary-400
-             text-gray-700 dark:text-gray-300"
+             enabled:hover:text-accent
+             text-foreground-muted"
       @click="goToPage(currentPage - 1)"
     >
       <span class="hidden sm:inline">{{ $t('blog.pagination.previous') }}</span>
@@ -29,10 +28,10 @@
         :class="[
           'min-w-[2.5rem] h-10 rounded-lg font-medium transition-all duration-200',
           page === currentPage
-            ? 'bg-primary-600 text-white shadow-md hover:bg-primary-700'
+            ? 'bg-accent text-white'
             : page === '...'
-            ? 'cursor-default text-gray-500 dark:text-gray-400'
-            : 'text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700 hover:text-primary-600 dark:hover:text-primary-400'
+            ? 'cursor-default text-foreground-muted'
+            : 'text-foreground-muted hover:text-accent'
         ]"
         :disabled="page === '...'"
         @click="page !== '...' && goToPage(page as number)"
@@ -47,9 +46,8 @@
       :aria-label="$t('blog.pagination.next')"
       class="px-4 py-2 rounded-lg font-medium transition-all duration-200
              disabled:opacity-50 disabled:cursor-not-allowed
-             enabled:hover:bg-primary-50 enabled:dark:hover:bg-gray-700
-             enabled:hover:text-primary-600 enabled:dark:hover:text-primary-400
-             text-gray-700 dark:text-gray-300"
+             enabled:hover:text-accent
+             text-foreground-muted"
       @click="goToPage(currentPage + 1)"
     >
       <span class="hidden sm:inline">{{ $t('blog.pagination.next') }}</span>

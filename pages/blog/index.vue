@@ -3,10 +3,10 @@
     <div class="max-w-6xl mx-auto">
       <!-- Page Header -->
       <div class="mb-12">
-        <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h1 class="text-4xl font-bold text-foreground mb-4">
           {{ $t('blog.title') }}
         </h1>
-        <p class="text-lg text-gray-600 dark:text-gray-400">
+        <p class="text-lg text-foreground-muted">
           {{ $t('blog.subtitle') }}
         </p>
       </div>
@@ -21,8 +21,8 @@
             :class="[
               'px-4 py-2 rounded-lg font-medium transition-all duration-200',
               selectedCategory === cat.value
-                ? 'bg-primary-600 text-white shadow-md'
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                ? 'bg-accent text-white'
+                : 'bg-surface-elevated text-foreground-muted hover:text-accent'
             ]"
           >
             {{ cat.label }}
@@ -33,7 +33,7 @@
 
       <!-- Tag Filter (if any tags are selected or available) -->
       <div v-if="allTags.length > 0" class="mb-8">
-        <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+        <h3 class="text-sm font-semibold text-foreground mb-3">
           {{ $t('blog.popularTags') }}
         </h3>
         <div class="flex flex-wrap gap-2">
@@ -44,8 +44,8 @@
             :class="[
               'px-3 py-1 rounded-full text-sm font-medium transition-all duration-200',
               selectedTags.includes(tag)
-                ? 'bg-secondary-600 text-white'
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? 'bg-accent-alt text-white'
+                : 'bg-surface-elevated text-foreground-muted hover:text-accent-alt'
             ]"
           >
             #{{ tag }}
@@ -55,7 +55,7 @@
 
       <!-- Article Count & Pagination Info -->
       <div class="mb-6 flex items-center justify-between flex-wrap gap-2">
-        <div class="text-sm text-gray-600 dark:text-gray-400">
+        <div class="text-sm text-foreground-muted">
           <span v-if="filteredArticles.length > 0">
             {{ $t('blog.pagination.showing', pageRange) }}
           </span>
@@ -71,7 +71,7 @@
         <div
           v-for="i in 6"
           :key="i"
-          class="bg-gray-100 dark:bg-gray-800 rounded-lg h-96 animate-pulse"
+          class="bg-surface-elevated rounded-lg h-96 animate-pulse"
         ></div>
       </div>
 
@@ -89,10 +89,10 @@
       <!-- Empty State -->
       <div
         v-else
-        class="text-center py-16 bg-gray-50 dark:bg-gray-800 rounded-lg"
+        class="text-center py-16 bg-surface-elevated rounded-lg"
       >
         <svg
-          class="w-16 h-16 mx-auto mb-4 text-gray-400"
+          class="w-16 h-16 mx-auto mb-4 text-foreground-muted opacity-50"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -104,16 +104,16 @@
             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
           />
         </svg>
-        <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
+        <h3 class="text-xl font-semibold text-foreground mb-2">
           {{ $t('blog.noPosts') }}
         </h3>
-        <p class="text-gray-600 dark:text-gray-400">
+        <p class="text-foreground-muted">
           {{ selectedCategory !== 'all' || selectedTags.length > 0 ? $t('blog.tryOtherFilters') : $t('blog.comingSoon') }}
         </p>
         <button
           v-if="selectedCategory !== 'all' || selectedTags.length > 0"
           @click="resetFilters"
-          class="mt-4 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+          class="mt-4 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent-hover transition-colors"
         >
           {{ $t('blog.clearFilters') }}
         </button>

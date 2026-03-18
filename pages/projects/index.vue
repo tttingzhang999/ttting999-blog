@@ -3,7 +3,7 @@
     <div class="max-w-6xl mx-auto">
       <!-- Page Header -->
       <div class="mb-12">
-        <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h1 class="text-4xl font-bold text-foreground mb-4">
           {{ $t('projects.pageTitle') }}
         </h1>
       </div>

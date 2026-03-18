@@ -12,29 +12,19 @@
   <Transition name="slide">
     <aside
       v-if="isSidebarOpen"
-      class="fixed top-0 right-0 bottom-0 w-64 bg-white dark:bg-gray-900 shadow-2xl z-50 md:hidden overflow-y-auto"
+      class="fixed top-0 right-0 bottom-0 w-64 bg-surface shadow-2xl z-50 md:hidden overflow-y-auto"
     >
       <div class="flex flex-col h-full">
         <!-- Sidebar Header -->
-        <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
-          <span class="text-lg font-bold text-gray-900 dark:text-white">{{ $t('nav.menu') }}</span>
+        <div class="flex items-center justify-between p-4 border-b border-border">
+          <span class="text-lg font-bold text-foreground">{{ $t('nav.menu') }}</span>
           <button
             @click="closeSidebar"
-            class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
+            class="p-2 rounded-lg bg-surface-elevated text-foreground-muted hover:text-accent transition-all duration-200"
             :aria-label="$t('nav.closeMenu')"
           >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
@@ -46,7 +36,7 @@
             :key="link.path"
             :to="link.path"
             @click="closeSidebar"
-            class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200"
+            class="flex items-center space-x-3 px-4 py-3 rounded-lg text-foreground-muted hover:bg-surface-elevated hover:text-accent transition-all duration-200"
           >
             <component :is="link.icon" class="w-5 h-5" />
             <span class="font-medium">{{ link.label }}</span>
@@ -54,17 +44,14 @@
         </nav>
 
         <!-- Theme Toggle & Language Switcher -->
-        <div class="p-4 border-t border-gray-200 dark:border-gray-800 space-y-2">
-          <!-- Language Switcher -->
+        <div class="p-4 border-t border-border space-y-2">
           <LanguageSwitcher />
 
-          <!-- Theme Toggle -->
           <button
             @click="toggleTheme($event)"
-            class="flex items-center justify-between w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
+            class="flex items-center justify-between w-full px-4 py-3 rounded-lg bg-surface-elevated text-foreground-muted hover:text-accent transition-all duration-200"
           >
             <span class="font-medium">{{ $t('nav.toggleTheme') }}</span>
-            <!-- Sun Icon (Dark Mode) -->
             <svg
               v-if="colorMode.value === 'dark'"
               class="w-5 h-5"
@@ -72,14 +59,8 @@
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-              />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
-            <!-- Moon Icon (Light Mode) -->
             <svg
               v-else
               class="w-5 h-5"
@@ -87,12 +68,7 @@
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-              />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
             </svg>
           </button>
         </div>
@@ -109,10 +85,8 @@ const { isSidebarOpen, closeSidebar } = useSidebarState()
 const { t } = useI18n()
 const localePath = useLocalePath()
 
-// Theme transition composable
 const { toggleThemeWithTransition } = useThemeTransition()
 
-// Icon components
 const ResumeIcon = defineComponent({
   template: `
     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -137,49 +111,30 @@ const BlogIcon = defineComponent({
   `
 }) as Component
 
-// Navigation links with icons
 const navLinks = computed(() => [
-  {
-    path: localePath('/resume'),
-    label: t('nav.resume'),
-    icon: ResumeIcon
-  },
-  {
-    path: localePath('/projects'),
-    label: t('nav.projects'),
-    icon: ProjectsIcon
-  },
-  {
-    path: localePath('/blog'),
-    label: t('nav.blog'),
-    icon: BlogIcon
-  }
+  { path: localePath('/resume'), label: t('nav.resume'), icon: ResumeIcon },
+  { path: localePath('/projects'), label: t('nav.projects'), icon: ProjectsIcon },
+  { path: localePath('/blog'), label: t('nav.blog'), icon: BlogIcon }
 ])
 
-// Theme toggle function with circular reveal animation
 const toggleTheme = (event: MouseEvent) => {
   toggleThemeWithTransition(event, colorMode)
 }
 </script>
 
 <style scoped>
-/* Fade transition for overlay */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
 }
-
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
-
-/* Slide transition for sidebar */
 .slide-enter-active,
 .slide-leave-active {
   transition: transform 0.3s ease;
 }
-
 .slide-enter-from,
 .slide-leave-to {
   transform: translateX(100%);

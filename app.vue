@@ -18,30 +18,23 @@ const { locale } = useI18n()
 </script>
 
 <style>
-/* Page transition animations */
+/* Simple fade transition — no slide */
 .page-enter-active,
 .page-leave-active {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.25s ease;
 }
 
-.page-enter-from {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
+.page-enter-from,
 .page-leave-to {
   opacity: 0;
-  transform: translateY(-20px);
 }
 
 .page-enter-to,
 .page-leave-from {
   opacity: 1;
-  transform: translateY(0);
 }
 
 /* Theme transition with circular reveal animation */
-/* View Transitions API pseudo-elements for theme switching */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
@@ -57,7 +50,6 @@ const { locale } = useI18n()
   animation: reveal 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Circular reveal animation from click position */
 @keyframes reveal {
   from {
     clip-path: circle(0 at var(--x, 50%) var(--y, 50%));
@@ -67,4 +59,3 @@ const { locale } = useI18n()
   }
 }
 </style>
-

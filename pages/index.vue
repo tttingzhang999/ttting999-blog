@@ -11,7 +11,7 @@
         >
           <!-- Avatar -->
           <div class="mb-8 flex justify-center">
-            <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full ring-2 ring-accent ring-offset-4 ring-offset-surface overflow-hidden">
+            <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full ring-2 ring-accent ring-offset-4 overflow-hidden" style="--tw-ring-offset-color: var(--color-surface)">
               <NuxtImg
                 src="/tuan_zmi.jpeg"
                 alt="Ting Zhang's cats"
@@ -24,7 +24,7 @@
           </div>
 
           <!-- Name & Title -->
-          <h1 class="text-5xl sm:text-6xl md:text-7xl font-heading font-bold text-foreground mb-4">
+          <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold text-foreground mb-4">
             {{ $t('home.hero.name') }}
           </h1>
 
@@ -65,7 +65,7 @@
             :initial="{ opacity: 0 }"
             :visible-once="{ opacity: 1, transition: { duration: 600 } }"
           >
-            <h2 class="text-4xl sm:text-5xl font-heading font-bold text-foreground mb-4">
+            <h2 class="text-4xl sm:text-5xl font-bold text-foreground mb-4">
               {{ $t('home.about.title') }}
             </h2>
           </div>
@@ -93,7 +93,7 @@
             :initial="{ opacity: 0 }"
             :visible-once="{ opacity: 1, transition: { duration: 600 } }"
           >
-            <h2 class="text-4xl sm:text-5xl font-heading font-bold text-foreground mb-4">
+            <h2 class="text-4xl sm:text-5xl font-bold text-foreground mb-4">
               {{ $t('home.quickNav.title') }}
             </h2>
           </div>
@@ -121,7 +121,7 @@
 
                 <!-- Content -->
                 <div>
-                  <h3 class="text-2xl font-heading font-bold text-foreground mb-3 group-hover:text-accent transition-colors">
+                  <h3 class="text-2xl font-bold text-foreground mb-3 group-hover:text-accent transition-colors">
                     {{ card.title }}
                   </h3>
                   <p class="text-foreground-muted mb-4">

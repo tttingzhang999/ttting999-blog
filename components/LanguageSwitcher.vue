@@ -1,7 +1,7 @@
 <template>
   <button
     @click="cycleLanguage"
-    class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 group"
+    class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-surface-elevated text-foreground-muted hover:text-accent transition-all duration-200 group"
     :aria-label="$t('nav.switchLanguage')"
   >
     <!-- Globe Icon -->
