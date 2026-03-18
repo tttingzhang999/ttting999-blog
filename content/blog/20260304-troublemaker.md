@@ -17,7 +17,7 @@ draft: false
 
 在公司開發帳號 survey AWS Bedrock AgentCore Policy 功能，試用了 Cedar Policy Generator。幾天後帳單突然出現一筆 **$14,000+ USD 的單日費用**。經過 CloudTrail 排查確認是 Cedar Generator 觸發的異常計費，最終 AWS 承認是 Bedrock 端的計費 bug，修復並校正了帳單。
 
-## 事情是怎麼開始的
+## 事發經過
 
 3/4 我因為看到 [AgentCore](https://aws.amazon.com/bedrock/agentcore/) 新 Feature - Policy 剛上線，所以需要 Survey 一下。
 
