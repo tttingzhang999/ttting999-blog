@@ -4,6 +4,9 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
+  // Global CSS
+  css: ['~/assets/css/theme.css'],
+
   // Modules
   modules: [
     '@nuxt/content',
@@ -43,7 +46,7 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap', media: 'print', onload: "this.media='all'" }
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap', media: 'print', onload: "this.media='all'" }
       ]
     }
   },
@@ -51,7 +54,8 @@ export default defineNuxtConfig({
   // Static site generation (SSG) configuration
   nitro: {
     prerender: {
-      crawlLinks: true
+      crawlLinks: true,
+      routes: ['/sitemap.xml']
     }
   },
 
