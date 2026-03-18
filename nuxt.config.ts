@@ -54,8 +54,7 @@ export default defineNuxtConfig({
   // Static site generation (SSG) configuration
   nitro: {
     prerender: {
-      crawlLinks: true,
-      routes: ['/sitemap.xml']
+      crawlLinks: true
     }
   },
 
@@ -71,9 +70,7 @@ export default defineNuxtConfig({
     url: process.env.NUXT_PUBLIC_SITE_URL || 'https://ttting999.vercel.app'
   },
 
-  sitemap: {
-    // sitemap options
-  },
+  sitemap: {},
 
   // i18n configuration
   i18n: {
