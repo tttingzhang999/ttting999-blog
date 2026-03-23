@@ -8,7 +8,7 @@ This is a personal portfolio website built with **Nuxt 3**, designed to showcase
 
 **Previous State**: This repository previously contained a Hugo static site. All Hugo files have been removed as part of migration to Nuxt 3.
 
-**Current State**: Phase 0-2 completed (Core layout, navigation, homepage). Phase 3 complete (Resume page with i18n). Successfully deployed to Vercel at https://ttting999.vercel.app/. Ready for Phase 4 (Projects system enhancement) and Phase 5+ (Content migration, SEO).
+**Current State**: Phase 0-2 completed (Core layout, navigation, homepage). Phase 3 complete (Resume page with i18n). Successfully deployed to Vercel at https://info.tttingzhang999.com/. Ready for Phase 4 (Projects system enhancement) and Phase 5+ (Content migration, SEO).
 
 ## Architecture
 

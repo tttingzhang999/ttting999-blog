@@ -225,7 +225,7 @@ const shareUrl = computed(() => {
   if (import.meta.client) {
     return window.location.href
   }
-  return `https://ttting999.vercel.app/blog/${slug}`
+  return `https://info.tttingzhang999.com/blog/${slug}`
 })
 
 // Fetch related articles (same category or shared tags)
@@ -281,19 +281,19 @@ useHead({
         '@type': 'Article',
         headline: article.value.title,
         description: article.value.description,
-        image: article.value.image || 'https://ttting999.vercel.app/og-image.jpg',
+        image: article.value.image || 'https://info.tttingzhang999.com/og-image.jpg',
         datePublished: article.value.date,
         author: {
           '@type': 'Person',
           name: article.value.author || 'Ting Zhang',
           alternateName: '張碩庭',
-          url: 'https://ttting999.vercel.app'
+          url: 'https://info.tttingzhang999.com'
         },
         publisher: {
           '@type': 'Person',
           name: 'Ting Zhang',
           alternateName: '張碩庭',
-          url: 'https://ttting999.vercel.app'
+          url: 'https://info.tttingzhang999.com'
         },
         keywords: article.value.tags?.join(', '),
         articleSection: article.value.category

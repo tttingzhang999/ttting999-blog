@@ -78,7 +78,7 @@ $ uv run publish
   Platforms: DEV.to, Hashnode
   Title:     Python 並發處理方法
   Tags:      python, concurrency, asyncio
-  Canonical: https://ttting999.vercel.app/blog/concurrency
+  Canonical: https://info.tttingzhang999.com/blog/concurrency
 
   --- Transformed Markdown (first 50 lines) ---
   ## 這篇文章的用處？
@@ -89,7 +89,7 @@ $ uv run publish
   Platforms: DEV.to, Hashnode
   Title:     2026 Q1 洞察
   Tags:      career, insights
-  Canonical: https://ttting999.vercel.app/blog/2026q1-insights
+  Canonical: https://info.tttingzhang999.com/blog/2026q1-insights
   ...
 
 ? Confirm publish as DRAFT: (↑↓ move, Space select, Enter confirm)
@@ -140,7 +140,7 @@ crosspost:
 
 ### 2. 圖片策略
 
-- 相對路徑 `/images/blog/xxx.png` 自動轉換為 `https://ttting999.vercel.app/images/blog/xxx.png`
+- 相對路徑 `/images/blog/xxx.png` 自動轉換為 `https://info.tttingzhang999.com/images/blog/xxx.png`
 - 外部 URL（`https://...`）保持不變
 - 發布前可選驗證圖片是否可達（HTTP HEAD）
 

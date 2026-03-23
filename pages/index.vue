@@ -173,7 +173,7 @@ useHead({
         alternateName: '張碩庭',
         jobTitle: t('home.hero.title'),
         description: t('seo.home.description'),
-        url: 'https://ttting999.vercel.app',
+        url: 'https://info.tttingzhang999.com',
         sameAs: [
           'https://github.com/perplex0204',
           'https://www.linkedin.com/in/tingzhang98/'

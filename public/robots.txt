@@ -1,4 +1,4 @@
 User-Agent: *
 Disallow:
 
-Sitemap: https://ttting999.vercel.app/sitemap_index.xml
+Sitemap: https://info.tttingzhang999.com/sitemap_index.xml

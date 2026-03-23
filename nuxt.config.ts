@@ -67,7 +67,7 @@ export default defineNuxtConfig({
 
   // Sitemap configuration
   site: {
-    url: process.env.NUXT_PUBLIC_SITE_URL || 'https://ttting999.vercel.app'
+    url: process.env.NUXT_PUBLIC_SITE_URL || 'https://info.tttingzhang999.com'
   },
 
   sitemap: {},
