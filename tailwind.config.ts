@@ -20,7 +20,8 @@ export default <Partial<Config>>{
         },
         foreground: {
           DEFAULT: 'var(--color-foreground)',
-          muted: 'var(--color-foreground-muted)'
+          muted: 'var(--color-foreground-muted)',
+          faint: 'var(--color-foreground-faint)'
         },
         accent: {
           DEFAULT: 'var(--color-accent)',
@@ -31,11 +32,13 @@ export default <Partial<Config>>{
         border: {
           DEFAULT: 'var(--color-border)',
           muted: 'var(--color-border-muted)'
-        }
+        },
+        hairline: 'var(--color-hairline)'
       },
       fontFamily: {
         sans: ['Inter', 'Noto Sans TC', 'system-ui', 'sans-serif'],
-        mono: ['monospace']
+        fraunces: ['Fraunces', 'Noto Serif TC', 'serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace']
       },
       typography: () => ({
         DEFAULT: {
