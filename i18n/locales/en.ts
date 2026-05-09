@@ -14,10 +14,8 @@ export default {
 
   // Footer
   footer: {
-    builtWith: 'Built with',
     allRightsReserved: 'All rights reserved',
-    tagline: 'Full Stack Engineer',
-    tech: 'Built with {nuxt} + {tailwind} | Deployed on {vercel}'
+    tagline: 'Full Stack Engineer'
   },
 
   // Homepage
@@ -34,6 +32,26 @@ export default {
       title: 'About Me',
       description1: 'Hi, I\'m Ting. I\'ve been working as a software engineer for about 3 years, specializing in Web Applications and Cloud Infrastructure.',
       description2: 'I started this blog to capture my thoughts before they slip away — a place to leave behind of my thinking and notes.',
+      dateline: 'Ting Zhang · 張碩庭',
+      role: 'Full-stack engineer · Taipei',
+      titlePre: 'I turn ',
+      titleAccent: 'messy',
+      titlePost: ' backends into systems you can actually maintain.',
+      body: 'Hi, I\'m Ting. I\'ve been a software engineer for about three years, specialising in web apps and cloud infrastructure. This site is part engineering notebook, part loose paper — small findings while coding, occasional reading notes, the occasional digression.',
+      stats: {
+        years: 'years building backends',
+        projects: 'shipped projects',
+        notes: 'notes published',
+        coffee: 'cups of coffee'
+      }
+    },
+    motto: {
+      verb: 'Plan',
+      and: 'and',
+      execute: 'execute'
+    },
+    reel: {
+      title: 'Recent articles.'
     },
     quickNav: {
       title: 'Explore My Work',
@@ -49,7 +67,10 @@ export default {
         title: 'Articles',
         description: 'Read my articles on technology, insights, and life experiences'
       },
-      learnMore: 'Learn More'
+      learnMore: 'Learn More',
+      resumeSub: 'Resume →',
+      projectsSub: 'All projects →',
+      blogSub: 'Blog archive →'
     },
     contact: {
       title: 'Contact Me',

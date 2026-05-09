@@ -14,10 +14,8 @@ export default {
 
   // Footer
   footer: {
-    builtWith: '使用技術',
     allRightsReserved: '全著作権所有',
-    tagline: 'フルスタックエンジニア',
-    tech: '{nuxt} + {tailwind} で構築 | {vercel} にデプロイ'
+    tagline: 'フルスタックエンジニア'
   },
 
   // Homepage
@@ -34,6 +32,26 @@ export default {
       title: 'About Me',
       description1: 'こんにちは、Tingです。ソフトウェアエンジニアとして約3年、Web ApplicationとCloud Infraを専門としています。',
       description2: '自分のアイデアを逃さないために、このブログを作りました。思考と記録を少しずつ残していきます。',
+      dateline: 'Ting Zhang · 張碩庭',
+      role: 'Full-stack engineer · Taipei',
+      titlePre: '私は',
+      titleAccent: '混沌',
+      titlePost: 'としたバックエンドを、保守できるシステムへと整えていきます。',
+      body: 'こんにちは、Tingです。ソフトウェアエンジニアとして約3年、Webアプリとクラウドインフラを中心に仕事しています。このサイトはエンジニアのノートのようなもの — 流れ去ってしまいそうな考え、小さな発見、ときどき脱線する読書メモを残しています。',
+      stats: {
+        years: 'years building backends',
+        projects: 'shipped projects',
+        notes: 'notes published',
+        coffee: 'cups of coffee'
+      }
+    },
+    motto: {
+      verb: 'Plan',
+      and: 'and',
+      execute: 'execute'
+    },
+    reel: {
+      title: '最近の記事。'
     },
     quickNav: {
       title: 'Explore My Work',
@@ -49,7 +67,10 @@ export default {
         title: 'Articles',
         description: '技術、洞察、人生経験に関する記事を読む'
       },
-      learnMore: 'Learn More'
+      learnMore: 'Learn More',
+      resumeSub: '履歴書 →',
+      projectsSub: 'すべての作品 →',
+      blogSub: '記事一覧 →'
     },
     contact: {
       title: 'お問い合わせ',

@@ -14,10 +14,8 @@ export default {
 
   // Footer
   footer: {
-    builtWith: '使用以下技術建構',
     allRightsReserved: '版權所有',
-    tagline: 'Full Stack Engineer',
-    tech: 'Built with {nuxt} + {tailwind} | Deployed on {vercel}'
+    tagline: 'Full Stack Engineer'
   },
 
   // Homepage
@@ -34,6 +32,26 @@ export default {
       title: 'About Me',
       description1: 'Hi，我是Ting，目前擔任軟體工程師已經三年左右，專精於 Web Application 與 Cloud Infra',
       description2: '為了不讓自己的想法溜走，所以有了這個 Blog，留下一點我的思緒與紀錄。',
+      dateline: '張碩庭 · Ting Zhang',
+      role: 'Full-stack engineer · Taipei',
+      titlePre: '我把',
+      titleAccent: '混亂',
+      titlePost: '的後端，梳理成可以維護的系統。',
+      body: '嗨，我是張庭。從事軟體工程大約三年，專注於 Web 應用與雲端基礎建設。這個網站像是工程師的筆記本，記錄那些容易溜走的想法、寫程式時的小發現，以及偶爾偏離主題的閱讀筆記。',
+      stats: {
+        years: 'years building backends',
+        projects: 'shipped projects',
+        notes: 'notes published',
+        coffee: 'cups of coffee'
+      }
+    },
+    motto: {
+      verb: 'Plan',
+      and: 'and',
+      execute: 'execute'
+    },
+    reel: {
+      title: '最近的文章。'
     },
     quickNav: {
       title: 'Explore My Work',
@@ -49,7 +67,10 @@ export default {
         title: 'Articles',
         description: '閱讀我關於技術、見解和生活經驗的文章'
       },
-      learnMore: 'Learn More'
+      learnMore: 'Learn More',
+      resumeSub: '履歷 →',
+      projectsSub: '所有作品 →',
+      blogSub: '所有文章 →'
     },
     contact: {
       title: '聯絡我',

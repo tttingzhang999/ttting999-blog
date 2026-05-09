@@ -59,20 +59,6 @@
         </div>
       </div>
 
-      <!-- Tech info + signature -->
-      <div class="mt-6 pt-6 border-t border-border-muted text-center">
-        <i18n-t keypath="footer.tech" tag="p" class="text-xs text-foreground-muted">
-          <template #nuxt>
-            <span class="text-accent-alt">Nuxt 3</span>
-          </template>
-          <template #tailwind>
-            <span class="text-accent-alt">Tailwind CSS</span>
-          </template>
-          <template #vercel>
-            <span class="text-accent-alt">Vercel</span>
-          </template>
-        </i18n-t>
-      </div>
     </div>
   </footer>
 </template>
