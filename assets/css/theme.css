@@ -28,7 +28,7 @@
 
   /* Faint text + hairline (Concept C) */
   --color-foreground-faint: #a89e92;
-  --color-hairline: rgba(44, 44, 44, 0.10);
+  --color-hairline: rgba(44, 44, 44, 0.1);
 
   /* Code blocks */
   --color-code-bg: #1e1e1e;
@@ -75,3 +75,211 @@ a {
 }
 
 /* Prose links get the accent-alt color (set via Tailwind typography config) */
+
+/* ========================================
+   Page transitions (App-level)
+   ======================================== */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.25s ease;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+}
+.page-enter-to,
+.page-leave-from {
+  opacity: 1;
+}
+
+/* ========================================
+   Theme transition (View Transitions API)
+   Animation is driven imperatively in useThemeTransition.ts.
+   These rules set up stacking so the new view cleanly covers the old.
+   ======================================== */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+/* During the theme transition, suppress expensive SVG filters that get
+   double-snapshotted by the View Transitions API and cause flicker. */
+html.theme-transitioning .motto-reveal,
+html.theme-transitioning .at-reveal,
+html.theme-transitioning .site-cursor {
+  filter: none !important;
+  animation-play-state: paused !important;
+}
+
+/* ========================================
+   Custom site cursor
+   Hide default OS cursor on fine-pointer devices.
+   ======================================== */
+@media (hover: hover) and (pointer: fine) {
+  html,
+  html * {
+    cursor: none !important;
+  }
+}
+
+.site-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 18px var(--color-accent);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  opacity: 0;
+  transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+  transition:
+    opacity 0.25s ease,
+    width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    height 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.25s ease;
+}
+.site-cursor.is-visible {
+  opacity: 1;
+}
+.site-cursor.is-hovering {
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 1.5px solid var(--color-accent);
+  box-shadow: 0 0 28px color-mix(in oklab, var(--color-accent) 60%, transparent);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .site-cursor {
+    display: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-cursor {
+    transition: none;
+  }
+}
+
+/* ========================================
+   Shared editorial primitives
+   Used across home page sections (and reusable elsewhere).
+   ======================================== */
+
+/* Mono uppercase gutter labels */
+.gutter-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-foreground-faint);
+}
+
+/* Hairline rule that draws in when section is in view */
+.h2-rule {
+  display: inline-block;
+  height: 1px;
+  background: currentColor;
+  width: 56px;
+  vertical-align: middle;
+  margin-right: 16px;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.in-view .h2-rule {
+  transform: scaleX(1);
+}
+
+/* Sticky scroll progress rail at top of viewport */
+.scroll-rail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  z-index: 49;
+  background: var(--color-hairline);
+}
+.scroll-rail .fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--color-accent);
+  transition: width 0.1s linear;
+}
+
+/* Ink-bleed link — animated underline + accent blur on hover/focus */
+.ink-link {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+.ink-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.35;
+  transform-origin: 50% 50%;
+  transform: scaleX(0.32);
+  transition:
+    transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.25s;
+}
+.ink-link::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 4px;
+  background: var(--color-accent);
+  filter: blur(4px);
+  transform-origin: 50% 50%;
+  transform: scaleX(0);
+  opacity: 0;
+  transition:
+    transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.35s;
+  pointer-events: none;
+}
+.ink-link:hover::after,
+.ink-link:focus-visible::after {
+  transform: scaleX(1);
+  opacity: 0.9;
+}
+.ink-link:hover::before,
+.ink-link:focus-visible::before {
+  transform: scaleX(1);
+  opacity: 0.55;
+}
+
+/* Diagonal hatch placeholder for image-less tiles */
+.placeholder-hatch {
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--color-foreground) 5%, transparent) 0 1px,
+      transparent 1px 9px
+    ),
+    linear-gradient(180deg, var(--color-surface-elevated), var(--color-surface));
+}
