@@ -48,6 +48,8 @@
             :key="tile.slug"
             :to="tile.to"
             class="reel-tile group"
+            @pointermove="onTilePointerMove"
+            @pointerleave="onTilePointerLeave"
           >
             <div class="tile-art" :class="{ 'placeholder-hatch': !tile.image }">
               <NuxtImg
@@ -172,6 +174,27 @@ function onScroll() {
   }
 }
 
+function onTilePointerMove(e: PointerEvent) {
+  if (prefersReduce) return;
+  const el = e.currentTarget as HTMLElement | null;
+  if (!el) return;
+  const rect = el.getBoundingClientRect();
+  if (!rect.width || !rect.height) return;
+  const xN = (e.clientX - rect.left) / rect.width;
+  const yN = (e.clientY - rect.top) / rect.height;
+  el.style.setProperty("--mxN", String(xN));
+  el.style.setProperty("--myN", String(yN));
+  el.style.setProperty("--mx", `${xN * 100}%`);
+  el.style.setProperty("--my", `${yN * 100}%`);
+}
+
+function onTilePointerLeave(_e: PointerEvent) {
+  // Intentionally do not reset --mx/--my here.
+  // Resetting causes the glow to snap to center while it is still fading out.
+  // Letting the glow fade out at the cursor's last position feels natural,
+  // and the next pointerenter will overwrite the variables before opacity ramps back up.
+}
+
 function onReelScrollMobile() {
   const track = reelTrackEl.value;
   if (!track) return;
@@ -241,8 +264,12 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   position: relative;
+  --mxN: 0.5;
+  --myN: 0.5;
+  --mx: 50%;
+  --my: 50%;
   transform: translateY(0);
-  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .reel-tile:hover {
   transform: translateY(-6px);
@@ -271,18 +298,28 @@ onBeforeUnmount(() => {
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    60% 80% at 30% 20%,
-    rgba(196, 101, 42, 0),
-    rgba(196, 101, 42, 0)
+    circle at var(--mx) var(--my),
+    color-mix(in oklab, var(--color-accent) 22%, transparent),
+    transparent 60%
   );
-  transition: background 0.4s;
+  opacity: 0;
+  transition:
+    opacity 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-position 0.15s linear;
   pointer-events: none;
 }
 .reel-tile:hover .tile-art::after {
-  background: radial-gradient(
-    80% 100% at 30% 20%,
-    color-mix(in oklab, var(--color-accent) 18%, transparent),
-    transparent
+  opacity: 1;
+}
+.reel-tile .tile-art img {
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+.reel-tile:hover .tile-art img {
+  transform: translate3d(
+    calc((var(--mxN) - 0.5) * -8px),
+    calc((var(--myN) - 0.5) * -8px),
+    0
   );
 }
 
@@ -397,5 +434,16 @@ onBeforeUnmount(() => {
   color: var(--color-accent);
   margin-left: 6px;
   font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reel-tile,
+  .reel-tile .tile-art img {
+    transition: none;
+    transform: none !important;
+  }
+  .reel-tile .tile-art::after {
+    transition: opacity 0.3s ease;
+  }
 }
 </style>

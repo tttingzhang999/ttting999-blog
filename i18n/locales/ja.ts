@@ -39,9 +39,9 @@ export default {
       titlePost: 'としたバックエンドを、保守できるシステムへと整えていきます。',
       body: 'こんにちは、Tingです。ソフトウェアエンジニアとして約3年、Webアプリとクラウドインフラを中心に仕事しています。このサイトはエンジニアのノートのようなもの — 流れ去ってしまいそうな考え、小さな発見、ときどき脱線する読書メモを残しています。',
       stats: {
-        years: 'years building backends',
+        years: 'years for building systems',
         projects: 'shipped projects',
-        notes: 'notes published',
+        notes: 'published articles',
         coffee: 'cups of coffee'
       }
     },

@@ -39,9 +39,9 @@ export default {
       titlePost: ' backends into systems you can actually maintain.',
       body: 'Hi, I\'m Ting. I\'ve been a software engineer for about three years, specialising in web apps and cloud infrastructure. This site is part engineering notebook, part loose paper — small findings while coding, occasional reading notes, the occasional digression.',
       stats: {
-        years: 'years building backends',
+        years: 'years for building systems',
         projects: 'shipped projects',
-        notes: 'notes published',
+        notes: 'published articles',
         coffee: 'cups of coffee'
       }
     },

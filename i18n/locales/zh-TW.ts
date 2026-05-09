@@ -39,9 +39,9 @@ export default {
       titlePost: '的後端，梳理成可以維護的系統。',
       body: '嗨，我是張庭。從事軟體工程大約三年，專注於 Web 應用與雲端基礎建設。這個網站像是工程師的筆記本，記錄那些容易溜走的想法、寫程式時的小發現，以及偶爾偏離主題的閱讀筆記。',
       stats: {
-        years: 'years building backends',
+        years: 'years for building systems',
         projects: 'shipped projects',
-        notes: 'notes published',
+        notes: 'published articles',
         coffee: 'cups of coffee'
       }
     },
