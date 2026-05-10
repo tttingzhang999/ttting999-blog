@@ -68,6 +68,6 @@ const currentYear = new Date().getFullYear()
 
 const email = 'tttingzhang999@gmail.com'
 const linkedIn = 'https://www.linkedin.com/in/tingzhang98/'
-const github = 'https://github.com/perplex0204'
-const gitlab = 'https://gitlab.com/perplex0204'
+const github = 'https://github.com/tttingzhang999'
+const gitlab = 'https://gitlab.com/tttingzhang999'
 </script>

@@ -99,7 +99,7 @@ export const resumeDataZhTW: Resume = {
   ],
 
   socialLinks: {
-    github: 'https://github.com/perplex0204',
+    github: 'https://github.com/tttingzhang999',
     linkedin: 'https://www.linkedin.com/in/tingzhang98/',
     email: 'mailto:tttingzhang999@gmail.com'
   }

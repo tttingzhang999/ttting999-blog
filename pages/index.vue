@@ -94,7 +94,7 @@ useHead({
         description: t("seo.home.description"),
         url: "https://info.tttingzhang999.com",
         sameAs: [
-          "https://github.com/perplex0204",
+          "https://github.com/tttingzhang999",
           "https://www.linkedin.com/in/tingzhang98/",
         ],
         worksFor: [
