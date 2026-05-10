@@ -5,7 +5,7 @@ date: '2026-05-10'
 tags: ['LLM', 'Agents', 'Tool Executor', 'Python', 'Architecture']
 category: 'AI'
 author: 'Ting Zhang'
-image: ''
+image: '/images/blog/strands-agents-tool-executor/banner.jpeg'
 draft: false
 ---
 
