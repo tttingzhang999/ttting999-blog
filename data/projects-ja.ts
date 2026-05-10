@@ -2,6 +2,52 @@ import type { Project } from '~/types/project'
 
 export const projects: Project[] = [
   {
+    id: 'promptlingo',
+    title: 'Promptlingo - Claude Code 向け英語学習スキル',
+    description: 'Krashen のコンプリヘンシブル・インプット理論にインスパイアされ、Claude Code との日々の会話を CEFR レベルに沿った英語学習素材に変換。実際の開発文脈に根ざした学習を実現します。',
+    date: '2026-05-01',
+    tags: ['Python', 'Claude Code', 'Agent Skill', 'CLI', 'LLM'],
+    github: 'https://github.com/tttingzhang999/promptlingo',
+    image: '/images/projects/promptlingo/demo.png',
+    images: [
+      '/images/projects/promptlingo/demo.png',
+    ],
+    highlights: [
+      '~/.claude/projects/*.jsonl の会話ログを読み込み、コード・パス・ツール I/O などのノイズを除去',
+      '設定した CEFR レベル（A1–C2）に基づき、日次レポートを生成：文型書き換え、誤り訂正、語彙、文法ポイント',
+      '個人語彙ストア（vocab.json）と頻出ミス文型ストア（patterns.json）を蓄積し、弱点を継続的に強化',
+      'Claude Code Agent Skill として /promptlingo コマンドで提供、追加ランタイム不要',
+    ],
+    period: '2026/05',
+    teamSize: '1人',
+    role: '個人開発（設計・実装・ドキュメント）',
+  },
+  {
+    id: 'eatswiper',
+    title: 'EatSwiper - スワイプでレストラン探し',
+    description: 'Tinder風スワイプUIで「今日どこで食べる？」を解決。Google Placesで近隣レストランを推薦し、お気に入り保存と最終抽選機能を搭載',
+    date: '2025-11-01',
+    tags: ['Flutter', 'Dart', 'iOS', 'Google Places API', 'SQLite', 'Provider'],
+    github: '',
+    demo: '',
+    image: '/images/projects/eatswiper/logo.png',
+    images: [
+      '/images/projects/eatswiper/eatswiper_1.png',
+      '/images/projects/eatswiper/eatswiper_2.png',
+      '/images/projects/eatswiper/eatswiper_3.png',
+    ],
+    appStore: 'https://apps.apple.com/tw/app/eatswiper/id6755628087',
+    highlights: [
+      'Tinder風スワイプUIで左右にスワイプしてレストランを素早く絞り込み',
+      'Google Places APIと連携し、現在地に基づいてリアルタイムに周辺レストランを推薦',
+      'ローカルSQLiteのお気に入りリストでオフラインでも確認可能',
+      'iOS App Storeへのリリース実績（2025/11）',
+    ],
+    period: '2025/09',
+    teamSize: '2人',
+    role: '開発作業をすべて担当。App Store へのリリース作業はもう一人のメンバーが担当',
+  },
+  {
     id: 'moniit-asset-management',
     title: 'Moniit - マルチアセット管理アプリ',
     description: '株式、暗号通貨、貴金属、外国為替などの多様な資産を統合したインテリジェント管理アプリケーション。リアルタイム相場、自動資産追跡、ポートフォリオ分析を提供',

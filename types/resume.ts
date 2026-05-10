@@ -13,6 +13,14 @@ export interface TechnicalSkill {
   skills: string[]
 }
 
+export interface Certification {
+  name: string
+  issuer: string
+  issueDate: string
+  credentialUrl?: string
+  badgeImage?: string
+}
+
 export interface SideProject {
   title: string
   description: string
@@ -38,6 +46,7 @@ export interface Resume {
   workExperience: WorkExperience[]
   sideProjects: SideProject[]
   technicalSkills: TechnicalSkill[]
+  certifications?: Certification[]
   socialLinks?: {
     github?: string
     linkedin?: string

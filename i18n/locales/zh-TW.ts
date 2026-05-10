@@ -31,16 +31,16 @@ export default {
     about: {
       title: 'About Me',
       description1: '嗨，我是張碩庭，從事軟體工作大約四年，技術著重在 Web 應用與雲端基礎建設。',
-      description2: '這個網站想記錄的是開發路上遇到的那些坑，還有生活裡偶爾冒出來的一些想法。',
+      description2: '想記錄開發路上遇到的那些坑，還有生活裡偶爾冒出來的一些想法，所以有了這個網站',
       dateline: '張碩庭 · Ting Zhang',
       role: 'Full-stack engineer · Taipei',
       titlePre: '在這個',
       titleAccent: 'AI',
       titlePost: ' 技術快速演進的年代，我能提供什麼價值？',
-      body: '嗨，我是張碩庭，從事軟體工作大約四年，技術著重在 Web 應用與雲端基礎建設。這個網站想記錄的是開發路上遇到的那些坑，還有生活裡偶爾冒出來的一些想法。',
+      body: '嗨，我是張碩庭，從事軟體工作大約四年，技術著重在 Web 應用與雲端基礎建設。想記錄開發路上遇到的那些坑，還有生活裡偶爾冒出來的一些想法，所以有了這個網站。',
       stats: {
         years: 'years for building systems',
-        projects: 'shipped projects',
+        projects: 'projects',
         notes: 'published articles',
         coffee: 'cups of coffee'
       }
@@ -91,7 +91,9 @@ export default {
       skills: '技術技能',
       languages: '語言能力',
       experience: '工作經歷',
-      education: '教育背景'
+      education: '教育背景',
+      certifications: '專業證照',
+      viewCredential: '查看證書'
     },
     skills: {
       frontend: '前端',

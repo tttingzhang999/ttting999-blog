@@ -3,7 +3,7 @@ import type { Resume } from '~/types/resume'
 export const resumeDataJa: Resume = {
   personalInfo: {
     name: 'Ting Zhang',
-    title: 'シニアフルスタックエンジニア @ Going Cloud',
+    title: 'シニアソフトウェアエンジニア @ Going Cloud',
     email: 'tttingzhang999@gmail.com',
     location: '台湾',
     bio: 'スケーラブルなWebアプリケーションとクラウドインフラストラクチャの構築に情熱を注ぐシニアソフトウェアエンジニアです。Python、TypeScript、最新Webフレームワークを専門としています。システムパフォーマンスの最適化、CI/CDパイプラインの実装、GCP上でのクラウドネイティブソリューションの設計において豊富な経験があります。',
@@ -12,13 +12,20 @@ export const resumeDataJa: Resume = {
 
   workExperience: [
     {
-      title: 'シニアフルスタックエンジニア',
+      title: 'シニアソフトウェアエンジニア',
       company: 'Going Cloud',
       period: '2025/11 - 現在',
       startDate: '2025-11',
       endDate: 'present',
-      description: [],
-      technologies: ['AWS', 'Kubernetes']
+      description: [
+        '台湾の大手金融持株グループ上位10社のうち2行向けに、エンタープライズ級の AI Agent 構築プラットフォームの設計と提供をリード。A2A・MCP などのエージェント間通信プロトコルに対応し、行内のセキュリティ・コンプライアンス要件を満たす。',
+        'RAG、長期・短期記憶（ユーザー嗜好）、オーケストレーター方式とサブエージェント直結方式の両モードを備えた Multi-Agent AI Chatbot POC を Strands Agents で構築し、業務シナリオを高速に検証。',
+        '行内業務向けに専用サブエージェントを開発（クレジットカード決済推奨 Agent、社内インフラ デバッグ補助 Agent など）し、業務部門と SRE の意思決定とトラブルシュートを高速化。',
+        '社内 EKS プラットフォームの Ingress NGINX（EOL 対応）から Gateway API への移行を主導し、OAuth2 Proxy による統一 SSO 認証を導入してサービスガバナンスとセキュリティを強化。',
+        '社内向けに Coding Agent 統合セットアップツールを開発。Claude Code・Cursor・Kiro などの設定をワンクリックで同期し、チームの AI 開発環境を標準化。',
+        'ジュニアエンジニア2名のメンターを担当し、コードレビュー・ペアプロ・技術共有を通じて早期戦力化を支援。'
+      ],
+      technologies: ['AWS', 'EKS', 'Kubernetes', 'Strands Agents', 'MCP', 'A2A', 'Python', 'Gateway API', 'OAuth2 Proxy', 'RAG']
     },
     {
       title: 'シニアソフトウェアエンジニア',
@@ -96,6 +103,21 @@ export const resumeDataJa: Resume = {
     {
       category: 'DevOps',
       skills: ['Kubernetes', 'Helm', 'Docker', 'Linux', 'GCP', 'Git', 'Nginx', 'Shell']
+    }
+  ],
+
+  certifications: [
+    {
+      name: 'AWS Certified Solutions Architect – Associate',
+      issuer: 'Amazon Web Services',
+      issueDate: '2026-04',
+      credentialUrl: 'https://www.credly.com/badges/69bf9e34-7820-4c1a-b7c7-7129f0f936eb/linked_in_profile'
+    },
+    {
+      name: 'AWS Certified AI Practitioner',
+      issuer: 'Amazon Web Services',
+      issueDate: '2026-05',
+      credentialUrl: 'https://www.credly.com/badges/5cc2233e-7dc0-4608-8999-1c9ca210a904/linked_in_profile'
     }
   ],
 

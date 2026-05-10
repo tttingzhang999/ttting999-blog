@@ -91,7 +91,9 @@ export default {
       skills: '技術スキル',
       languages: '言語能力',
       experience: '職務経歴',
-      education: '学歴'
+      education: '学歴',
+      certifications: '資格・認定',
+      viewCredential: '証明書を見る'
     },
     skills: {
       frontend: 'フロントエンド',

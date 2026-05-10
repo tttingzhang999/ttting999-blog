@@ -3,7 +3,7 @@ import type { Resume } from '~/types/resume'
 export const resumeDataEn: Resume = {
   personalInfo: {
     name: 'Ting Zhang',
-    title: 'Sr. Full Stack Engineer @ Going Cloud',
+    title: 'Sr. Software Engineer @ Going Cloud',
     email: 'tttingzhang999@gmail.com',
     location: 'Taiwan',
     bio: 'Software Engineer with a passion for building scalable web applications and cloud infrastructure. Specialized in Python, TypeScript, and modern web frameworks. Experienced in optimizing system performance, implementing CI/CD pipelines, and architecting cloud-native solutions.',
@@ -12,13 +12,20 @@ export const resumeDataEn: Resume = {
 
   workExperience: [
     {
-      title: 'Sr. Full Stack Engineer',
+      title: 'Sr. Software Engineer',
       company: 'Going Cloud',
       period: '2025/11 - present',
       startDate: '2025-11',
       endDate: 'present',
-      description: [],
-      technologies: ['AWS', 'Kubernetes']
+      description: [
+        'Led the design and delivery of an enterprise-grade AI Agent platform for two of Taiwan\'s top-10 financial holding groups, supporting A2A and MCP agent communication protocols while meeting the banks\' internal security and compliance requirements.',
+        'Designed a Multi-Agent AI Chatbot POC with RAG, long/short-term memory (user preferences), and dual collaboration modes (orchestrator and direct subagent invocation), built on the Strands Agents framework to rapidly validate business scenarios.',
+        'Developed domain-specific subagents for in-bank business needs, including a credit-card payment recommendation agent and an internal infrastructure debugging assistant, accelerating decision-making for business units and SRE.',
+        'Drove the migration of company EKS workloads from Ingress NGINX (EOL) to Gateway API and rolled out OAuth2 Proxy as the unified SSO authentication layer, improving service governance and security posture.',
+        'Built an internal one-click setup tool that synchronizes configurations across coding agents (Claude Code, Cursor, Kiro), standardizing the team\'s AI-assisted development environment.',
+        'Mentored two junior software engineers through code review, pair programming, and tech sharing sessions to ramp them up effectively.'
+      ],
+      technologies: ['AWS', 'EKS', 'Kubernetes', 'Strands Agents', 'MCP', 'A2A', 'Python', 'Gateway API', 'OAuth2 Proxy', 'RAG']
     },
     {
       title: 'Sr. Software Engineer',
@@ -96,6 +103,21 @@ export const resumeDataEn: Resume = {
     {
       category: 'DevOps',
       skills: ['Kubernetes', 'Helm', 'Docker', 'Linux', 'GCP', 'Git', 'Nginx', 'Shell']
+    }
+  ],
+
+  certifications: [
+    {
+      name: 'AWS Certified Solutions Architect – Associate',
+      issuer: 'Amazon Web Services',
+      issueDate: '2026-04',
+      credentialUrl: 'https://www.credly.com/badges/69bf9e34-7820-4c1a-b7c7-7129f0f936eb/linked_in_profile'
+    },
+    {
+      name: 'AWS Certified AI Practitioner',
+      issuer: 'Amazon Web Services',
+      issueDate: '2026-05',
+      credentialUrl: 'https://www.credly.com/badges/5cc2233e-7dc0-4608-8999-1c9ca210a904/linked_in_profile'
     }
   ],
 

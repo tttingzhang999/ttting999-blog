@@ -91,7 +91,9 @@ export default {
       skills: 'Technical Skills',
       languages: 'Languages',
       experience: 'Work Experience',
-      education: 'Education'
+      education: 'Education',
+      certifications: 'Certifications',
+      viewCredential: 'View Credential'
     },
     skills: {
       frontend: 'Frontend',

@@ -14,6 +14,12 @@
 
     <!-- Technical Skills -->
     <ResumeSkillsGrid :skills="resumeData.technicalSkills" />
+
+    <!-- Certifications -->
+    <ResumeCertifications
+      v-if="resumeData.certifications && resumeData.certifications.length"
+      :certifications="resumeData.certifications"
+    />
   </div>
 </template>
 

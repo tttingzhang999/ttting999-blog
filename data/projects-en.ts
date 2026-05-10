@@ -2,6 +2,52 @@ import type { Project } from '~/types/project'
 
 export const projects: Project[] = [
   {
+    id: 'promptlingo',
+    title: 'Promptlingo - English Learning Skill for Claude Code',
+    description: "Inspired by Krashen's Comprehensible Input theory, Promptlingo turns your daily Claude Code conversations into CEFR-leveled English learning material, anchoring language practice in real engineering work.",
+    date: '2026-05-01',
+    tags: ['Python', 'Claude Code', 'Agent Skill', 'CLI', 'LLM'],
+    github: 'https://github.com/tttingzhang999/promptlingo',
+    image: '/images/projects/promptlingo/demo.png',
+    images: [
+      '/images/projects/promptlingo/demo.png',
+    ],
+    highlights: [
+      'Reads ~/.claude/projects/*.jsonl transcripts and filters out code, paths, and tool I/O noise',
+      'Generates a daily report at the configured CEFR level (A1–C2): sentence rewrites, error correction, vocabulary, grammar focus',
+      'Maintains a personal vocabulary store (vocab.json) and error-pattern store (patterns.json) to target weak spots over time',
+      'Ships as a Claude Code Agent Skill (/promptlingo command) with no extra runtime',
+    ],
+    period: '2026/05',
+    teamSize: '1 person',
+    role: 'Solo developer (design, implementation, docs)',
+  },
+  {
+    id: 'eatswiper',
+    title: 'EatSwiper - Discover Restaurants by Swiping',
+    description: 'A Tinder-style swiping app that helps you decide where to eat. Powered by Google Places for nearby recommendations, with a favorites list and a final-pick roulette.',
+    date: '2025-11-01',
+    tags: ['Flutter', 'Dart', 'iOS', 'Google Places API', 'SQLite', 'Provider'],
+    github: '',
+    demo: '',
+    image: '/images/projects/eatswiper/logo.png',
+    images: [
+      '/images/projects/eatswiper/eatswiper_1.png',
+      '/images/projects/eatswiper/eatswiper_2.png',
+      '/images/projects/eatswiper/eatswiper_3.png',
+    ],
+    appStore: 'https://apps.apple.com/tw/app/eatswiper/id6755628087',
+    highlights: [
+      'Tinder-style swipe UI for quickly filtering restaurants left or right',
+      'Integrated with Google Places API for real-time location-based recommendations',
+      'Local SQLite favorites list — view your shortlist even offline',
+      'Successfully shipped to the iOS App Store (2025/11)',
+    ],
+    period: '2025/09',
+    teamSize: '2 people',
+    role: 'Responsible for all development work; teammate handled the App Store submission',
+  },
+  {
     id: 'moniit-asset-management',
     title: 'Moniit - Multi-Asset Management App',
     description: 'An intelligent asset management application integrating stocks, cryptocurrencies, precious metals, and forex with real-time quotes, automated asset tracking, and portfolio analysis',
