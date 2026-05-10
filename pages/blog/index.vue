@@ -136,11 +136,13 @@ const route = useRoute()
 const router = useRouter()
 
 // SEO Meta tags
+const fullTitle = computed(() => `張碩庭 Ting Zhang - ${t('seo.blog.title')}`)
+
 useSeoMeta({
-  title: t('seo.blog.title'),
-  description: t('seo.blog.description'),
-  ogTitle: t('seo.blog.title'),
-  ogDescription: t('seo.blog.description'),
+  title: () => t('seo.blog.title'),
+  description: () => t('seo.blog.description'),
+  ogTitle: () => fullTitle.value,
+  ogDescription: () => t('seo.blog.description'),
   ogType: 'website'
 })
 

@@ -50,11 +50,13 @@ const closeModal = () => {
 }
 
 // SEO Meta tags with i18n
+const fullTitle = computed(() => `張碩庭 Ting Zhang - ${t('seo.projects.title')}`)
+
 useSeoMeta({
-  title: t('seo.projects.title'),
-  description: t('seo.projects.description'),
-  ogTitle: t('seo.projects.title'),
-  ogDescription: t('seo.projects.description'),
+  title: () => t('seo.projects.title'),
+  description: () => t('seo.projects.description'),
+  ogTitle: () => fullTitle.value,
+  ogDescription: () => t('seo.projects.description'),
   ogType: 'website'
 })
 </script>

@@ -196,19 +196,19 @@ export default {
   // SEO
   seo: {
     home: {
-      title: 'Ting Zhang (張碩庭) | シニアソフトウェアエンジニア | Going Cloud',
+      title: 'ホーム',
       description: 'Ting Zhang（張碩庭）のポートフォリオと技術ブログ。Going Cloud のシニアソフトウェアエンジニア、元智電系統（Smart Power System）。Python、TypeScript、Vue.js、GCP。Moniit 開発者。'
     },
     resume: {
-      title: '履歴書 | Ting Zhang (張碩庭) | ソフトウェアエンジニア',
+      title: '履歴書',
       description: 'Ting Zhang（張碩庭）の履歴書。Going Cloud、智電系統での経験。Python、TypeScript、Vue.js、MongoDB、GCP、Kubernetes。'
     },
     projects: {
-      title: 'プロジェクト | Ting Zhang (張碩庭) | Moniit',
+      title: 'プロジェクト',
       description: 'Ting Zhang（張碩庭）のプロジェクト。Moniit 資産管理アプリ、電力取引プラットフォームなど。'
     },
     blog: {
-      title: '技術ブログ | Ting Zhang (張碩庭) | ソフトウェアエンジニア',
+      title: '技術ブログ',
       description: 'Ting Zhang（張碩庭）の技術ブログ。ソフトウェア開発、Python、TypeScript、Vue.js の知見を共有。'
     }
   }

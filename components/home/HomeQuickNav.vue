@@ -135,13 +135,13 @@ const socialLinks = [
   {
     icon: "github",
     label: "GitHub",
-    href: "https://github.com/perplex0204",
+    href: "https://github.com/tttingzhang999",
     external: true,
   },
   {
     icon: "gitlab",
     label: "GitLab",
-    href: "https://gitlab.com/perplex0204",
+    href: "https://gitlab.com/tttingzhang999",
     external: true,
   },
 ];

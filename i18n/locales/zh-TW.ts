@@ -196,19 +196,19 @@ export default {
   // SEO
   seo: {
     home: {
-      title: '張碩庭 Ting Zhang | 資深軟體工程師 | Going Cloud',
+      title: '首頁',
       description: '張碩庭 (Ting Zhang) 的個人作品集與技術部落格。資深軟體工程師，現職 Going Cloud，前智電系統。專精 Python、TypeScript、Vue.js、GCP 雲端架構。Side Project: Moniit 資產管理應用。'
     },
     resume: {
-      title: '履歷 | 張碩庭 Ting Zhang | 軟體工程師 | Going Cloud・智電系統',
+      title: '履歷',
       description: '張碩庭 (Ting Zhang) 的完整履歷。資深軟體工程師，曾任職 Going Cloud、智電系統 (Smart Power System)。專精 Python、TypeScript、Vue.js、MongoDB、GCP、Kubernetes。Side Project: Moniit。'
     },
     projects: {
-      title: '專案作品 | 張碩庭 Ting Zhang | Moniit・智電系統',
+      title: '專案作品',
       description: '探索張碩庭 (Ting Zhang) 的專案作品，包含 Moniit 資產管理應用、電力轉供管理平台等技術作品。'
     },
     blog: {
-      title: '技術部落格 | 張碩庭 Ting Zhang | 軟體工程師',
+      title: '技術部落格',
       description: '張碩庭 (Ting Zhang) 的技術部落格，分享軟體工程、Python、TypeScript、Vue.js 開發心得與面試經驗。'
     }
   }

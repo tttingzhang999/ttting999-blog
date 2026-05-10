@@ -197,19 +197,19 @@ export default {
   // SEO
   seo: {
     home: {
-      title: 'Ting Zhang (張碩庭) | Software Engineer | Going Cloud',
+      title: 'Home',
       description: 'Personal portfolio and technical blog of Ting Zhang (張碩庭), a Software Engineer at Going Cloud, formerly at Smart Power System (智電系統). Specializing in Python, TypeScript, Vue.js, and GCP cloud architecture. Creator of Moniit.'
     },
     resume: {
-      title: 'Resume | Ting Zhang (張碩庭) | Software Engineer | Going Cloud',
+      title: 'Resume',
       description: 'Resume of Ting Zhang (張碩庭), Software Engineer. Experience at Going Cloud, Smart Power System (智電系統). Skills: Python, TypeScript, Vue.js, MongoDB, GCP, Kubernetes. Side Project: Moniit.'
     },
     projects: {
-      title: 'Projects | Ting Zhang (張碩庭) | Moniit',
+      title: 'Projects',
       description: 'Explore projects by Ting Zhang (張碩庭), including Moniit asset management app and electricity trading platform at Smart Power System.'
     },
     blog: {
-      title: 'Technical Blog | Ting Zhang (張碩庭) | Software Engineer',
+      title: 'Blog',
       description: 'Technical blog by Ting Zhang (張碩庭), covering software engineering, Python, TypeScript, Vue.js, and career insights.'
     }
   }

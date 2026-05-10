@@ -36,7 +36,7 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
-      title: 'Ting Zhang 張碩庭 | Software Engineer',
+      title: '張碩庭 Ting Zhang',
       meta: [
         { name: 'description', content: 'Ting Zhang (張碩庭) - 資深軟體工程師 | Software Engineer at Going Cloud, formerly 智電系統 (Smart Power System). Python, TypeScript, Vue.js, GCP. Creator of Moniit.' },
         { name: 'format-detection', content: 'telephone=no' },

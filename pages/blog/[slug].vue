@@ -255,10 +255,12 @@ const { data: relatedArticles } = await useAsyncData(`related-${slug}`, async ()
 })
 
 // SEO Meta tags
+const fullTitle = `張碩庭 Ting Zhang - ${article.value.title}`
+
 useSeoMeta({
-  title: `${article.value.title} - Ting Zhang`,
+  title: article.value.title,
   description: article.value.description,
-  ogTitle: article.value.title,
+  ogTitle: fullTitle,
   ogDescription: article.value.description,
   ogImage: article.value.image || '/og-image.jpg',
   ogType: 'article',
@@ -266,7 +268,7 @@ useSeoMeta({
   articleAuthor: article.value.author || 'Ting Zhang',
   articleTag: article.value.tags,
   twitterCard: 'summary_large_image',
-  twitterTitle: article.value.title,
+  twitterTitle: fullTitle,
   twitterDescription: article.value.description,
   twitterImage: article.value.image || '/og-image.jpg'
 })

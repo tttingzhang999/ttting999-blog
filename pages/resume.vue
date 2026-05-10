@@ -22,15 +22,17 @@ const { t } = useI18n()
 const resumeData = useResumeData()
 
 // SEO Meta tags
+const fullTitle = computed(() => `張碩庭 Ting Zhang - ${t('seo.resume.title')}`)
+
 useSeoMeta({
-  title: t('seo.resume.title'),
-  description: t('seo.resume.description'),
-  ogTitle: t('seo.resume.title'),
-  ogDescription: t('seo.resume.description'),
+  title: () => t('seo.resume.title'),
+  description: () => t('seo.resume.description'),
+  ogTitle: () => fullTitle.value,
+  ogDescription: () => t('seo.resume.description'),
   ogType: 'profile',
   twitterCard: 'summary',
-  twitterTitle: t('seo.resume.title'),
-  twitterDescription: t('seo.resume.description')
+  twitterTitle: () => fullTitle.value,
+  twitterDescription: () => t('seo.resume.description')
 })
 
 // Structured Data for SEO

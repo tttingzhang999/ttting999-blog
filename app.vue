@@ -20,4 +20,11 @@ import { ref } from "vue";
 
 const siteCursorEl = ref<HTMLElement | null>(null);
 const { hovering, visible } = useSiteCursor(siteCursorEl);
+
+useHead({
+  titleTemplate: (titleChunk?: string) =>
+    titleChunk && titleChunk !== "張碩庭 Ting Zhang"
+      ? `張碩庭 Ting Zhang - ${titleChunk}`
+      : "張碩庭 Ting Zhang",
+});
 </script>

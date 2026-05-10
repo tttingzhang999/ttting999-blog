@@ -67,20 +67,21 @@ definePageMeta({ layout: "home" });
 
 const { t } = useI18n();
 
+const fullTitle = computed(() => `張碩庭 Ting Zhang - ${t("seo.home.title")}`);
+
 useSeoMeta({
-  title: t("seo.home.title"),
-  description: t("seo.home.description"),
-  ogTitle: t("seo.home.title"),
-  ogDescription: t("seo.home.description"),
+  title: () => t("seo.home.title"),
+  description: () => t("seo.home.description"),
+  ogTitle: () => fullTitle.value,
+  ogDescription: () => t("seo.home.description"),
   ogImage: "/og-image.jpg",
   ogType: "website",
   twitterCard: "summary_large_image",
-  twitterTitle: t("seo.home.title"),
-  twitterDescription: t("seo.home.description"),
+  twitterTitle: () => fullTitle.value,
+  twitterDescription: () => t("seo.home.description"),
 });
 
 useHead({
-  title: t("seo.home.title"),
   script: [
     {
       type: "application/ld+json",
