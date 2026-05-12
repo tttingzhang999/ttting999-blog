@@ -147,7 +147,7 @@ Token 存在 `.env`（gitignored），部署時透過 `envsubst` 注入到 ingre
 
 * SigNoz 可以設定客製化的 filter 欄位，透過環境變數 `OTEL_RESOURCE_ATTRIBUTES` 來進行標注，UI上就會出現 filter
 
-![](/images/blog/internal-signoz/image.png)
+![signoz custom filter otel attributes](/images/blog/internal-signoz/signoz-custom-filter-otel-attributes.png)
 
 ### 切換 Backend = 修改環境變數
 

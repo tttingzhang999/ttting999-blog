@@ -22,7 +22,7 @@ draft: false
 
 - Agent as tool
 Strands Agents 號稱可以透過Prompts來自動處理 Tools 的呼叫。
-![Agent loop](/images/blog/strands-agents-tool-executor/agent-loop.png)
+![agent loop](/images/blog/strands-agents-tool-executor/agent-loop.png)
 
 對於 `Tool Execution` 有分成
 - Concurrent executor (Default)
@@ -30,10 +30,10 @@ Strands Agents 號稱可以透過Prompts來自動處理 Tools 的呼叫。
 其實[官方文檔](https://strandsagents.com/latest/documentation/docs/user-guide/concepts/tools/executors/?h=tool+executor "https://strandsagents.com/latest/documentation/docs/user-guide/concepts/tools/executors/?h=tool+executor")也沒有說得很清楚Concurrent / Sequential 到底差在哪？ex: 是否會繼承上下文？什麼情況應該用哪個的指引，所以直接上實驗結果：
 
 ## 測試 1: Concurrent Executor
-![Concurrent Executor 測試結果](/images/blog/strands-agents-tool-executor/concurrent-result.png)
+![concurrent result](/images/blog/strands-agents-tool-executor/concurrent-result.png)
 ## 測試 2: Sequential Executor
 
-![sequential Executor 測試結果](/images/blog/strands-agents-tool-executor/sequential-result.png)
+![sequential result](/images/blog/strands-agents-tool-executor/sequential-result.png)
 
 ## 結論
 
