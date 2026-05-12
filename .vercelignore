@@ -1,0 +1,10 @@
+CLAUDE.md
+NUXT3_MIGRATION_GUIDE.md
+TODO.md
+docs/
+tools/
+.claude/
+.cursor/
+.vscode/
+**/.DS_Store
+*.log
