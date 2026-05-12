@@ -144,6 +144,20 @@ const reelInView = ref(false);
 
 let prefersReduce = false;
 
+function syncTrackPadding() {
+  const track = reelTrackEl.value;
+  if (!track) return;
+  const isMobile = window.matchMedia("(max-width: 900px)").matches;
+  if (isMobile) {
+    track.style.paddingInline = "";
+    return;
+  }
+  const tile0 = track.children[0] as HTMLElement | undefined;
+  if (!tile0) return;
+  const tileW = tile0.offsetWidth;
+  track.style.paddingInline = `calc(50% - ${tileW / 2}px)`;
+}
+
 function onScroll() {
   const pin = reelPinEl.value;
   const stage = reelStageEl.value;
@@ -156,22 +170,37 @@ function onScroll() {
     const distance = Math.max(1, pin.offsetHeight - stageHeight);
     const traveled = -pRect.top;
     const p = Math.max(0, Math.min(1, traveled / distance));
-    const totalShift = track.scrollWidth - stage.clientWidth + 80;
-    track.style.transform = `translate3d(${-totalShift * p}px, 0, 0)`;
+    const n = reelTiles.value.length;
+    const tile0 = track.children[0] as HTMLElement | undefined;
+    const tileW = tile0 ? tile0.offsetWidth : 0;
+    const gap = 24;
+    const step = tileW + gap;
+    const activeFloat = p * Math.max(0, n - 1);
+    track.style.transform = `translate3d(${-activeFloat * step}px, 0, 0)`;
+    for (let i = 0; i < n; i++) {
+      const child = track.children[i] as HTMLElement | undefined;
+      if (child)
+        child.style.setProperty("--dist", String(Math.abs(i - activeFloat)));
+    }
     reelProgress.value = p;
-    reelIdx.value = Math.min(
-      reelTiles.value.length,
-      Math.round(p * (reelTiles.value.length - 1)) + 1,
-    );
+    reelIdx.value = Math.min(n, Math.round(activeFloat) + 1);
     reelCounterOn.value = pRect.top <= 0 && pRect.bottom >= stageHeight;
   } else if (track) {
     track.style.transform = "";
+    for (let i = 0; i < track.children.length; i++) {
+      (track.children[i] as HTMLElement).style.removeProperty("--dist");
+    }
     reelCounterOn.value = true;
   }
   if (!reelInView.value && section) {
     if (section.getBoundingClientRect().top < window.innerHeight * 0.85)
       reelInView.value = true;
   }
+}
+
+function onResize() {
+  syncTrackPadding();
+  onScroll();
 }
 
 function onTilePointerMove(e: PointerEvent) {
@@ -210,16 +239,17 @@ function onReelScrollMobile() {
 onMounted(() => {
   prefersReduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll);
+  window.addEventListener("resize", onResize);
   reelTrackEl.value?.addEventListener("scroll", onReelScrollMobile, {
     passive: true,
   });
+  syncTrackPadding();
   onScroll();
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", onScroll);
-  window.removeEventListener("resize", onScroll);
+  window.removeEventListener("resize", onResize);
   reelTrackEl.value?.removeEventListener("scroll", onReelScrollMobile);
 });
 </script>
@@ -238,7 +268,7 @@ onBeforeUnmount(() => {
 }
 @media (min-width: 901px) {
   .reel-pin {
-    --reel-extra: clamp(540px, 110vh, 1500px);
+    --reel-extra: clamp(1500px, 280vh, 3600px);
     height: calc(100vh + var(--reel-extra));
   }
   .reel-stage {
@@ -268,11 +298,20 @@ onBeforeUnmount(() => {
   --myN: 0.5;
   --mx: 50%;
   --my: 50%;
+  --d: clamp(0, var(--dist, 0), 2);
+  opacity: calc(1 - var(--d) * 0.42);
   transform: translateY(0);
-  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition:
+    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .reel-tile:hover {
   transform: translateY(-6px);
+  opacity: 1;
+}
+.reel-tile .tile-art {
+  transform: scale(calc(1 - var(--d) * 0.06));
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .reel-tile .tile-art {
   flex: 0 0 auto;
@@ -332,7 +371,7 @@ onBeforeUnmount(() => {
   }
   .reel-track {
     height: auto;
-    padding: 0 20px;
+    padding: 0 11vw;
     gap: 14px;
     overflow-x: auto;
     overflow-y: hidden;
@@ -344,11 +383,15 @@ onBeforeUnmount(() => {
     display: none;
   }
   .reel-tile {
-    scroll-snap-align: start;
+    scroll-snap-align: center;
     flex: 0 0 78vw;
     height: 64vw;
     min-height: 280px;
     max-height: 360px;
+    opacity: 1 !important;
+  }
+  .reel-tile .tile-art {
+    transform: none;
   }
 }
 
@@ -438,9 +481,11 @@ onBeforeUnmount(() => {
 
 @media (prefers-reduced-motion: reduce) {
   .reel-tile,
+  .reel-tile .tile-art,
   .reel-tile .tile-art img {
     transition: none;
     transform: none !important;
+    opacity: 1 !important;
   }
   .reel-tile .tile-art::after {
     transition: opacity 0.3s ease;
