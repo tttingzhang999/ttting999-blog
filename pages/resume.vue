@@ -24,48 +24,61 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n()
-const resumeData = useResumeData()
+const { t } = useI18n();
+const resumeData = useResumeData();
 
 // SEO Meta tags
-const fullTitle = computed(() => `張碩庭 Ting Zhang - ${t('seo.resume.title')}`)
+const fullTitle = computed(
+  () => `張碩庭 Ting Zhang - ${t("seo.resume.title")}`,
+);
+
+const ogImageAbs = useAbsoluteUrl("/og-image.jpg");
+const ogUrlAbs = useAbsoluteUrl(useRoute().path);
 
 useSeoMeta({
-  title: () => t('seo.resume.title'),
-  description: () => t('seo.resume.description'),
+  title: () => t("seo.resume.title"),
+  description: () => t("seo.resume.description"),
   ogTitle: () => fullTitle.value,
-  ogDescription: () => t('seo.resume.description'),
-  ogType: 'profile',
-  twitterCard: 'summary',
+  ogDescription: () => t("seo.resume.description"),
+  ogImage: ogImageAbs,
+  ogUrl: ogUrlAbs,
+  ogType: "profile",
+  ogSiteName: "張碩庭 Ting Zhang",
+  twitterCard: "summary_large_image",
   twitterTitle: () => fullTitle.value,
-  twitterDescription: () => t('seo.resume.description')
-})
+  twitterDescription: () => t("seo.resume.description"),
+  twitterImage: ogImageAbs,
+});
 
 // Structured Data for SEO
 useHead({
   script: [
     {
-      type: 'application/ld+json',
-      innerHTML: computed(() => JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'Person',
-        name: 'Ting Zhang',
-        alternateName: '張碩庭',
-        jobTitle: resumeData.value.personalInfo.title,
-        email: resumeData.value.personalInfo.email,
-        description: resumeData.value.personalInfo.bio,
-        url: 'https://info.tttingzhang999.com/resume',
-        sameAs: [
-          resumeData.value.socialLinks?.github,
-          resumeData.value.socialLinks?.linkedin
-        ].filter(Boolean),
-        worksFor: resumeData.value.workExperience.map(exp => ({
-          '@type': 'Organization',
-          name: exp.company
-        })),
-        knowsAbout: resumeData.value.technicalSkills.flatMap(skill => skill.skills)
-      }))
-    }
-  ]
-})
+      type: "application/ld+json",
+      innerHTML: computed(() =>
+        JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: "Ting Zhang",
+          alternateName: "張碩庭",
+          jobTitle: resumeData.value.personalInfo.title,
+          email: resumeData.value.personalInfo.email,
+          description: resumeData.value.personalInfo.bio,
+          url: "https://info.tttingzhang999.com/resume",
+          sameAs: [
+            resumeData.value.socialLinks?.github,
+            resumeData.value.socialLinks?.linkedin,
+          ].filter(Boolean),
+          worksFor: resumeData.value.workExperience.map((exp) => ({
+            "@type": "Organization",
+            name: exp.company,
+          })),
+          knowsAbout: resumeData.value.technicalSkills.flatMap(
+            (skill) => skill.skills,
+          ),
+        }),
+      ),
+    },
+  ],
+});
 </script>

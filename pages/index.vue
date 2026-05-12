@@ -69,16 +69,22 @@ const { t } = useI18n();
 
 const fullTitle = computed(() => `張碩庭 Ting Zhang - ${t("seo.home.title")}`);
 
+const ogImageAbs = useAbsoluteUrl("/og-image.jpg");
+const ogUrlAbs = useAbsoluteUrl("/");
+
 useSeoMeta({
   title: () => t("seo.home.title"),
   description: () => t("seo.home.description"),
   ogTitle: () => fullTitle.value,
   ogDescription: () => t("seo.home.description"),
-  ogImage: "/og-image.jpg",
+  ogImage: ogImageAbs,
+  ogUrl: ogUrlAbs,
   ogType: "website",
+  ogSiteName: "張碩庭 Ting Zhang",
   twitterCard: "summary_large_image",
   twitterTitle: () => fullTitle.value,
   twitterDescription: () => t("seo.home.description"),
+  twitterImage: ogImageAbs,
 });
 
 useHead({

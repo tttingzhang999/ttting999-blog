@@ -4,7 +4,7 @@
       <!-- Page Header -->
       <div class="mb-12">
         <h1 class="text-4xl font-bold text-foreground mb-4">
-          {{ $t('projects.pageTitle') }}
+          {{ $t("projects.pageTitle") }}
         </h1>
       </div>
 
@@ -29,34 +29,46 @@
 </template>
 
 <script setup lang="ts">
-import type { Project } from '~/types/project'
+import type { Project } from "~/types/project";
 
 // Get projects data based on current locale
-const projects = useProjectsData()
+const projects = useProjectsData();
 
 // i18n
-const { t } = useI18n()
+const { t } = useI18n();
 
 // Modal state management
-const selectedProject = ref<Project | null>(null)
-const isModalOpen = computed(() => selectedProject.value !== null)
+const selectedProject = ref<Project | null>(null);
+const isModalOpen = computed(() => selectedProject.value !== null);
 
 const openModal = (project: Project) => {
-  selectedProject.value = project
-}
+  selectedProject.value = project;
+};
 
 const closeModal = () => {
-  selectedProject.value = null
-}
+  selectedProject.value = null;
+};
 
 // SEO Meta tags with i18n
-const fullTitle = computed(() => `張碩庭 Ting Zhang - ${t('seo.projects.title')}`)
+const fullTitle = computed(
+  () => `張碩庭 Ting Zhang - ${t("seo.projects.title")}`,
+);
+
+const ogImageAbs = useAbsoluteUrl("/og-image.jpg");
+const ogUrlAbs = useAbsoluteUrl(useRoute().path);
 
 useSeoMeta({
-  title: () => t('seo.projects.title'),
-  description: () => t('seo.projects.description'),
+  title: () => t("seo.projects.title"),
+  description: () => t("seo.projects.description"),
   ogTitle: () => fullTitle.value,
-  ogDescription: () => t('seo.projects.description'),
-  ogType: 'website'
-})
+  ogDescription: () => t("seo.projects.description"),
+  ogImage: ogImageAbs,
+  ogUrl: ogUrlAbs,
+  ogType: "website",
+  ogSiteName: "張碩庭 Ting Zhang",
+  twitterCard: "summary_large_image",
+  twitterTitle: () => fullTitle.value,
+  twitterDescription: () => t("seo.projects.description"),
+  twitterImage: ogImageAbs,
+});
 </script>
