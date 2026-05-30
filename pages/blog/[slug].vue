@@ -272,6 +272,11 @@ const route = useRoute();
 const slug = route.params.slug as string;
 const localePath = useLocalePath();
 
+// Enable smooth anchor scrolling only while this article page is mounted.
+// Nuxt removes this head entry on unmount, so the class (and its global
+// `scroll-behavior: smooth`) does not leak to other routes.
+useHead({ htmlAttrs: { class: "smooth-scroll" } });
+
 // Fetch the article by slug
 const { data: article } = await useAsyncData(`blog-${slug}`, () =>
   queryCollection("blog").path(`/blog/${slug}`).first(),
@@ -396,8 +401,11 @@ useHead({
 </script>
 
 <style>
-/* Smooth scroll behavior for anchor links */
-html {
+/* Smooth scroll for anchor links — scoped to the article page via a class
+   toggled on <html> (see useHead below). A bare `html {}` rule here is global
+   and leaks site-wide, turning every route's scroll-to-top reset into a smooth
+   glide (which makes the scroll-driven resume deck visibly rewind). */
+html.smooth-scroll {
   scroll-behavior: smooth;
 }
 

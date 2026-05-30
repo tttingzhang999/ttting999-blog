@@ -1,21 +1,28 @@
 <template>
-  <div class="min-h-screen">
-    <!-- Hero Section -->
+  <div
+    class="resume-page bg-surface text-foreground transition-colors duration-300"
+  >
+    <!-- Hero -->
     <ResumeHero
       :personal-info="resumeData.personalInfo"
       :social-links="resumeData.socialLinks"
     />
 
-    <!-- Work Experience Timeline -->
-    <ResumeExperienceTimeline :experiences="resumeData.workExperience" />
+    <!-- 01 · Work Experience — scroll-driven flip deck -->
+    <section class="rsec-exp">
+      <ResumeExperienceTimeline :experiences="resumeData.workExperience" />
+    </section>
 
-    <!-- Side Projects -->
-    <ResumeSideProjects :projects="resumeData.sideProjects" />
+    <!-- 02 · Side Projects -->
+    <ResumeSideProjects
+      v-if="resumeData.sideProjects && resumeData.sideProjects.length"
+      :projects="resumeData.sideProjects"
+    />
 
-    <!-- Technical Skills -->
+    <!-- 03 · Technical Skills -->
     <ResumeSkillsGrid :skills="resumeData.technicalSkills" />
 
-    <!-- Certifications -->
+    <!-- 04 · Certifications -->
     <ResumeCertifications
       v-if="resumeData.certifications && resumeData.certifications.length"
       :certifications="resumeData.certifications"
@@ -82,3 +89,15 @@ useHead({
   ],
 });
 </script>
+
+<style scoped>
+.resume-page {
+  --gutter: clamp(32px, 6vw, 80px);
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vh, 72px) var(--gutter) 24px;
+}
+.rsec-exp {
+  margin-top: clamp(40px, 6vh, 64px);
+}
+</style>
