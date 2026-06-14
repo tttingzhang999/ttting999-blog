@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    :to="localePath(`/blog/${article.path?.split('/').pop()}`)"
+    :to="`/blog/${article.path?.split('/').pop()}`"
     class="group block bg-surface-card rounded-lg overflow-hidden border border-border hover:border-accent transition-colors duration-300"
   >
     <!-- Article Image -->
@@ -15,7 +15,9 @@
         loading="lazy"
       />
       <!-- Category Badge Overlay -->
-      <div class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold bg-surface-card text-foreground">
+      <div
+        class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold bg-surface-card text-foreground"
+      >
         {{ getCategoryLabel(article.category) }}
       </div>
     </div>
@@ -37,7 +39,9 @@
         />
       </svg>
       <!-- Category Badge Overlay -->
-      <div class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold bg-surface-card text-foreground">
+      <div
+        class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold bg-surface-card text-foreground"
+      >
         {{ getCategoryLabel(article.category) }}
       </div>
     </div>
@@ -45,7 +49,9 @@
     <!-- Article Content -->
     <div class="p-6">
       <!-- Title -->
-      <h3 class="text-xl font-bold text-foreground mb-2 group-hover:text-accent transition-colors line-clamp-2">
+      <h3
+        class="text-xl font-bold text-foreground mb-2 group-hover:text-accent transition-colors line-clamp-2"
+      >
         {{ article.title }}
       </h3>
 
@@ -56,8 +62,18 @@
         </time>
         <span>·</span>
         <span class="flex items-center gap-1">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
           </svg>
           {{ readingTime }} min read
         </span>
@@ -69,7 +85,10 @@
       </p>
 
       <!-- Tags -->
-      <div v-if="article.tags && article.tags.length > 0" class="flex flex-wrap gap-2">
+      <div
+        v-if="article.tags && article.tags.length > 0"
+        class="flex flex-wrap gap-2"
+      >
         <span
           v-for="tag in article.tags.slice(0, 3)"
           :key="tag"
@@ -89,50 +108,49 @@
 </template>
 
 <script setup lang="ts">
-const localePath = useLocalePath()
-const { t } = useI18n()
+const { t } = useI18n();
 
 interface Article {
-  path?: string
-  title: string
-  description: string
-  date: string
-  category: string
-  tags: string[]
-  image?: string
-  author?: string
-  draft?: boolean
-  body?: any
+  path?: string;
+  title: string;
+  description: string;
+  date: string;
+  category: string;
+  tags: string[];
+  image?: string;
+  author?: string;
+  draft?: boolean;
+  body?: any;
 }
 
 const props = defineProps<{
-  article: Article
-}>()
+  article: Article;
+}>();
 
 const formatDate = (dateString: string) => {
-  const date = new Date(dateString)
-  return date.toLocaleDateString('zh-TW', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
-}
+  const date = new Date(dateString);
+  return date.toLocaleDateString("zh-TW", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
 
 const getCategoryLabel = (category: string) => {
   const categoryMap: Record<string, string> = {
-    '心得': t('blog.categoryReflection'),
-    '技術': t('blog.categoryTech'),
-    '生活': t('blog.categoryLife'),
-    'Insight': t('blog.categoryInsight'),
-    '專案': t('blog.categoryProject')
-  }
-  return categoryMap[category] || category
-}
+    心得: t("blog.categoryReflection"),
+    技術: t("blog.categoryTech"),
+    生活: t("blog.categoryLife"),
+    Insight: t("blog.categoryInsight"),
+    專案: t("blog.categoryProject"),
+  };
+  return categoryMap[category] || category;
+};
 
 const readingTime = computed(() => {
-  if (!props.article.body) return 1
-  return useReadingTime(props.article.body)
-})
+  if (!props.article.body) return 1;
+  return useReadingTime(props.article.body);
+});
 </script>
 
 <style scoped>

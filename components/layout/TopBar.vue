@@ -1,5 +1,7 @@
 <template>
-  <nav class="fixed top-0 left-0 right-0 z-50 bg-surface border-b border-border transition-colors duration-300">
+  <nav
+    class="fixed top-0 left-0 right-0 z-50 bg-surface border-b border-border transition-colors duration-300"
+  >
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <!-- Logo / Brand -->
@@ -22,7 +24,9 @@
           >
             {{ link.label }}
             <!-- Underline animation -->
-            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
+            <span
+              class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"
+            ></span>
           </NuxtLink>
 
           <!-- Language Switcher -->
@@ -95,25 +99,25 @@
 </template>
 
 <script setup lang="ts">
-const colorMode = useColorMode()
-const { t } = useI18n()
-const localePath = useLocalePath()
+const colorMode = useColorMode();
+const { t } = useI18n();
+const localePath = useLocalePath();
 
 const navLinks = computed(() => [
-  { path: localePath('/resume'), label: t('nav.resume') },
-  { path: localePath('/projects'), label: t('nav.projects') },
-  { path: localePath('/blog'), label: t('nav.blog') }
-])
+  { path: localePath("/resume"), label: t("nav.resume") },
+  { path: localePath("/projects"), label: t("nav.projects") },
+  { path: "/blog", label: t("nav.blog") },
+]);
 
-const { toggleThemeWithTransition } = useThemeTransition()
+const { toggleThemeWithTransition } = useThemeTransition();
 
 const toggleTheme = (event: MouseEvent) => {
-  toggleThemeWithTransition(event, colorMode)
-}
+  toggleThemeWithTransition(event, colorMode);
+};
 
-const { toggleSidebar } = useSidebarState()
+const { toggleSidebar } = useSidebarState();
 
 const toggleMobileMenu = () => {
-  toggleSidebar()
-}
+  toggleSidebar();
+};
 </script>

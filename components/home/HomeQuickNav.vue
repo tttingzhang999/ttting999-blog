@@ -115,7 +115,7 @@ const quickNav = computed(() => [
   {
     title: "Blog archive",
     sub: t("home.quickNav.blogSub"),
-    to: localePath("/blog"),
+    to: "/blog",
   },
 ]);
 

@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto">
       <!-- Back Button -->
       <NuxtLink
-        :to="localePath('/blog')"
+        :to="'/blog'"
         class="inline-flex items-center gap-2 text-foreground-muted hover:text-accent transition-colors mb-8"
       >
         <svg
@@ -268,9 +268,12 @@
 </template>
 
 <script setup lang="ts">
+// Articles are zh-TW only. Opt this route out of i18n so each article has a
+// single /blog/<slug> URL instead of untranslated /en + /ja duplicates.
+defineI18nRoute(false);
+
 const route = useRoute();
 const slug = route.params.slug as string;
-const localePath = useLocalePath();
 
 // Enable smooth anchor scrolling only while this article page is mounted.
 // Nuxt removes this head entry on unmount, so the class (and its global

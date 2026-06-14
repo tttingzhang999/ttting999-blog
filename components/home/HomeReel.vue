@@ -92,8 +92,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 
-const localePath = useLocalePath();
-
 type ReelArticle = {
   path?: string;
   title?: string;
@@ -126,7 +124,7 @@ const reelTiles = computed(() =>
       slug,
       title: a.title ?? slug,
       desc: a.description ?? "",
-      to: a.path ? localePath(a.path) : localePath("/blog"),
+      to: a.path ? a.path : "/blog",
       image: a.image,
     };
   }),

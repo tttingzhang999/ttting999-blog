@@ -135,6 +135,10 @@
 </template>
 
 <script setup lang="ts">
+// Blog is single-language (zh-TW only). Opt this route out of i18n so no
+// /en/blog or /ja/blog duplicate URLs are generated. UI chrome stays trilingual.
+defineI18nRoute(false);
+
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
