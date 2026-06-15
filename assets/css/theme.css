@@ -32,9 +32,24 @@
 
   /* Code blocks */
   --color-code-bg: #1e1e1e;
+
+  /* Type families */
+  --font-sans: "Inter", "Noto Sans TC", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", "Noto Serif TC", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Motion, spacing & elevation */
+  --ease-out-expo: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --gutter: clamp(32px, 6vw, 80px);
+  --shadow-md: 0 4px 16px rgba(44, 44, 44, 0.08);
+  --shadow-lg: 0 24px 60px rgba(44, 44, 44, 0.18);
 }
 
 .dark {
+  /* Elevation (deeper on warm ink at night) */
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.5);
+
   /* Surfaces */
   --color-surface: #1c1b19;
   --color-surface-card: #252420;

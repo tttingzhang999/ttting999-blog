@@ -1,59 +1,42 @@
 <template>
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="max-w-6xl mx-auto">
-      <!-- Page Header -->
-      <div class="mb-12">
-        <h1 class="text-4xl font-bold text-foreground mb-4">
-          {{ $t("projects.pageTitle") }}
-        </h1>
-      </div>
-
-      <!-- Projects Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <ProjectCard
-          v-for="project in projects"
-          :key="project.id"
-          :project="project"
-          @click="openModal(project)"
-        />
-      </div>
-    </div>
-
-    <!-- Project Modal -->
-    <ProjectModal
-      :project="selectedProject"
-      :is-open="isModalOpen"
-      @close="closeModal"
-    />
+  <div class="pr-page">
+    <ProjectsProjectReel :list="orderedProjects" @open="openProject = $event" />
+    <ProjectsProjectModal :project="openProject" @close="openProject = null" />
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Project } from "~/types/project";
 
-// Get projects data based on current locale
+// "Selected Work" display order: products first, then power-grid platforms.
+const REEL_ORDER = [
+  "moniit-asset-management",
+  "eatswiper",
+  "promptlingo",
+  "solar-pv-monitoring-system",
+  "ev-charging-management-system",
+  "power-transfer-management-system",
+];
+
 const projects = useProjectsData();
 
-// i18n
+const orderedProjects = computed<Project[]>(() => {
+  const byId = new Map(projects.value.map((p) => [p.id, p]));
+  const ordered = REEL_ORDER.map((id) => byId.get(id)).filter(
+    (p): p is Project => Boolean(p),
+  );
+  // Append any project not covered by REEL_ORDER so none silently disappears.
+  const extras = projects.value.filter((p) => !REEL_ORDER.includes(p.id));
+  return [...ordered, ...extras];
+});
+
+const openProject = ref<Project | null>(null);
+
+// i18n + SEO
 const { t } = useI18n();
-
-// Modal state management
-const selectedProject = ref<Project | null>(null);
-const isModalOpen = computed(() => selectedProject.value !== null);
-
-const openModal = (project: Project) => {
-  selectedProject.value = project;
-};
-
-const closeModal = () => {
-  selectedProject.value = null;
-};
-
-// SEO Meta tags with i18n
 const fullTitle = computed(
   () => `張碩庭 Ting Zhang - ${t("seo.projects.title")}`,
 );
-
 const ogImageAbs = useAbsoluteUrl("/og-image.jpg");
 const ogUrlAbs = useAbsoluteUrl(useRoute().path);
 
@@ -72,3 +55,11 @@ useSeoMeta({
   twitterImage: ogImageAbs,
 });
 </script>
+
+<style scoped>
+/* The reel owns the whole scroll area; the page sits below the fixed 64px nav
+   (the default layout already pads main with pt-16). */
+.pr-page {
+  position: relative;
+}
+</style>
