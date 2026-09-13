@@ -1,38 +1,33 @@
 <template>
-  <div
-    class="resume-page bg-surface text-foreground transition-colors duration-300"
-  >
-    <!-- Hero -->
-    <ResumeHero
-      :personal-info="resumeData.personalInfo"
-      :social-links="resumeData.socialLinks"
-    />
-
-    <!-- 01 · Work Experience — scroll-driven flip deck -->
-    <section class="rsec-exp">
-      <ResumeExperienceTimeline :experiences="resumeData.workExperience" />
-    </section>
-
-    <!-- 02 · Side Projects -->
-    <ResumeSideProjects
-      v-if="resumeData.sideProjects && resumeData.sideProjects.length"
-      :projects="resumeData.sideProjects"
-    />
-
-    <!-- 03 · Technical Skills -->
-    <ResumeSkillsGrid :skills="resumeData.technicalSkills" />
-
-    <!-- 04 · Certifications -->
-    <ResumeCertifications
-      v-if="resumeData.certifications && resumeData.certifications.length"
-      :certifications="resumeData.certifications"
-    />
+  <div class="interior-page editorial-resume">
+    <header class="identity-heading">
+      <div><h1>{{ resumeData.personalInfo.name }}</h1><p class="interior-kicker identity-role">{{ resumeData.personalInfo.title }}</p><p class="identity-bio">{{ resumeData.personalInfo.bio }}</p><p class="identity-location">{{ resumeData.personalInfo.location }}</p>
+        <div class="interior-links"><a href="/resume.pdf" target="_blank" rel="noopener">{{ $t('resume.hero.downloadPdf') }}</a><a v-if="resumeData.socialLinks?.github" :href="resumeData.socialLinks.github" target="_blank" rel="noopener noreferrer">GitHub</a><a v-if="resumeData.socialLinks?.linkedin" :href="resumeData.socialLinks.linkedin" target="_blank" rel="noopener noreferrer">LinkedIn</a><a :href="'mailto:' + resumeData.personalInfo.email">Email</a></div>
+      </div>
+      <NuxtImg class="identity-photo" src="/personal_image.jpg" :alt="resumeData.personalInfo.name" width="220" height="280" />
+    </header>
+    <EditorialChapterNav :links="chapters" :label="$t('nav.resume')" />
+    <section id="experience" class="resume-chapter"><h2>{{ $t('resume.sections.experience') }}</h2><div class="career-list">
+      <article v-for="experience in resumeData.workExperience" :key="experience.company + experience.startDate" class="career-entry">
+        <p class="career-period">{{ experience.period }}</p><div><p class="interior-kicker">{{ experience.company }}</p><h3>{{ experience.title }}</h3><ul class="interior-bullets"><li v-for="line in experience.description" :key="line">{{ line }}</li></ul><p class="interior-technologies">{{ experience.technologies?.join(' / ') }}</p></div>
+      </article>
+    </div></section>
+    <section id="side-projects" v-if="resumeData.sideProjects.length" class="resume-chapter"><h2>{{ $t('nav.projects') }}</h2><article v-for="project in resumeData.sideProjects" :key="project.title" class="resume-project"><p class="career-period">{{ project.period }}</p><h3>{{ project.title }}</h3><p>{{ project.description }}</p><ul class="interior-bullets"><li v-for="line in project.highlights" :key="line">{{ line }}</li></ul><p class="interior-technologies">{{ project.technologies?.join(' / ') }}</p><div class="interior-links"><a v-if="project.github" :href="project.github" target="_blank" rel="noopener noreferrer">GitHub</a><a v-if="project.demo" :href="project.demo" target="_blank" rel="noopener noreferrer">Demo</a></div></article><NuxtLink class="interior-all" :to="localePath('/projects')">{{ $t('nav.projects') }} ↗</NuxtLink></section>
+    <section id="skills" class="resume-chapter"><h2>{{ $t('resume.sections.skills') }}</h2><dl class="skill-lines"><div v-for="skill in resumeData.technicalSkills" :key="skill.category"><dt>{{ skill.category }}</dt><dd>{{ skill.skills.join(' / ') }}</dd></div></dl></section>
+    <section id="certifications" v-if="resumeData.certifications?.length" class="resume-chapter"><h2>{{ $t('resume.sections.certifications') }}</h2><div class="credential-lines"><article v-for="cert in resumeData.certifications" :key="cert.name"><img v-if="cert.badgeImage" :src="cert.badgeImage" :alt="cert.name" loading="lazy" /><div><p class="career-period">{{ cert.issuer }} / {{ cert.issueDate }}</p><h3>{{ cert.name }}</h3><a v-if="cert.credentialUrl" :href="cert.credentialUrl" target="_blank" rel="noopener noreferrer">{{ $t('resume.sections.viewCredential') }}</a></div></article></div></section>
   </div>
 </template>
-
 <script setup lang="ts">
+definePageMeta({ layout: 'editorial' });
 const { t } = useI18n();
+const localePath = useLocalePath();
 const resumeData = useResumeData();
+const chapters = computed(() => [
+  {id:'experience',label:t('resume.sections.experience')},
+  ...(resumeData.value.sideProjects.length ? [{id:'side-projects',label:t('nav.projects')}] : []),
+  {id:'skills',label:t('resume.sections.skills')},
+  ...(resumeData.value.certifications?.length ? [{id:'certifications',label:t('resume.sections.certifications')}] : []),
+]);
 
 // SEO Meta tags
 const fullTitle = computed(
@@ -89,15 +84,3 @@ useHead({
   ],
 });
 </script>
-
-<style scoped>
-.resume-page {
-  --gutter: clamp(32px, 6vw, 80px);
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: clamp(40px, 6vh, 72px) var(--gutter) 24px;
-}
-.rsec-exp {
-  margin-top: clamp(40px, 6vh, 64px);
-}
-</style>

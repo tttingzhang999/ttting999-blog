@@ -1,25 +1,16 @@
 <template>
   <div>
     <NuxtRouteAnnouncer />
+    <SiteHeader />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
 
-    <!-- Global custom cursor — visible in both light & dark modes via difference blend -->
-    <div
-      ref="siteCursorEl"
-      class="site-cursor"
-      :class="{ 'is-hovering': hovering, 'is-visible': visible }"
-      aria-hidden="true"
-    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-
-const siteCursorEl = ref<HTMLElement | null>(null);
-const { hovering, visible } = useSiteCursor(siteCursorEl);
+import { computed } from "vue";
 
 // i18n-aware head: produces <html lang>, hreflang alternates, og:locale, etc.
 const i18nHead = useLocaleHead({ seo: true });

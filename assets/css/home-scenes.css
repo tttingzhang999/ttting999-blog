@@ -1,0 +1,589 @@
+.home-scenes {
+  --ink: var(--color-surface);
+  --paper: var(--color-foreground);
+  --grey: var(--color-border);
+  --amber: var(--color-accent);
+  --sage: var(--color-accent-alt);
+  --muted: var(--color-foreground-muted);
+  --gutter: 6vw;
+  font-family: "DM Sans", "Noto Sans TC", sans-serif;
+  background: var(--ink);
+  color: var(--paper);
+}
+.home-scenes * {
+  box-sizing: border-box;
+}
+.home-scenes {
+  margin: 0;
+}
+.home-scenes button,
+.home-scenes a {
+  -webkit-tap-highlight-color: transparent;
+}
+.home-scenes a {
+  color: inherit;
+  text-decoration: none;
+}
+.home-scenes button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.home-scenes button:focus-visible,
+.home-scenes a:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 7px;
+}
+.home-scenes button {
+  border: 0;
+  background: none;
+}
+.home-scenes ::selection {
+  background: var(--amber);
+  color: var(--ink);
+}
+.home-scenes p,
+.home-scenes h1,
+.home-scenes h2,
+.home-scenes figure {
+  margin: 0;
+}
+.home-scenes button,
+.home-scenes a {
+  touch-action: manipulation;
+}
+.home-scenes .atmosphere {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.home-scenes .light {
+  opacity: 1;
+  transition: opacity 950ms cubic-bezier(0.76, 0, 0.24, 1);
+  position: absolute;
+  inset: -35%;
+  background:
+    radial-gradient(ellipse at 73% 40%, color-mix(in srgb, var(--color-accent) 9%, transparent), transparent 38%),
+    radial-gradient(ellipse at 15% 72%, color-mix(in srgb, var(--color-accent-alt) 4%, transparent), transparent 35%);
+}
+.home-scenes .grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.5' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+}
+.home-scenes .masthead {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.home-scenes .signature {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+.home-scenes .signature span {
+  color: var(--amber);
+  font-size: 23px;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 0 3px;
+}
+.home-scenes .masthead nav {
+  display: flex;
+  gap: 35px;
+  font-size: 13px;
+}
+.home-scenes .masthead nav a {
+  color: var(--muted);
+  padding: 10px 0;
+  position: relative;
+}
+.home-scenes .masthead nav a[aria-current="page"] {
+  color: var(--paper);
+}
+.home-scenes .masthead nav a[aria-current="page"]:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 18px;
+  height: 2px;
+  background: var(--amber);
+}
+.home-scenes .archive {
+  font-size: 13px;
+}
+.home-scenes .archive span {
+  margin-left: 16px;
+  color: var(--amber);
+}
+.home-scenes .section {
+  position: relative;
+  min-height: 100svh;
+  background: transparent;
+}
+.home-scenes .scene-content {
+  position: relative;
+  min-height: 780px;
+  height: 100svh;
+  padding: 125px var(--gutter) 100px;
+}
+.home-scenes .hero-type {
+  font-weight: 500;
+  letter-spacing: -0.085em;
+  font-size: clamp(120px, min(15vw, 24vh), 245px);
+  line-height: 0.87;
+  position: absolute;
+  left: 17%;
+  top: 25%;
+  width: 78%;
+  perspective: 1000px;
+}
+.home-scenes .hero-type .word {
+  display: block;
+  width: max-content;
+  transform-origin: left center;
+}
+.home-scenes .hero-type .execute {
+  margin-left: 12%;
+  color: var(--amber);
+}
+.home-scenes .period {
+  margin-left: -0.025em;
+}
+.home-scenes .identity {
+  font-size: 15px;
+  line-height: 1.8;
+}
+.home-scenes .identity p:first-child {
+  font-size: 18px;
+}
+.home-scenes .identity span {
+  font-size: 13px;
+  margin-left: 16px;
+  color: var(--muted);
+}
+.home-scenes .identity p + p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 5px;
+}
+.home-scenes .hero-foot {
+  position: absolute;
+  bottom: 13%;
+  left: var(--gutter);
+  right: var(--gutter);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 30px;
+}
+.home-scenes .hero-statement {
+  font-size: clamp(23px, 2.4vw, 38px);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.home-scenes .hero-copy {
+  font-size: 14px;
+  line-height: 1.95;
+  width: 31%;
+  color: var(--muted);
+}
+.home-scenes .text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 14px;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-foreground) 36%, transparent);
+  padding: 10px 0;
+  color: var(--paper);
+}
+.home-scenes .text-link:hover {
+  color: var(--amber);
+  border-color: var(--amber);
+}
+.home-scenes .text-link span {
+  color: var(--amber);
+  font-size: 21px;
+  line-height: 1;
+}
+.home-scenes .hero-copy .text-link {
+  margin-top: 15px;
+}
+.home-scenes .scene-note {
+  position: absolute;
+  left: var(--gutter);
+  top: 40%;
+  writing-mode: vertical-rl;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--muted);
+}
+.home-scenes .scene-footer {
+  position: fixed;
+  z-index: 20;
+  bottom: 25px;
+  left: var(--gutter);
+  right: var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+  pointer-events: none;
+}
+.home-scenes .scene-footer > * {
+  pointer-events: auto;
+}
+.home-scenes .scene-footer #next-scene {
+  font-size: 12px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.home-scenes .scene-footer #next-scene span {
+  margin-left: 14px;
+  color: var(--amber);
+}
+.home-scenes .fp-watermark {
+  visibility: hidden;
+  pointer-events: none;
+}
+.home-scenes .practice-composition {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  grid-template-rows: auto 1fr auto;
+  column-gap: 9vw;
+  row-gap: 35px;
+}
+.home-scenes .practice-heading {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.home-scenes .practice-heading h2 {
+  font-size: clamp(24px, 2.6vw, 43px);
+  line-height: 1.6;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+.home-scenes .project-names {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+.home-scenes .project-names button {
+  font-size: clamp(40px, 5.2vw, 84px);
+  letter-spacing: -0.065em;
+  line-height: 1.2;
+  padding: 0;
+  color: var(--color-foreground-muted);
+  position: relative;
+  transition: color 0.25s;
+}
+.home-scenes .project-names button[aria-pressed="true"] {
+  color: var(--amber);
+}
+.home-scenes .project-names button[aria-pressed="true"]:before {
+  content: "";
+  position: absolute;
+  left: -25px;
+  top: 48%;
+  width: 9px;
+  height: 9px;
+  background: var(--amber);
+  border-radius: 50%;
+}
+.home-scenes .project-detail {
+  align-self: center;
+  max-width: 360px;
+}
+.home-scenes .project-kind {
+  font-size: 19px;
+  margin-bottom: 20px;
+}
+.home-scenes #project-description {
+  font-size: 14px;
+  line-height: 2;
+  color: var(--muted);
+  min-height: 84px;
+}
+.home-scenes .project-tech {
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--sage);
+  margin: 18px 0;
+}
+.home-scenes .contact {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 25px;
+}
+.home-scenes .contact-main {
+  font-size: clamp(23px, 2.6vw, 40px);
+  font-weight: 500;
+}
+.home-scenes .contact-main span {
+  color: var(--amber);
+  display: inline-block;
+  margin-left: 24px;
+}
+.home-scenes .contact > div {
+  display: flex;
+  gap: 28px;
+  font-size: 12px;
+}
+.home-scenes .contact a:hover {
+  color: var(--amber);
+}
+.home-scenes[data-mode="reading"] .masthead {
+  background: color-mix(in srgb, var(--color-surface) 95%, transparent);
+  backdrop-filter: blur(10px);
+}
+.home-scenes[data-mode="reading"] .scene-footer {
+  display: none;
+}
+.home-scenes[data-mode="reading"] .section {
+  scroll-margin-top: 70px;
+}
+.home-scenes[data-mode="reading"] .scene-content {
+  height: auto;
+  min-height: 850px;
+}
+.home-scenes[data-mode="reading"] .practice-composition {
+  min-height: 900px;
+}
+.home-scenes[data-mode="reading"] .contact {
+  padding-bottom: 20px;
+}
+@media (min-width: 1800px) {
+  .home-scenes .scene-content {
+    padding-top: 155px;
+    padding-bottom: 140px;
+  }
+}
+@media (max-width: 1000px) {
+  .home-scenes {
+    --gutter: 7vw;
+  }
+  .home-scenes .masthead {
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+  .home-scenes .masthead nav {
+    gap: 23px;
+  }
+  .home-scenes .archive {
+    display: none;
+  }
+  .home-scenes .hero-type {
+    font-size: 19vw;
+    left: 10%;
+    top: 28%;
+    width: 85%;
+  }
+  .home-scenes .hero-type .execute {
+    margin-left: 3%;
+  }
+  .home-scenes .scene-note {
+    display: none;
+  }
+  .home-scenes .hero-copy {
+    width: 44%;
+  }
+  .home-scenes .practice-composition {
+    column-gap: 7vw;
+  }
+  .home-scenes .project-names button {
+    font-size: 6.3vw;
+  }
+}
+@media (max-width: 700px) {
+  .home-scenes .masthead {
+    padding: 20px var(--gutter);
+  }
+  .home-scenes .signature {
+    font-size: 28px;
+  }
+  .home-scenes .signature span {
+    font-size: 19px;
+  }
+  .home-scenes .masthead nav {
+    gap: 18px;
+    font-size: 11px;
+  }
+  .home-scenes .scene-content,
+  .home-scenes[data-mode="reading"] .scene-content {
+    padding: 110px var(--gutter) 55px;
+    min-height: 780px;
+  }
+  .home-scenes .identity p:first-child {
+    font-size: 16px;
+  }
+  .home-scenes .identity span {
+    font-size: 12px;
+  }
+  .home-scenes .hero-type {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    font-size: 20vw;
+    margin: 75px 0 60px;
+    line-height: 0.98;
+  }
+  .home-scenes .hero-type .execute {
+    margin-left: 0;
+  }
+  .home-scenes .hero-foot {
+    position: static;
+    display: block;
+  }
+  .home-scenes .hero-statement {
+    font-size: 24px;
+  }
+  .home-scenes .hero-copy {
+    width: auto;
+    margin-top: 23px;
+    font-size: 13px;
+  }
+  .home-scenes .hero-copy br {
+    display: none;
+  }
+  .home-scenes .hero-copy p {
+    max-width: 290px;
+  }
+  .home-scenes .hero-copy .text-link {
+    margin-top: 16px;
+  }
+  .home-scenes .practice-composition,
+  .home-scenes[data-mode="reading"] .practice-composition {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    min-height: 0;
+  }
+  .home-scenes .practice-heading {
+    display: block;
+  }
+  .home-scenes .practice-heading h2 {
+    font-size: 28px;
+  }
+  .home-scenes .practice-heading .text-link {
+    margin-top: 18px;
+  }
+  .home-scenes .project-names {
+    align-self: stretch;
+    gap: 4px;
+    padding-left: 20px;
+  }
+  .home-scenes .project-names button {
+    font-size: 14vw;
+  }
+  .home-scenes .project-names button[aria-pressed="true"]:before {
+    left: -20px;
+    width: 7px;
+    height: 7px;
+  }
+  .home-scenes .project-detail {
+    align-self: stretch;
+    max-width: none;
+    min-height: 235px;
+  }
+  .home-scenes .project-kind {
+    font-size: 18px;
+    margin-bottom: 13px;
+  }
+  .home-scenes #project-description {
+    min-height: 56px;
+    font-size: 13px;
+  }
+  .home-scenes .project-tech {
+    margin: 12px 0;
+  }
+  .home-scenes .contact {
+    display: block;
+  }
+  .home-scenes .contact-main {
+    font-size: 26px;
+  }
+  .home-scenes .contact > div {
+    margin-top: 26px;
+    gap: 28px;
+  }
+  .home-scenes .text-link {
+    font-size: 13px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-scenes *,
+  .home-scenes *::before,
+  .home-scenes *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.home-scenes h1:focus,
+.home-scenes h2:focus {
+  outline: none;
+}
+
+.home-scenes #continuity {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.home-scenes #home-fullpage {
+  position: relative;
+  z-index: 1;
+}
+.home-scenes .project-detail {
+  position: relative;
+}
+.home-scenes .project-detail:before {
+  content: "";
+  position: absolute;
+  inset: -25px;
+  z-index: -1;
+  background: radial-gradient(ellipse, color-mix(in srgb, var(--color-surface) 79%, transparent), transparent 75%);
+  pointer-events: none;
+}
+@media (max-width: 1000px) {
+  .home-scenes .contact {
+    padding-bottom: 65px !important;
+  }
+  .home-scenes #continuity {
+    opacity: 0.55;
+  }
+}
+
+/* The light now supplies the tool paths and the active project marker. */
+.home-scenes .project-names button[aria-pressed="true"]:before {
+  display: none;
+}
+@media (max-width: 1000px) {
+  .home-scenes #continuity {
+    opacity: 0.35;
+  }
+}
