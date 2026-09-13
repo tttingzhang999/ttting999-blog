@@ -1,0 +1,41 @@
+/* One palette for homepage, archives, and long-form pages. */
+:root {
+  color-scheme: light;
+  --color-surface: #f3f0e8;
+  --color-surface-card: #fbf9f3;
+  --color-surface-elevated: #e9e5db;
+  --color-foreground: #181a1b;
+  --color-foreground-soft: #3f4240;
+  --color-foreground-muted: #64655f;
+  --color-foreground-faint: #74756e;
+  --color-accent: #94601b;
+  --color-accent-hover: #754a11;
+  --color-accent-alt: #52674f;
+  --color-accent-alt-hover: #3b5139;
+  --color-border: #d1cbbf;
+  --color-border-muted: #e0dbd0;
+  --color-border-strong: #999487;
+  --color-hairline: #181a1b1a;
+  --color-code-bg: #e9e5db;
+}
+:root.dark {
+  color-scheme: dark;
+  --color-surface: #181a1b;
+  --color-surface-card: #222526;
+  --color-surface-elevated: #222526;
+  --color-foreground: #f3f0e8;
+  --color-foreground-soft: #dedbd3;
+  --color-foreground-muted: #b6b4ad;
+  --color-foreground-faint: #96958f;
+  --color-accent: #f2b55a;
+  --color-accent-hover: #f8ca87;
+  --color-accent-alt: #acbdaa;
+  --color-accent-alt-hover: #c3d0c1;
+  --color-border: #343638;
+  --color-border-muted: #2c2e30;
+  --color-border-strong: #55564f;
+  --color-hairline: #f3f0e81a;
+  --color-code-bg: #222526;
+}
+html, body { background: var(--color-surface); color: var(--color-foreground); }
+::selection { background: var(--color-accent); color: var(--color-surface); }

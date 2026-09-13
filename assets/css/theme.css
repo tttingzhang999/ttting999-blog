@@ -1,82 +1,17 @@
-/* ==============================================
-   Warm Ink Theme — CSS Custom Properties
-   All site colors defined here. Dark mode via .dark class.
-   SFC files use semantic Tailwind classes (bg-surface, text-accent, etc.)
-   ============================================== */
+@import './site-colors.css';
 
 :root {
-  /* Surfaces */
-  --color-surface: #faf8f5;
-  --color-surface-card: #ffffff;
-  --color-surface-elevated: #f5f0eb;
-
-  /* Text */
-  --color-foreground: #2c2c2c;
-  --color-foreground-muted: #6b6560;
-
-  /* Accent: Terracotta */
-  --color-accent: #c4652a;
-  --color-accent-hover: #b05a24;
-
-  /* Accent Alt: Teal */
-  --color-accent-alt: #2a6f6a;
-  --color-accent-alt-hover: #23605b;
-
-  /* Borders */
-  --color-border: #e0dbd5;
-  --color-border-muted: #ebe7e1;
-
-  /* Faint text + hairline (Concept C) */
-  --color-foreground-faint: #a89e92;
-  --color-hairline: rgba(44, 44, 44, 0.1);
-
-  /* Code blocks */
-  --color-code-bg: #1e1e1e;
-
-  /* Type families */
   --font-sans: "Inter", "Noto Sans TC", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Fraunces", "Noto Serif TC", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-
-  /* Motion, spacing & elevation */
   --ease-out-expo: cubic-bezier(0.2, 0.8, 0.2, 1);
   --gutter: clamp(32px, 6vw, 80px);
   --shadow-md: 0 4px 16px rgba(44, 44, 44, 0.08);
   --shadow-lg: 0 24px 60px rgba(44, 44, 44, 0.18);
 }
-
 .dark {
-  /* Elevation (deeper on warm ink at night) */
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
   --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.5);
-
-  /* Surfaces */
-  --color-surface: #1c1b19;
-  --color-surface-card: #252420;
-  --color-surface-elevated: #2e2d28;
-
-  /* Text */
-  --color-foreground: #e8e4df;
-  --color-foreground-muted: #a39e98;
-
-  /* Accent: Softer Terracotta */
-  --color-accent: #d4845a;
-  --color-accent-hover: #e0956b;
-
-  /* Accent Alt: Lighter Teal */
-  --color-accent-alt: #5fb3ad;
-  --color-accent-alt-hover: #72c4be;
-
-  /* Borders */
-  --color-border: #3a3835;
-  --color-border-muted: #2e2d28;
-
-  /* Faint text + hairline (Concept C) */
-  --color-foreground-faint: #6a6055;
-  --color-hairline: rgba(232, 228, 223, 0.08);
-
-  /* Code blocks */
-  --color-code-bg: #141413;
 }
 
 /* ========================================
@@ -105,87 +40,6 @@ a {
 .page-enter-to,
 .page-leave-from {
   opacity: 1;
-}
-
-/* ========================================
-   Theme transition (View Transitions API)
-   Animation is driven imperatively in useThemeTransition.ts.
-   These rules set up stacking so the new view cleanly covers the old.
-   ======================================== */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-::view-transition-old(root) {
-  z-index: 1;
-}
-::view-transition-new(root) {
-  z-index: 9999;
-}
-
-/* During the theme transition, suppress expensive SVG filters that get
-   double-snapshotted by the View Transitions API and cause flicker. */
-html.theme-transitioning .motto-reveal,
-html.theme-transitioning .at-reveal,
-html.theme-transitioning .site-cursor {
-  filter: none !important;
-  animation-play-state: paused !important;
-}
-
-/* ========================================
-   Custom site cursor
-   Hide default OS cursor on fine-pointer devices.
-   ======================================== */
-@media (hover: hover) and (pointer: fine) {
-  html,
-  html * {
-    cursor: none !important;
-  }
-}
-
-.site-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  box-shadow: 0 0 18px var(--color-accent);
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
-  opacity: 0;
-  transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
-  transition:
-    opacity 0.25s ease,
-    width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-    height 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-    background 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.25s ease;
-}
-.site-cursor.is-visible {
-  opacity: 1;
-}
-.site-cursor.is-hovering {
-  width: 36px;
-  height: 36px;
-  background: transparent;
-  border: 1.5px solid var(--color-accent);
-  box-shadow: 0 0 28px color-mix(in oklab, var(--color-accent) 60%, transparent);
-}
-
-@media (hover: none), (pointer: coarse) {
-  .site-cursor {
-    display: none !important;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .site-cursor {
-    transition: none;
-  }
 }
 
 /* ========================================
@@ -298,3 +152,10 @@ html.theme-transitioning .site-cursor {
     ),
     linear-gradient(180deg, var(--color-surface-elevated), var(--color-surface));
 }
+
+/* Shared theme/locale dissolve: retain the old frame above the ready new view. */
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-old(root) { z-index: 2; }
+::view-transition-new(root) { z-index: 1; }
+::view-transition-group(root) { animation: none; }

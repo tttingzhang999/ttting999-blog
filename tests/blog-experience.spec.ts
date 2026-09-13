@@ -1,0 +1,49 @@
+import { test, expect } from '@playwright/test';
+test('archive filters survive reading and home returns to static writing',async({page})=>{
+ await page.goto('/blog');
+ await expect(page.locator('.archive-entry')).not.toHaveCount(0);
+ await page.getByRole('searchbox').fill('Python');
+ await expect(page).toHaveURL(/q=Python/);
+ await page.getByLabel('年份').selectOption('2025');
+ await page.locator('.archive-entry a').first().click();
+ await expect(page.locator('.reading-content')).toBeVisible();
+ await page.getByRole('link',{name:'返回文章列表',exact:true}).click();
+ await expect(page.getByRole('searchbox')).toHaveValue('Python');
+ await expect(page.getByLabel('年份')).toHaveValue('2025');
+ await page.getByRole('link',{name:'回到首頁文章區',exact:true}).click();
+ await expect(page).toHaveURL(/#writing/);
+ await expect(page.locator('.home-scenes')).toHaveAttribute('data-journal-intro','done');
+});
+test('empty search and mobile reading remain usable',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/blog?q=zzzzzz');
+ await expect(page.getByText('沒有符合的文章')).toBeVisible();
+ await page.getByRole('button',{name:'清除篩選'}).click();
+ await page.locator('.archive-entry a').first().click();
+ await expect(page.locator('.reading-content')).toBeVisible();
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+ await page.getByText('文章目錄',{exact:true}).click();
+ await expect(page.locator('.reader-toc a').first()).toBeVisible();
+});
+test('archive restores scroll and reader reports progress',async({page})=>{
+ await page.goto('/blog');
+ const entry = page.locator('.archive-entry a').last();
+ await entry.scrollIntoViewIfNeeded();
+ const scroll = await page.evaluate(()=>window.scrollY);
+ await entry.click();
+ await expect(page.locator('.reading-content')).toBeVisible();
+ await page.locator('.reader-share').scrollIntoViewIfNeeded();
+ await expect(page.getByRole('progressbar')).toHaveAttribute('aria-valuenow','100');
+ await page.getByRole('link',{name:'返回文章列表',exact:true}).click();
+ await expect.poll(()=>page.evaluate(()=>window.scrollY)).toBeGreaterThan(scroll-50);
+});
+test('archive metadata and reader content are server rendered',async({browser})=>{
+ const context=await browser.newContext({javaScriptEnabled:false});
+ const page=await context.newPage();
+ await page.goto('http://127.0.0.1:3000/blog?category=AI');
+ await expect(page.locator('.archive-entry')).toHaveCount(1);
+ await page.locator('.archive-entry a').click();
+ await expect(page.locator('.reading-content')).toBeVisible();
+ await expect(page.locator('.reader-toc a').first()).toBeVisible();
+ await context.close();
+});

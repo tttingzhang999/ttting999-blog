@@ -1,0 +1,7 @@
+# Background continuity — 2026-09-12
+
+Audit: A/B/C all share the ink root (#181A1B), transparent section surfaces and a fixed grain/light layer. The source of the fullscreen flick was the global light rule tied directly to journalIntro=playing: opacity jumped 1→0.1 at arrival and 0.1→1 on complete/skip/leave. Article and project readability gradients belong to their content rather than independent fullscreen scene colors. Native reading mode retains ambient illumination; reduced motion intentionally avoids transitions.
+
+Repair: Introduced a separate backdrop target, with scan dimming selected in onLeave before the page starts moving. Light opacity now interpolates for 950ms with the same easing as scene navigation. Completion, skip, cancellation, resize and visibility cleanup target ambient light; repeated assignments do not restart the CSS transition. No palette or section base-color changes.
+
+Validation: A new frame-sampling browser regression reproduced a 0.9 opacity jump on the old build. The repaired build passes checks for intermediate opacity, bounded frame-to-frame brightness changes, normal completion, reverse/direct navigation, skipping, mid-scan departure, constant root/section colors, and reduced motion. All 9 browser tests pass, including prior gold/text continuity and route/mobile tests. Production build passes (existing Nuxt Image sharp warning remains). Local preview at port 3000 refreshed; no deployment or push.

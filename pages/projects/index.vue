@@ -1,12 +1,21 @@
 <template>
-  <div class="pr-page">
-    <ProjectsProjectReel :list="orderedProjects" @open="openProject = $event" />
-    <ProjectsProjectModal :project="openProject" @close="openProject = null" />
+  <div class="interior-page editorial-projects">
+    <header class="work-heading"><h1>{{ $t('nav.projects') }}<span>.</span></h1></header>
+    <EditorialChapterNav :links="orderedProjects.map(project=>({id:project.id,label:project.shortName || project.title.split(' - ')[0] || project.title}))" :label="$t('nav.projects')" />
+    <article v-for="project in orderedProjects" :id="project.id" :key="project.id" class="case-study">
+      <div class="case-context"><p>{{ project.period || project.date }}</p><p v-if="project.kind">{{ project.kind }}</p></div>
+      <div class="case-body"><h2>{{ project.title }}</h2><p v-if="project.subtitle" class="case-subtitle">{{ project.subtitle }}</p><p class="case-description">{{ project.description }}</p><p v-if="project.role" class="case-role">{{ project.role }}</p><p v-if="project.teamSize" class="case-team">{{ project.teamSize }}</p>
+        <dl v-if="project.stats?.length" class="case-stats"><div v-for="stat in project.stats" :key="stat.l"><dt>{{ stat.n }}</dt><dd>{{ stat.l }}</dd></div></dl>
+        <p class="interior-technologies">{{ project.tags.join(' / ') }}</p>
+        <div class="interior-links"><a v-if="project.github" :href="project.github" target="_blank" rel="noopener noreferrer">GitHub</a><a v-if="project.demo" :href="project.demo" target="_blank" rel="noopener noreferrer">Demo</a><a v-if="project.appStore" :href="project.appStore" target="_blank" rel="noopener noreferrer">App Store</a><a v-if="project.googlePlay" :href="project.googlePlay" target="_blank" rel="noopener noreferrer">Google Play</a></div>
+        <details><summary>{{ $t('projects.viewProject') }}</summary><ul class="interior-bullets case-highlights"><li v-for="line in project.highlights" :key="line">{{ line }}</li></ul><EditorialGallery :images="project.images?.length ? project.images : project.image ? [project.image] : []" :title="project.title" /></details>
+      </div>
+    </article>
   </div>
 </template>
-
 <script setup lang="ts">
 import type { Project } from "~/types/project";
+definePageMeta({ layout: "editorial" });
 
 // "Selected Work" display order: products first, then power-grid platforms.
 const REEL_ORDER = [
@@ -30,7 +39,7 @@ const orderedProjects = computed<Project[]>(() => {
   return [...ordered, ...extras];
 });
 
-const openProject = ref<Project | null>(null);
+
 
 // i18n + SEO
 const { t } = useI18n();
@@ -55,11 +64,3 @@ useSeoMeta({
   twitterImage: ogImageAbs,
 });
 </script>
-
-<style scoped>
-/* The reel owns the whole scroll area; the page sits below the fixed 64px nav
-   (the default layout already pads main with pt-16). */
-.pr-page {
-  position: relative;
-}
-</style>
