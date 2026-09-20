@@ -1,7 +1,8 @@
 ---
 title: '2025 軟體工程師面試經驗'
-description: 'Software engineer interview experience in 2025.'
+description: "記錄 2025 年軟體工程師轉職準備與六間公司的面試經驗，包含履歷、Side Project、LeetCode、面試流程與心得。"
 date: '2025-11-13'
+updatedAt: "2026-09-20"
 tags: ['Interview', 'Career', '2025']
 category: '心得'
 author: 'Ting Zhang'

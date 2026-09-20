@@ -5,6 +5,7 @@ for (const sample of [
  {path:'/blog/concurrency',link:'.reader-toc a[href="#範例程式碼"]',target:'#範例程式碼',root:'.reader-page'},
 ]) test(`chapter click scrolls continuously without replacing content: ${sample.path}`,async({page})=>{
  await page.goto(sample.path);
+ await expect(page.locator(".site-header")).toHaveAttribute("aria-busy", "false");
  await page.locator(sample.link).scrollIntoViewIfNeeded();
  await page.evaluate((selector)=>{
   const root=document.querySelector(selector)!;
@@ -21,6 +22,7 @@ for (const sample of [
 test('reduced motion keeps chapter navigation immediate',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('/en/projects');
+ await expect(page.locator(".site-header")).toHaveAttribute("aria-busy", "false");
  await page.evaluate(()=>{
   const original=window.scrollTo.bind(window);
   (window as any).scrollModes=[];

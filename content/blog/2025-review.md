@@ -1,7 +1,8 @@
 ---
-title: "2025 Review"
+title: "2025 年度回顧：轉職、成長與下一年的期許"
 date: "2025-12-26"
-description: "今天WFH，午餐吃新媛煮的泡菜鍋，讚"
+updatedAt: "2026-09-20"
+description: "從智電系統轉職到 Going Cloud，記錄新環境帶來的成長、冒牌者症候群，以及下一年對技術、英文與日文學習的期許。"
 tags: ["Review", "2025"]
 category: "生活"
 author: "Ting Zhang"

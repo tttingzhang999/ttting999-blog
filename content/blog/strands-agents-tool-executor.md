@@ -1,7 +1,8 @@
 ---
-title: 'Strands Agents Tool Executor Behavior Research'
-description: 'Exploring the design principles, behavioral patterns, and implementation details of the Tool Executor in the Strands Agents architecture, with a comparison of performance between different concurrency and asynchronous techniques in this context.'
+title: "Strands Agents Tool Executor：工具執行與並行行為研究"
+description: "從 Multi-Agent Chatbot 的實作需求出發，研究 Strands Agents 的 Tool Executor 如何執行工具，比較同步、非同步與並行方式的行為和效能。"
 date: '2026-05-10'
+updatedAt: "2026-09-20"
 tags: ['LLM', 'Agents', 'Tool Executor', 'Python', 'Architecture']
 category: 'AI'
 author: 'Ting Zhang'

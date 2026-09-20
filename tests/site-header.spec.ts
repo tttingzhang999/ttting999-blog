@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('one persistent header connects home and editorial destinations', async ({ page }) => {
   await page.goto('/en');
+ await expect(page.locator(".site-header")).toHaveAttribute("aria-busy", "false");
   const header = page.locator('.site-header');
   await expect(header).toHaveCount(1);
   await expect(header.locator('.site-primary a')).toHaveText(['Home', 'Resume', 'Projects', 'Writing']);
@@ -19,6 +20,7 @@ test('one persistent header connects home and editorial destinations', async ({ 
 test('unified mobile menu closes after navigation', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/ja/resume');
+ await expect(page.locator(".site-header")).toHaveAttribute("aria-busy", "false");
   await page.locator('.site-header .mobile-menu summary').click();
   await page.locator('.site-header .mobile-menu a[href="/ja/projects"]').click();
   await expect(page.locator('.editorial-projects')).toBeVisible();

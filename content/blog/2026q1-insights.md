@@ -1,7 +1,8 @@
 ---
 title: "2026 工作與生活的一些 Insights & 隨筆"
 date: "2026-02-20"
-description: ""
+updatedAt: "2026-09-20"
+description: "轉職後對工作與生活的反思：職場界線、技術成長、接案與注意力分配，以及婚姻和日本移居計畫的取捨。"
 tags: ['Insights', 'Mood']
 category: "生活"
 author: "Ting Zhang"

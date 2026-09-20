@@ -23,7 +23,9 @@
   </div>
 </template>
 <script setup lang="ts">
-// Articles are zh-TW only. Opt this route out of i18n so each article has a
+import { articleStructuredData } from "~/utils/seo/article";
+
+// Opt this route out of i18n so each article has a
 // single /blog/<slug> URL instead of untranslated /en + /ja duplicates.
 defineI18nRoute(false);
 definePageMeta({ layout: 'editorial' });
@@ -129,7 +131,8 @@ const { data: relatedArticles } = await useAsyncData(
 );
 
 // SEO Meta tags
-const fullTitle = `張碩庭 Ting Zhang - ${article.value.title}`;
+const articleLanguage = article.value.language || "zh-TW";
+const fullTitle = `${article.value.title} | Ting Zhang`;
 
 const ogImageAbs = useAbsoluteUrl(article.value.image || "/og-image.jpg");
 const ogUrlAbs = useAbsoluteUrl(useRoute().path);
@@ -144,6 +147,8 @@ useSeoMeta({
   ogType: "article",
   ogSiteName: "張碩庭 Ting Zhang",
   articlePublishedTime: article.value.date,
+  articleModifiedTime: article.value.updatedAt || undefined,
+  ogLocale: articleLanguage.replace("-", "_"),
   articleAuthor: [article.value.author || "Ting Zhang"],
   articleTag: article.value.tags,
   twitterCard: "summary_large_image",
@@ -152,34 +157,13 @@ useSeoMeta({
   twitterImage: ogImageAbs,
 });
 
-// Structured Data for SEO (Schema.org Article)
+// Content language stays independent of the navigation language preference.
 useHead({
+  htmlAttrs: { lang: articleLanguage },
   script: [
     {
       type: "application/ld+json",
-      innerHTML: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Article",
-        headline: article.value.title,
-        description: article.value.description,
-        image:
-          article.value.image || "https://info.tttingzhang999.com/og-image.jpg",
-        datePublished: article.value.date,
-        author: {
-          "@type": "Person",
-          name: article.value.author || "Ting Zhang",
-          alternateName: "張碩庭",
-          url: "https://info.tttingzhang999.com",
-        },
-        publisher: {
-          "@type": "Person",
-          name: "Ting Zhang",
-          alternateName: "張碩庭",
-          url: "https://info.tttingzhang999.com",
-        },
-        keywords: article.value.tags?.join(", "),
-        articleSection: article.value.category,
-      }),
+      innerHTML: JSON.stringify(articleStructuredData({ ...article.value, language: articleLanguage }, useAbsoluteUrl())).replace(/</g, "\\u003c"),
     },
   ],
 });
