@@ -1,3 +1,5 @@
+const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || "https://info.tttingzhang999.com";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
@@ -76,13 +78,13 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       fullpageLicenseKey: "",
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || "http://localhost:3000",
+      siteUrl,
     },
   },
 
   // Sitemap configuration
   site: {
-    url: process.env.NUXT_PUBLIC_SITE_URL || "https://info.tttingzhang999.com",
+    url: siteUrl,
   },
 
   sitemap: {
@@ -92,8 +94,7 @@ export default defineNuxtConfig({
 
   // i18n configuration
   i18n: {
-    baseUrl:
-      process.env.NUXT_PUBLIC_SITE_URL || "https://info.tttingzhang999.com",
+    baseUrl: siteUrl,
     locales: [
       {
         code: "zh-TW",
@@ -114,7 +115,6 @@ export default defineNuxtConfig({
         file: "ja.ts",
       },
     ],
-    lazy: true,
     defaultLocale: "zh-TW",
     strategy: "prefix_except_default",
     detectBrowserLanguage: {

@@ -6,8 +6,14 @@
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
@@ -30,6 +36,118 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/en/blog",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/2025-review",
+      "destination": "/blog/2025-review",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/2025q3q4-career",
+      "destination": "/blog/2025q3q4-career",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/20260304-troublemaker",
+      "destination": "/blog/20260304-troublemaker",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/2026q1-insights",
+      "destination": "/blog/2026q1-insights",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/concurrency",
+      "destination": "/blog/concurrency",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/decrease-coding-agent-illusion",
+      "destination": "/blog/decrease-coding-agent-illusion",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/internal-signoz",
+      "destination": "/blog/internal-signoz",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/python-gil-introduction",
+      "destination": "/blog/python-gil-introduction",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/strands-agents-tool-executor",
+      "destination": "/blog/strands-agents-tool-executor",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/uv-and-ruff",
+      "destination": "/blog/uv-and-ruff",
+      "permanent": true
+    },
+    {
+      "source": "/ja/blog",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/ja/blog/2025-review",
+      "destination": "/blog/2025-review",
+      "permanent": true
+    },
+    {
+      "source": "/ja/blog/2025q3q4-career",
+      "destination": "/blog/2025q3q4-career",
+      "permanent": true
+    },
+    {
+      "source": "/ja/blog/20260304-troublemaker",
+      "destination": "/blog/20260304-troublemaker",
+      "permanent": true
+    },
+    {
+      "source": "/ja/blog/2026q1-insights",
+      "destination": "/blog/2026q1-insights",
+      "permanent": true
+    },
+    {
+      "source": "/ja/blog/concurrency",
+      "destination": "/blog/concurrency",
+      "permanent": true
+    },
+    {
+      "source": "/ja/blog/decrease-coding-agent-illusion",
+      "destination": "/blog/decrease-coding-agent-illusion",
+      "permanent": true
+    },
+    {
+      "source": "/ja/blog/internal-signoz",
+      "destination": "/blog/internal-signoz",
+      "permanent": true
+    },
+    {
+      "source": "/ja/blog/python-gil-introduction",
+      "destination": "/blog/python-gil-introduction",
+      "permanent": true
+    },
+    {
+      "source": "/ja/blog/strands-agents-tool-executor",
+      "destination": "/blog/strands-agents-tool-executor",
+      "permanent": true
+    },
+    {
+      "source": "/ja/blog/uv-and-ruff",
+      "destination": "/blog/uv-and-ruff",
+      "permanent": true
     }
   ]
 }

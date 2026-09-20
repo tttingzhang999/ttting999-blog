@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 test('archive filters survive reading and home returns to static writing',async({page})=>{
  await page.goto('/blog');
+ await expect(page.locator(".site-header")).toHaveAttribute("aria-busy", "false");
  await expect(page.locator('.archive-entry')).not.toHaveCount(0);
  await page.getByRole('searchbox').fill('Python');
  await expect(page).toHaveURL(/q=Python/);
@@ -17,6 +18,7 @@ test('archive filters survive reading and home returns to static writing',async(
 test('empty search and mobile reading remain usable',async({page})=>{
  await page.setViewportSize({width:390,height:844});
  await page.goto('/blog?q=zzzzzz');
+ await expect(page.locator(".site-header")).toHaveAttribute("aria-busy", "false");
  await expect(page.getByText('沒有符合的文章')).toBeVisible();
  await page.getByRole('button',{name:'清除篩選'}).click();
  await page.locator('.archive-entry a').first().click();
@@ -27,6 +29,7 @@ test('empty search and mobile reading remain usable',async({page})=>{
 });
 test('archive restores scroll and reader reports progress',async({page})=>{
  await page.goto('/blog');
+ await expect(page.locator(".site-header")).toHaveAttribute("aria-busy", "false");
  const entry = page.locator('.archive-entry a').last();
  await entry.scrollIntoViewIfNeeded();
  const scroll = await page.evaluate(()=>window.scrollY);

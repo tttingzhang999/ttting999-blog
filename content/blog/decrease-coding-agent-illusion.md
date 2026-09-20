@@ -2,6 +2,7 @@
 title: '如何降低 Coding Agent的幻覺？'
 description: '介紹透過 context7 & agent skills 來提升 Coding agent one shot 機率的方法'
 date: '2026-01-26'
+updatedAt: "2026-09-20"
 tags: ['Tooling', 'Development']
 category: '技術'
 author: 'Ting Zhang'
@@ -9,7 +10,7 @@ image: '/images/blog/decrease-coding-agent-illusion/banner.png'
 draft: false
 ---
 
-# 前言
+## 前言
 
 在做公司 POC 的過程，因為需要用到 Strands Agent & AWS AgentCore 一些比較新的SDK，實在有太多次都遇到 AI Gen 完以後發現 Syntax Highlight 沒有提示，看一下 Source Code or Docs 發現根本沒有這個 function / attr 的狀況，嘗試了幾個提升 LLM 準確率的方法
 

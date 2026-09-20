@@ -10,7 +10,8 @@
     "postinstall": "nuxt prepare",
     "test": "node --test --experimental-test-coverage tests/*.test.mjs",
     "test:e2e": "playwright test",
-    "typecheck": "nuxt typecheck"
+    "typecheck": "nuxt typecheck",
+    "test:seo-build": "node scripts/check-seo.mjs"
   },
   "dependencies": {
     "@nuxt/content": "^3.7.1",

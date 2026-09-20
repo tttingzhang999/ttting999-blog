@@ -25,7 +25,9 @@ const homeArticles = computed(() => getHomeArticles(articles.value ?? []));
 const fullTitle = computed(() => `張碩庭 Ting Zhang - ${t("seo.home.title")}`);
 
 const ogImageAbs = useAbsoluteUrl("/og-image.jpg");
-const ogUrlAbs = useAbsoluteUrl("/");
+const route = useRoute();
+const siteUrl = useAbsoluteUrl();
+const ogUrlAbs = computed(() => new URL(route.path, siteUrl).href);
 
 useSeoMeta({
   title: () => t("seo.home.title"),
@@ -33,7 +35,7 @@ useSeoMeta({
   ogTitle: () => fullTitle.value,
   ogDescription: () => t("seo.home.description"),
   ogImage: ogImageAbs,
-  ogUrl: ogUrlAbs,
+  ogUrl: () => ogUrlAbs.value,
   ogType: "website",
   ogSiteName: "張碩庭 Ting Zhang",
   twitterCard: "summary_large_image",

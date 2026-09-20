@@ -2,6 +2,8 @@
 import '~/assets/css/site-header.css';
 
 const route = useRoute();
+const hydrated = ref(false);
+onMounted(() => { hydrated.value = true; });
 const { language, switchLanguage, switching } = useSiteLanguage();
 const copy = {
   'zh-TW': { home: '首頁', resume: '履歷', projects: '專案', writing: '文章', menu: '選單' },
@@ -16,6 +18,23 @@ const links = computed(() => [
   { path: localLink('/projects'), label: labels.value.projects, key: 'projects' },
   { path: '/blog', label: labels.value.writing, key: 'writing' },
 ]);
+const isBlog = computed(() => /^\/blog(?:\/|$)/.test(route.path));
+const languageMenu = ref<HTMLDetailsElement | null>(null);
+const languageLinks = computed(() => {
+  const path = route.path.replace(/^\/(en|ja)(?=\/|$)/, '') || '/';
+  return [
+    { code: 'zh-TW', label: '中文' },
+    { code: 'en', label: 'EN' },
+    { code: 'ja', label: '日本語' },
+  ].map(item => ({ ...item, href: item.code === 'zh-TW' ? path : '/' + item.code + (path === '/' ? '' : path) }));
+});
+async function navigateLanguage(event: MouseEvent, code: string) {
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+  event.preventDefault();
+  if (languageMenu.value) languageMenu.value.open = false;
+  closeMenu();
+  await switchLanguage(code);
+}
 const active = computed(() => route.path.startsWith('/blog') ? 'writing'
   : route.path.includes('/resume') ? 'resume'
   : route.path.includes('/projects') ? 'projects'
@@ -78,14 +97,20 @@ async function changeLanguage(event: Event) {
 </script>
 
 <template>
-  <header class="site-header writing-nav" :aria-busy="switching">
+  <header class="site-header writing-nav" :aria-busy="!hydrated || switching">
     <NuxtLink class="site-logo" :to="localLink('/')" aria-label="Ting Zhang" @click.capture="navigateHeader($event, localLink('/'))">Ting Zhang<span aria-hidden="true">↗</span></NuxtLink>
     <nav class="site-primary" :aria-label="labels.menu">
       <NuxtLink v-for="link in links" :key="link.key" :to="link.path" :aria-current="active === link.key ? 'page' : undefined" @click.capture="navigateHeader($event, link.path)">{{ link.label }}</NuxtLink>
     </nav>
     <div class="site-tools">
       <ThemeToggle :language="language" />
-      <label class="site-language"><span class="sr-only">Language</span><select :value="language" aria-label="Language" :disabled="switching" @change="changeLanguage"><option value="zh-TW" :selected="language === 'zh-TW'">中文</option><option value="en" :selected="language === 'en'">EN</option><option value="ja" :selected="language === 'ja'">日本語</option></select></label>
+      <label v-if="isBlog" class="site-language"><span class="sr-only">Language</span><select :value="language" aria-label="Language" :disabled="switching" @change="changeLanguage"><option value="zh-TW" :selected="language === 'zh-TW'">中文</option><option value="en" :selected="language === 'en'">EN</option><option value="ja" :selected="language === 'ja'">日本語</option></select></label>
+      <details v-else ref="languageMenu" class="site-language-links">
+        <summary aria-label="Language">{{ languageLinks.find(item => item.code === language)?.label }}</summary>
+        <nav aria-label="Languages">
+          <a v-for="item in languageLinks" :key="item.code" :href="item.href" :hreflang="item.code" :lang="item.code" :aria-current="item.code === language ? 'page' : undefined" @click="navigateLanguage($event, item.code)">{{ item.label }}</a>
+        </nav>
+      </details>
       <details ref="mobileMenu" class="mobile-menu"><summary>{{ labels.menu }}<span aria-hidden="true">＋</span></summary><nav :aria-label="labels.menu"><NuxtLink v-for="link in links" :key="link.key" :to="link.path" :aria-current="active === link.key ? 'page' : undefined" @click.capture="navigateHeader($event, link.path)">{{ link.label }}</NuxtLink></nav></details>
     </div>
   </header>
