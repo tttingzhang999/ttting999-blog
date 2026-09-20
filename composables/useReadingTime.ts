@@ -3,7 +3,7 @@
  * Supports mixed Chinese and English content with different reading speeds
  */
 
-import type { ParsedContent } from '@nuxt/content'
+interface ArticleBody { body?: unknown }
 
 /**
  * Extract text content from Nuxt Content AST body
@@ -70,7 +70,7 @@ export function useReadingTime(body: any): number {
  * @param article - Article with parsed content body
  * @returns Computed reading time in minutes
  */
-export function useArticleReadingTime(article: Ref<ParsedContent | null> | ParsedContent | null) {
+export function useArticleReadingTime(article: Ref<ArticleBody | null | undefined> | ArticleBody | null | undefined) {
   return computed(() => {
     const content = unref(article)
     if (!content?.body) return 1

@@ -47,7 +47,7 @@ useSeoMeta({
 
 
 const { data: articles, error, refresh } = await useAsyncData('writing-metadata', () =>
-  queryCollection('blog').where('draft', '<>', true).select('path','title','description','date','category','tags').order('date','DESC').all(),
+  queryCollection('blog').select('path','title','description','date','category','tags').order('date','DESC').all(),
 );
 const queryValue = (key: string, fallback: string) => typeof route.query[key] === 'string' ? route.query[key] as string : fallback;
 const update = (key: string, value: string) => router.replace({query: {...route.query, [key]: value && value !== 'all' ? value : undefined}});
@@ -61,8 +61,8 @@ const hasFilters = computed(()=>Boolean(search.value || category.value !== 'all'
 const clearFilters = () => router.replace({query:{}});
 const archiveReturn = useState('archive-return',()=>'/blog');
 const archiveScroll = useState('archive-scroll',()=>({url:'',y:0}));
-onBeforeRouteLeave(()=>{
-  archiveReturn.value = route.fullPath;
-  archiveScroll.value = {url:route.fullPath,y:window.scrollY};
+onBeforeRouteLeave((_to, from)=>{
+  archiveReturn.value = from.fullPath;
+  archiveScroll.value = {url:from.fullPath,y:window.scrollY};
 });
 </script>

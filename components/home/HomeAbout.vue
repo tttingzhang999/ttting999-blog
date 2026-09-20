@@ -94,7 +94,6 @@ const { data: blogTotal } = await useAsyncData(
   async () => {
     try {
       const all = await queryCollection("blog")
-        .where("draft", "<>", true)
         .all();
       return Array.isArray(all) ? all.length : 0;
     } catch (err) {

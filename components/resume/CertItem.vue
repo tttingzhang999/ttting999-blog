@@ -48,7 +48,7 @@ defineProps<Props>();
 const { el, revealed } = useReveal({ threshold: 0.5 });
 
 function formatDate(value: string): string {
-  const [year, month] = value.split("-");
+  const [year = "", month] = value.split("-");
   if (!month) return year;
   return `${year}.${month}`;
 }

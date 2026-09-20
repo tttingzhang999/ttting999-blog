@@ -10,13 +10,12 @@ test("technical metadata is published, current, ordered and body-free without mu
       description: "Summary",
       date: `2026-01-0${i + 1}`,
       category: "技術",
-      draft: false,
+
       body: "private body",
     }),
   );
   const input = Object.freeze([
     ...rows,
-    { ...rows[0], path: "/blog/draft", draft: true },
     { ...rows[0], path: "/blog/life", category: "生活" },
   ]);
   const result = getHomeArticles(input);
@@ -42,7 +41,7 @@ test("empty and invalid entries are safe; equal dates have stable path ordering"
     description: "",
     date: "2026-01-01",
     category: "AI",
-    draft: false,
+
   };
   const result = getHomeArticles([
     entry,

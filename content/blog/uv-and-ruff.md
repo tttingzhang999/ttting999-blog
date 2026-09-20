@@ -1,13 +1,12 @@
 ---
-title: 'uv and Ruff: 最佳的 Python 工具鏈'
-description: '介紹 uv 和 Ruff，兩個最佳的 Python 工具鏈，以及如何遷移到 uv 和 Ruff。'
-date: '2025-10-24'
-updatedAt: "2026-09-20"
-tags: ['Python', 'Tooling', 'Development', 'uv', 'Ruff']
-category: '技術'
-author: 'Ting Zhang'
-image: ''
-draft: false
+title: "uv and Ruff: 最佳的 Python 工具鏈"
+description: "介紹 uv 和 Ruff，兩個最佳的 Python 工具鏈，以及如何遷移到 uv 和 Ruff。"
+date: "2025-10-24"
+tags: [ "Python", "Tooling", "Development", "uv", "Ruff" ]
+category: "技術"
+author: "Ting Zhang"
+image: ""
+updatedAt: 2026-09-20
 ---
 
 ## 這篇文章的用處？
@@ -24,8 +23,8 @@ draft: false
 
 - **速度極快**
 - **統一的工作流程**
-    - 整合了套件安裝、虛擬環境管理、專案初始化等功能
-    - 一個工具解決多個需求，簡化開發工作流程
+  - 整合了套件安裝、虛擬環境管理、專案初始化等功能
+  - 一個工具解決多個需求，簡化開發工作流程
 - 確保所有環境部署時依賴相同 (`uv.lock`)
 - 方便切換 python 版本，以及在設定檔中鎖定 python 版本
 
@@ -38,7 +37,7 @@ draft: false
 - 被所有現代工具（pip、uv、poetry、setuptools）支援
 - 可以根據開發、打包、部署等環境分別配置
 - 有 support 的工具都可以統一配置
-    - 例如等等要介紹的 ruff
+  - 例如等等要介紹的 ruff
 
 > **requirements.txt 是非正式慣例**
 
@@ -135,8 +134,8 @@ my-project/
 
 - 速度極快
 - **豐富的規則集**
-    - 支援 800+ 個 lint 規則
-    - 整合了 Flake8、isort、pycodestyle、pyflakes 等工具的規則
+  - 支援 800+ 個 lint 規則
+  - 整合了 Flake8、isort、pycodestyle、pyflakes 等工具的規則
 - **無需配置即可使用**
 
 ---
@@ -144,12 +143,12 @@ my-project/
 ## 為什麼要使用 uv 和 ruff？
 
 - **即時程式碼檢查**：ruff 的極速檢查讓程式碼品質控制變得無縫
-    - 尤其公司專案目前很多軟體動輒幾千行（較少抽象與依功能分割檔案），使用傳統程式碼檢查與 format 工具需要接近 1 分鐘或甚至更多
-        - 想像你每次 Ctrl + S 都要等 1 分鐘…
+  - 尤其公司專案目前很多軟體動輒幾千行（較少抽象與依功能分割檔案），使用傳統程式碼檢查與 format 工具需要接近 1 分鐘或甚至更多
+    - 想像你每次 Ctrl + S 都要等 1 分鐘…
 - **穩定的工具鏈**：目前 uv 與 ruff 算是在各自領域（套件管理與 lint check / format）統一江湖的存在，未來不太會遇到需要再更換的情況
 - 為了未來可能需要統一產品版本鋪路，使用 Git 協作的情況會越來越多
-    - **一致的環境**：uv 確保所有團隊成員使用相同的依賴版本
-    - **統一的程式碼風格**：ruff 自動化程式碼風格檢查和格式化
+  - **一致的環境**：uv 確保所有團隊成員使用相同的依賴版本
+  - **統一的程式碼風格**：ruff 自動化程式碼風格檢查和格式化
 - **更快的 CI/CD**：極速的執行效能減少構建時間，現在也有使用 GKE 的專案，可以減少 runner 開銷
 
 ---
@@ -157,11 +156,12 @@ my-project/
 ## 遷移範例
 
 假設原本使用 requirements.txt + 很多 lint error
+
 - lint error 例如：
-    - `if a == None`
-    - assign var or import but never used
-    - assign a python keyword as a var name
-    - use `format` instead of f-string
+  - `if a == None`
+  - assign var or import but never used
+  - assign a python keyword as a var name
+  - use `format` instead of f-string
 
 有遇到任何問題找 AI 處理，或是看文檔的 best practices
 

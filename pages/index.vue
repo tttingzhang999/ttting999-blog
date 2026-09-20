@@ -15,7 +15,6 @@ definePageMeta({ layout: "home" });
 const { t, locale } = useI18n();
 const { data: articles, error } = await useAsyncData("home-articles", () =>
   queryCollection("blog")
-    .where("draft", "<>", true)
     .select("path", "title", "description", "date", "category")
     .order("date", "DESC")
     .all(),

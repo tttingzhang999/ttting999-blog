@@ -136,11 +136,11 @@ const goTo = (index: number) => {
 
 // Touch events for mobile swipe
 const handleTouchStart = (e: TouchEvent) => {
-  touchStartX = e.touches[0].clientX
+  if (e.touches[0]) touchStartX = e.touches[0].clientX
 }
 
 const handleTouchMove = (e: TouchEvent) => {
-  touchEndX = e.touches[0].clientX
+  if (e.touches[0]) touchEndX = e.touches[0].clientX
 }
 
 const handleTouchEnd = () => {

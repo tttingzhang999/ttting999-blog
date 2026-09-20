@@ -1,13 +1,12 @@
 ---
 title: "2025 年度回顧：轉職、成長與下一年的期許"
 date: "2025-12-26"
-updatedAt: "2026-09-20"
 description: "從智電系統轉職到 Going Cloud，記錄新環境帶來的成長、冒牌者症候群，以及下一年對技術、英文與日文學習的期許。"
-tags: ["Review", "2025"]
+tags: [ "Review", "2025" ]
 category: "生活"
 author: "Ting Zhang"
 image: ""
-draft: false
+updatedAt: 2026-09-20
 ---
 
 今天是我開始工作的第708天，今年順利從智電系統畢業，順利來到GC成爲比較正式一點的軟體工程師。

@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    :to="`/blog/${article.path?.split('/').pop()}`"
+    :to="article.path"
     class="group block bg-surface-card rounded-lg overflow-hidden border border-border hover:border-accent transition-colors duration-300"
   >
     <!-- Article Image -->
@@ -119,7 +119,6 @@ interface Article {
   tags: string[];
   image?: string;
   author?: string;
-  draft?: boolean;
   body?: any;
 }
 

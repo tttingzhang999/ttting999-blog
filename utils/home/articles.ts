@@ -6,9 +6,7 @@ export interface HomeArticle {
   category: string;
 }
 
-interface ArticleSource extends HomeArticle {
-  draft?: boolean;
-}
+type ArticleSource = HomeArticle;
 export const technicalCategories = [
   "AI",
   "技術",
@@ -20,7 +18,6 @@ export function getHomeArticles(rows: readonly ArticleSource[]) {
   const all = rows
     .filter(
       (row) =>
-        !row.draft &&
         technicalCategories.some((category) => category === row.category) &&
         Number.isFinite(Date.parse(row.date)),
     )

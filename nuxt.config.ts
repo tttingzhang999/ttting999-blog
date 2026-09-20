@@ -1,7 +1,10 @@
+import { blogSlugifyOptions } from "./utils/blog/path";
 const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || "https://info.tttingzhang999.com";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  content: { build: { pathMeta: { slugifyOptions: blogSlugifyOptions } } },
+
   compatibilityDate: "2025-07-15",
 
   devtools: { enabled: process.env.NODE_ENV !== "production" },
