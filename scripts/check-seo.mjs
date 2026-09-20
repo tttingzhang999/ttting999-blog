@@ -13,7 +13,7 @@ let articles = 0;
 for (const url of urls) {
   const path = new URL(url).pathname;
   assert.ok(!/^\/(en|ja)\/blog/.test(path), `legacy path in sitemap: ${path}`);
-  const html = await read(join(path, 'index.html'));
+  const html = await read(join(decodeURIComponent(path), 'index.html'));
   const head = html.split('</head>')[0];
   assert.ok(!head.includes('localhost'), `localhost in ${path}`);
   assert.equal([...head.matchAll(/rel="canonical"/g)].length, 1, path);

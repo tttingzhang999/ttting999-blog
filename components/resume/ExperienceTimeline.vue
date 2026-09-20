@@ -119,11 +119,11 @@ const countEl = ref<HTMLElement | null>(null);
 const cardRefs = ref<(HTMLElement | null)[]>([]);
 const railRefs = ref<(HTMLElement | null)[]>([]);
 
-function setCardRef(node: Element | null, i: number) {
-  cardRefs.value[i] = node as HTMLElement | null;
+function setCardRef(node: Element | ComponentPublicInstance | null, i: number) {
+  cardRefs.value[i] = node instanceof HTMLElement ? node : null;
 }
-function setRailRef(node: Element | null, i: number) {
-  railRefs.value[i] = node as HTMLElement | null;
+function setRailRef(node: Element | ComponentPublicInstance | null, i: number) {
+  railRefs.value[i] = node instanceof HTMLElement ? node : null;
 }
 
 const pad = (n: number) => String(n).padStart(2, "0");

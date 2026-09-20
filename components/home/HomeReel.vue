@@ -104,7 +104,6 @@ const { data: recentArticles } = await useAsyncData(
   async () => {
     try {
       const rows = await queryCollection("blog")
-        .where("draft", "<>", true)
         .order("date", "DESC")
         .limit(8)
         .all();

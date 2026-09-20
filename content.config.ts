@@ -14,8 +14,7 @@ export default defineContentConfig({
         tags: z.array(z.string()),
         category: z.string(),
         author: z.string().default('Ting Zhang'),
-        image: z.string().optional(),
-        draft: z.boolean().default(false)
+        image: z.string().optional()
       })
     })
     // Projects now managed via data/projects.ts instead of Nuxt Content

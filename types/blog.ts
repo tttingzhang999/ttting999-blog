@@ -7,7 +7,7 @@ export interface BlogPost {
   category: string
   author: string
   image?: string
-  draft?: boolean
+
   body?: any
   id?: string
 }

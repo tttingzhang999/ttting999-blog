@@ -28,7 +28,7 @@ import { articleStructuredData } from "~/utils/seo/article";
 // Opt this route out of i18n so each article has a
 // single /blog/<slug> URL instead of untranslated /en + /ja duplicates.
 defineI18nRoute(false);
-definePageMeta({ layout: 'editorial' });
+definePageMeta({ layout: 'editorial', key: route => route.path });
 const archiveReturn = useState('archive-return', () => '/blog');
 const progress = ref(0);
 const readingBody = ref<HTMLElement | null>(null);
@@ -54,7 +54,7 @@ let onBeforeUnmountCleanup = () => {};
 onBeforeUnmount(() => onBeforeUnmountCleanup());
 
 const route = useRoute();
-const slug = route.params.slug as string;
+const articlePath = decodeURI(route.path).replace(/\/$/, "");
 
 // Enable smooth anchor scrolling only while this article page is mounted.
 // Nuxt removes this head entry on unmount, so the class (and its global
@@ -62,12 +62,12 @@ const slug = route.params.slug as string;
 useHead({ htmlAttrs: { class: "smooth-scroll" } });
 
 // Fetch the article by slug
-const { data: article } = await useAsyncData(`blog-${slug}`, () =>
-  queryCollection("blog").path(`/blog/${slug}`).first(),
+const { data: article } = await useAsyncData(`blog-${articlePath}`, () =>
+  queryCollection("blog").path(articlePath).first(),
 );
 
 // If article not found, show 404
-if (!article.value || article.value.draft) {
+if (!article.value) {
   throw createError({ statusCode: 404, statusMessage: "Article Not Found" });
 }
 
@@ -96,20 +96,19 @@ const shareUrl = computed(() => {
   if (import.meta.client) {
     return window.location.href;
   }
-  return `https://info.tttingzhang999.com/blog/${slug}`;
+  return new URL(articlePath, "https://info.tttingzhang999.com").href;
 });
 
 // Fetch related articles (same category or shared tags)
 const { data: relatedArticles } = await useAsyncData(
-  `related-${slug}`,
+  `related-${articlePath}`,
   async () => {
-    // Fetch all non-draft articles
+    // Fetch all published articles
     const allArticles = await queryCollection("blog")
-      .where("draft", "<>", true)
       .all();
 
     // Filter out current article
-    const articles = allArticles.filter((a) => a.path !== `/blog/${slug}`);
+    const articles = allArticles.filter((a) => a.path !== articlePath);
 
     // Score articles based on category match and tag overlap
     const scored = articles.map((a) => {

@@ -1,12 +1,11 @@
 ---
-title: '關於我一天在公司 AWS 開發帳號花掉 14000 鎂的那回事'
-description: 'Survey AWS AgentCore Policy完，過了幾天以後才發現帳單噴了14000...'
-date: '2026-03-18'
-tags: ['AWS', '雲端', '成本控管', '經驗分享', '踩雷', 'DevOps', '雲服務']
-category: '技術'
-author: 'Ting Zhang'
-image: '/images/blog/20260304-troublemaker/banner.png'
-draft: false
+title: "關於我一天在公司 AWS 開發帳號花掉 14000 鎂的那回事"
+description: "Survey AWS AgentCore Policy完，過了幾天以後才發現帳單噴了14000..."
+date: "2026-03-18"
+tags: [ "AWS", "雲端", "成本控管", "經驗分享", "踩雷", "DevOps", "雲服務" ]
+category: "技術"
+author: "Ting Zhang"
+image: "/images/blog/20260304-troublemaker/banner.png"
 ---
 
 身為工程師，你可能聽過同事不小心把 Production 資料庫砍了、或是忘記關 EC2 多燒了幾百塊。但你有聽過**用雲服務一天燒掉 14,000 美金**的嗎？
@@ -85,6 +84,7 @@ AgentCore Runtime 是按 CPU 和記憶體的秒級消耗來計費的。我需要
 ### Step 3：跟 Support 同步
 
 我把 CloudTrail 的排查結果整理好，回覆到 Support Ticket 上。附上了：
+
 - 明確的 API 呼叫時間和次數
 - 計費金額的不合理性說明
 - 我這邊已經確認沒有遺留資源

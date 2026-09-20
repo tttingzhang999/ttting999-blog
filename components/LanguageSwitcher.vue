@@ -44,7 +44,7 @@ const { locale } = useI18n()
 const switchLocalePath = useSwitchLocalePath()
 
 // Language cycle order: zh-TW -> en -> ja -> zh-TW
-const languageCycle = ['zh-TW', 'en', 'ja']
+const languageCycle: Array<'zh-TW' | 'en' | 'ja'> = ['zh-TW', 'en', 'ja']
 
 // Language labels for display
 const languageLabels: Record<string, string> = {
@@ -62,7 +62,7 @@ const currentLanguageLabel = computed(() => {
 const cycleLanguage = async () => {
   const currentIndex = languageCycle.indexOf(locale.value)
   const nextIndex = (currentIndex + 1) % languageCycle.length
-  const nextLocale = languageCycle[nextIndex]
+  const nextLocale = languageCycle[nextIndex] ?? 'zh-TW'
 
   // Navigate to the same page in the new locale
   // This triggers Nuxt's page transition, ensuring smooth fade-out/fade-in animation

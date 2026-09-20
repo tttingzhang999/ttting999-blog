@@ -11,7 +11,11 @@
     "test": "node --test --experimental-test-coverage tests/*.test.mjs",
     "test:e2e": "playwright test",
     "typecheck": "nuxt typecheck",
-    "test:seo-build": "node scripts/check-seo.mjs"
+    "test:seo-build": "node scripts/check-seo.mjs",
+    "blog:status": "node scripts/blog/cli.mjs status",
+    "blog:plan": "node scripts/blog/cli.mjs plan",
+    "blog:sync": "node scripts/blog/cli.mjs sync",
+    "test:blog-build": "node scripts/check-blog-build.mjs"
   },
   "dependencies": {
     "@nuxt/content": "^3.7.1",
@@ -36,6 +40,11 @@
     "@types/node": "^24.8.0",
     "sass": "^1.93.2",
     "typescript": "^5.9.3",
-    "vue-tsc": "^3.3.11"
+    "vue-tsc": "^3.3.11",
+    "yaml": "^2.8.1",
+    "slugify": "^1.6.6",
+    "unified": "^11.0.5",
+    "remark-parse": "^11.0.0",
+    "remark-gfm": "^4.0.1"
   }
 }

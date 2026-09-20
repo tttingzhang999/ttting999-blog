@@ -21,7 +21,7 @@ test('empty search and mobile reading remain usable',async({page})=>{
  await expect(page.locator(".site-header")).toHaveAttribute("aria-busy", "false");
  await expect(page.getByText('沒有符合的文章')).toBeVisible();
  await page.getByRole('button',{name:'清除篩選'}).click();
- await page.locator('.archive-entry a').first().click();
+ await page.locator('.archive-entry a[href="/blog/concurrency"]').click();
  await expect(page.locator('.reading-content')).toBeVisible();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
  await page.getByText('文章目錄',{exact:true}).click();

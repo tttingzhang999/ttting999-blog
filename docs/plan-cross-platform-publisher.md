@@ -1,3 +1,5 @@
+> 歷史規劃，未實作於目前 repo；其中 draft/frontmatter 與 repo 原稿假設已由 README 的 Vault 發布流程取代。
+
 # 計劃一：多平台文章自動發布系統
 
 > **狀態**：計劃中（已收斂）

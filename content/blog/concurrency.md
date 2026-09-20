@@ -1,12 +1,11 @@
 ---
-title: 'Python 並發處理方法'
-description: '介紹 Python 並發處理方法，包括多線程、多進程、asyncio 以及其實務應用。'
-date: '2025-10-24'
-tags: ['Python', 'Concurrency', 'Threading', 'Asyncio']
-category: '技術'
-author: 'Ting Zhang'
-image: ''
-draft: false
+title: "Python 並發處理方法"
+description: "介紹 Python 並發處理方法，包括多線程、多進程、asyncio 以及其實務應用。"
+date: "2025-10-24"
+tags: [ "Python", "Concurrency", "Threading", "Asyncio" ]
+category: "技術"
+author: "Ting Zhang"
+image: ""
 ---
 
 ## 這篇文章的用處？
@@ -56,15 +55,15 @@ Python 提供了幾種並發方式，每種方式適用於不同類型的任務�
 
 ## 特性比較表
 
-| 特性 | Multi-threading | Multi-processing | AsyncIO | Disabled GIL |
-| --- | --- | --- | --- | --- |
-| **並行** | ❌ | ✅ | ❌ | ✅ |
-| **記憶體共享** | 容易 | 困難 | 容易 | 容易 |
-| **記憶體使用** | 低 | 高 | 低 | 中等 |
-| **CPU 密集型** | 差 | 好 | 差 | 好 |
-| **I/O 密集型** | 好 | 中等 | 最佳 | 好 |
-| **實作複雜度** | 中等 | 高 | 中等 | 高 |
-| **競爭條件風險** | 低（GIL保護） | 低（隔離） | 無（單執行緒） | 高（需手動處理） |
+| 特性             | Multi-threading | Multi-processing | AsyncIO        | Disabled GIL     |
+| ---------------- | --------------- | ---------------- | -------------- | ---------------- |
+| **並行**         | ❌              | ✅               | ❌             | ✅               |
+| **記憶體共享**   | 容易            | 困難             | 容易           | 容易             |
+| **記憶體使用**   | 低              | 高               | 低             | 中等             |
+| **CPU 密集型**   | 差              | 好               | 差             | 好               |
+| **I/O 密集型**   | 好              | 中等             | 最佳           | 好               |
+| **實作複雜度**   | 中等            | 高               | 中等           | 高               |
+| **競爭條件風險** | 低（GIL保護）   | 低（隔離）       | 無（單執行緒） | 高（需手動處理） |
 
 ## 範例程式碼
 

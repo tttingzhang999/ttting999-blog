@@ -1,13 +1,12 @@
 ---
-title: '如何降低 Coding Agent的幻覺？'
-description: '介紹透過 context7 & agent skills 來提升 Coding agent one shot 機率的方法'
-date: '2026-01-26'
-updatedAt: "2026-09-20"
-tags: ['Tooling', 'Development']
-category: '技術'
-author: 'Ting Zhang'
-image: '/images/blog/decrease-coding-agent-illusion/banner.png'
-draft: false
+title: "如何降低 Coding Agent的幻覺？"
+description: "介紹透過 context7 & agent skills 來提升 Coding agent one shot 機率的方法"
+date: "2026-01-26"
+tags: [ "Tooling", "Development" ]
+category: "技術"
+author: "Ting Zhang"
+image: "/images/blog/decrease-coding-agent-illusion/banner.png"
+updatedAt: 2026-09-20
 ---
 
 ## 前言
@@ -25,13 +24,15 @@ draft: false
 Context7 是一個 MCP Tool, 可以自動查詢最新文檔
 
 ### 文檔來源
+
 任何人都可以到官網去發一個 Add Library Request，這邊可以看到目前正在進行 Parsing & Crawling 的目標文檔，我嘗試把我自己的repo丟上去也可以跑，並且有辦法在 Dashboard 搜尋到
 
-![context7 scanning repo](/images/blog/decrease-coding-agent-illusion/context7-scanning-repo.png)
-![context7 repo tasks dashboard](/images/blog/decrease-coding-agent-illusion/context7-repo-tasks-dashboard.png)
-![context7 search custom repo](/images/blog/decrease-coding-agent-illusion/context7-search-custom-repo.png)
+![decrease-coding-agent-illusion-context7-scanning-repo.png](/images/blog/decrease-coding-agent-illusion/context7-scanning-repo.png)
+![decrease-coding-agent-illusion-context7-repo-tasks-dashboard.png](/images/blog/decrease-coding-agent-illusion/context7-repo-tasks-dashboard.png)
+![decrease-coding-agent-illusion-context7-search-custom-repo.png](/images/blog/decrease-coding-agent-illusion/context7-search-custom-repo.png)
 
 ### 使用
+
 可以選擇自架 MCP Server or 使用官方服務
 
 原本因為方便所以直接使用官方服務(安裝時需填入 API key)，一個月限制 1000 次 query，實際使用發現他好像每天都會重置 1000 次的 quota，基本上用不完。
@@ -47,22 +48,23 @@ Always use Context7 MCP when I need library/API documentation, code generation, 
 ```
 幫我寫一個 strands agent graph pattern example, 記得遵照文檔教學執行/必須使用 context 7...
 ```
-![context7 mcp resolve library id](/images/blog/decrease-coding-agent-illusion/context7-mcp-resolve-library-id.png)
+
+![decrease-coding-agent-illusion-context7-mcp-resolve-library-id.png](/images/blog/decrease-coding-agent-illusion/context7-mcp-resolve-library-id.png)
 
 ### How it works?
 
 使用兩個 MCP Tools 來實現
 
-- Search 
-- Get Context 
+- Search
+- Get Context
 
 #### Context Usage
 
 ```
-MCP tools · /mcp                                                                                                                                                   
-     └ mcp__context7__resolve-library-id: 499 tokens                                                                                                                    
-     └ mcp__context7__query-docs: 408 tokens             
-```  
+MCP tools · /mcp
+     └ mcp__context7__resolve-library-id: 499 tokens
+     └ mcp__context7__query-docs: 408 tokens
+```
 
 可以看到 context7在 context 使用上算是非常輕量的 MCP Tool
 
@@ -74,9 +76,8 @@ MCP tools · /mcp
 - 號稱有濾除有安全疑慮的 Skill (不安全的 script / prompt injection…)
 - 可以自動偵測本機上有安裝的 Coding LLM 然後安裝進去 (但是看起來不支援 Kiro🥲)
 
-![context7 cli install](/images/blog/decrease-coding-agent-illusion/context7-cli-install.png)
-![context7 skills search vue](/images/blog/decrease-coding-agent-illusion/context7-skills-search-vue.png)
-
+![decrease-coding-agent-illusion-context7-cli-install.png](/images/blog/decrease-coding-agent-illusion/context7-cli-install.png)
+![decrease-coding-agent-illusion-context7-skills-search-vue.png](/images/blog/decrease-coding-agent-illusion/context7-skills-search-vue.png)
 
 ## Skill
 
@@ -88,8 +89,8 @@ MCP tools · /mcp
 - 不一定每個 sdk 都有 docs repo, 所以也順便有個 index 可以讓 LLM 快速的查詢文檔路徑
 
 ### 範例
-[GitHub - strands-agents/docs: Documentation for the Strands Agents SDK. A model-driven approach to building AI agents in just a few lines of code.](https://github.com/strands-agents/docs) 
 
+[GitHub - strands-agents/docs: Documentation for the Strands Agents SDK. A model-driven approach to building AI agents in just a few lines of code.](https://github.com/strands-agents/docs)
 
 ```
 # ~/.claude/skills/strands-agents-docs/SKILL.md
@@ -119,7 +120,7 @@ Search for documentation by topic or concept, and reference the appropriate mark
 ```
 Skills · /skills
  User
- └ bedrock-agentcore-sdk: 38 tokens                                                                                                                                 
+ └ bedrock-agentcore-sdk: 38 tokens
  └ strands-agents-docs: 36 tokens
 ```
 
@@ -130,4 +131,3 @@ Skills · /skills
 - 指出 site-packages 內的原始碼路徑給 LLM, 讓他參照使用
 - 複製文檔直接喂到嘴邊
 - 搭配其他 AI Tools (Perplexity, Deepwiki)
-

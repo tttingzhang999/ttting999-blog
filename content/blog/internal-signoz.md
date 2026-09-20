@@ -1,12 +1,11 @@
 ---
-title: '架設公司內部使用的 SigNoz 服務的紀錄隨筆'
-description: '記錄如何架設與部署 SigNoz 作為公司內部的 Observability 服務，適用於統一管理 Metrics、Traces 和 Logs。'
-date: '2026-03-10'
-tags: ['SigNoz', 'Observability', 'APM', '分散式追蹤', '技術架設']
-category: '技術隨筆'
-author: 'Ting Zhang'
-image: '/images/blog/internal-signoz/banner.png'
-draft: false
+title: "架設公司內部使用的 SigNoz 服務的紀錄隨筆"
+description: "記錄如何架設與部署 SigNoz 作為公司內部的 Observability 服務，適用於統一管理 Metrics、Traces 和 Logs。"
+date: "2026-03-10"
+tags: [ "SigNoz", "Observability", "APM", "分散式追蹤", "技術架設" ]
+category: "技術隨筆"
+author: "Ting Zhang"
+image: "/images/blog/internal-signoz/banner.png"
 ---
 
 ## 前言
@@ -23,9 +22,8 @@ draft: false
 
 我們支援兩種 Observability Backend，依客戶的需求和預算擇一部署：
 
-
 | 方案           | Collector                        | Backend             | 場景                                |
-| :--------------- | :--------------------------------- | :-------------------- | :------------------------------------ |
+| :------------- | :------------------------------- | :------------------ | :---------------------------------- |
 | **SigNoz**     | SigNoz OTel Collector (EKS)      | SigNoz + ClickHouse | 需要完整 APM + Trace 分析，預算可控 |
 | **CloudWatch** | AWS ADOT Collector (本地 Docker) | CloudWatch + X-Ray  | 已深度使用 AWS 生態系，不想額外維運 |
 
@@ -35,9 +33,8 @@ draft: false
 
 > AI gen 的, 一些常見功能是對的，但是比較深入的功能 (ex: Cloudwatch AI Operations) 沒特別驗證過
 
-
 | 功能領域            | AWS CloudWatch                          | SigNoz                                     |
-| --------------------- | ----------------------------------------- | -------------------------------------------- |
+| ------------------- | --------------------------------------- | ------------------------------------------ |
 | **Traces**          | X-Ray（單次查詢限 6 小時）              | Traces Explorer（任意時間範圍）            |
 | **Metrics**         | CloudWatch Metrics                      | ClickHouse + PromQL                        |
 | **Logs**            | Logs Insights（專有語法）               | Logs Explorer（ClickHouse SQL）            |
@@ -103,9 +100,9 @@ Token 存在 `.env`（gitignored），部署時透過 `envsubst` 注入到 ingre
 
 因為是內部 dev 環境，整體策略是**壓到最小夠用** ：
 
-* **ClickHouse** ：1Gi request / 3Gi limit，20Gi gp3 磁碟
-* **TTL** ：Traces 和 Metrics 都只保留 3 天
-* **關掉不需要的元件** ：alertmanager、zookeeper 在 dev 環境沒有用
+- **ClickHouse** ：1Gi request / 3Gi limit，20Gi gp3 磁碟
+- **TTL** ：Traces 和 Metrics 都只保留 3 天
+- **關掉不需要的元件** ：alertmanager、zookeeper 在 dev 環境沒有用
 
 > 所有元件都明確設了 resource requests 和 limits。不設 limits 的話，ClickHouse 非常容易吃光整個 node 的記憶體。
 
@@ -117,9 +114,9 @@ Token 存在 `.env`（gitignored），部署時透過 `envsubst` 注入到 ingre
 
 所以加了一個 K8s CronJob，每 6 小時檢查磁碟使用率：
 
-* **< 75%** ：正常，不做任何事
-* **>= 75%** ：強制 `OPTIMIZE TABLE ... FINAL`，觸發 TTL 清理
-* **>= 90%** ：緊急模式，直接 drop 最舊的 partition
+- **< 75%** ：正常，不做任何事
+- **>= 75%** ：強制 `OPTIMIZE TABLE ... FINAL`，觸發 TTL 清理
+- **>= 90%** ：緊急模式，直接 drop 最舊的 partition
 
 ## 應用如何接入
 
@@ -129,11 +126,11 @@ Token 存在 `.env`（gitignored），部署時透過 `envsubst` 注入到 ingre
 
 [repo](https://github.com/{repo_address}/tree/main/opentelemetry "https://github.com/{repo_address}/tree/main/opentelemetry") 裡有三個 demo 應用（Express、NestJS、FastAPI），涵蓋了幾種常見場景：
 
-* 一般 API 回應
-* 慢回應模擬（500ms delay）
-* DB 查詢（SQLAlchemy）
-* 外部 HTTP 呼叫（httpx → [**httpbin.org**](http://httpbin.org/) ）
-* Error logging
+- 一般 API 回應
+- 慢回應模擬（500ms delay）
+- DB 查詢（SQLAlchemy）
+- 外部 HTTP 呼叫（httpx → [**httpbin.org**](http://httpbin.org/) ）
+- Error logging
 
 用 `make demo` 一鍵啟動，`make demo-traffic` 打流量，`make verify-signoz` 驗證端到端是否通。
 
@@ -145,16 +142,16 @@ Token 存在 `.env`（gitignored），部署時透過 `envsubst` 注入到 ingre
 
 ### 共用 backend 如何分辨service
 
-* SigNoz 可以設定客製化的 filter 欄位，透過環境變數 `OTEL_RESOURCE_ATTRIBUTES` 來進行標注，UI上就會出現 filter
+- SigNoz 可以設定客製化的 filter 欄位，透過環境變數 `OTEL_RESOURCE_ATTRIBUTES` 來進行標注，UI上就會出現 filter
 
-![signoz custom filter otel attributes](/images/blog/internal-signoz/signoz-custom-filter-otel-attributes.png)
+![internal-signoz-signoz-custom-filter-otel-attributes.png](/images/blog/internal-signoz/signoz-custom-filter-otel-attributes.png)
 
 ### 切換 Backend = 修改環境變數
 
 這是整個架構最核心的設計：不管客戶選哪套 backend，應用端的程式碼完全一樣，只需要改一個環境變數：
 
-* 選 SigNoz → `OTEL_EXPORTER_OTLP_ENDPOINT=<https://signoz-otel.internal.xx.ai`>
-* 選 CloudWatch → `OTEL_EXPORTER_OTLP_ENDPOINT=<http://localhost:4318`（透過本地> ADOT Collector）
+- 選 SigNoz → `OTEL_EXPORTER_OTLP_ENDPOINT=<https://signoz-otel.internal.xx.ai`>
+- 選 CloudWatch → `OTEL_EXPORTER_OTLP_ENDPOINT=<http://localhost:4318`（透過本地> ADOT Collector）
 
 ### Sampling 策略
 
@@ -164,7 +161,7 @@ Token 存在 `.env`（gitignored），部署時透過 `envsubst` 注入到 ingre
 
 ## 參考資料
 
-* [SigNoz Documentation](https://signoz.io/docs/introduction/ "https://signoz.io/docs/introduction/")
-* [OpenTelemetry Documentation](https://opentelemetry.io/docs/ "https://opentelemetry.io/docs/")
-* [AWS ADOT Documentation](https://aws-otel.github.io/docs/introduction "https://aws-otel.github.io/docs/introduction")
-* [SigNoz Helm Chart](https://github.com/SigNoz/charts "https://github.com/SigNoz/charts")
+- [SigNoz Documentation](https://signoz.io/docs/introduction/ "https://signoz.io/docs/introduction/")
+- [OpenTelemetry Documentation](https://opentelemetry.io/docs/ "https://opentelemetry.io/docs/")
+- [AWS ADOT Documentation](https://aws-otel.github.io/docs/introduction "https://aws-otel.github.io/docs/introduction")
+- [SigNoz Helm Chart](https://github.com/SigNoz/charts "https://github.com/SigNoz/charts")

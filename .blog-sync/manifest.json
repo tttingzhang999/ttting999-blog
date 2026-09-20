@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "source": "2025-review.md",
+      "route": "/blog/2025-review",
+      "sourceHash": "98191b2a353da243673de3eccb7d0957b3ae56cb009fb514ea7abe15b1f05038",
+      "assets": []
+    },
+    {
+      "source": "2025q3q4-career.md",
+      "route": "/blog/2025q3q4-career",
+      "sourceHash": "f20e8b0ef412de0e1bbd51f2903dfe9c4e07430a00621d26fa02fda73050f6fd",
+      "assets": []
+    },
+    {
+      "source": "20260304-troublemaker.md",
+      "route": "/blog/20260304-troublemaker",
+      "sourceHash": "e35e0fd64052de4b551187ab44c27b01ea47333e04a8eb1b77a2bf94ca990436",
+      "assets": [
+        "public/images/blog/20260304-troublemaker/banner.png"
+      ]
+    },
+    {
+      "source": "20260801-goingclolud-speaking.md",
+      "route": "/blog/20260801-goingclolud-speaking",
+      "sourceHash": "b045117d75710ddbab2177cfc3deb022f66ec557875ef0992e2d65d11c4f450a",
+      "assets": []
+    },
+    {
+      "source": "2026q1-insights.md",
+      "route": "/blog/2026q1-insights",
+      "sourceHash": "3fd8b5818e81e41dd9e7159838dd78b868f6af2b36fd53b770e7500d4486a765",
+      "assets": []
+    },
+    {
+      "source": "concurrency.md",
+      "route": "/blog/concurrency",
+      "sourceHash": "e5684fed5113d58d2d79d3a47ed8b5cf5d1e4ceea4c259d89b9087e07918b34b",
+      "assets": []
+    },
+    {
+      "source": "decrease-coding-agent-illusion.md",
+      "route": "/blog/decrease-coding-agent-illusion",
+      "sourceHash": "07816f348f4e2e4261d2ee854af90a1f1a276213161859d7bed7afbd9d114041",
+      "assets": [
+        "public/images/blog/decrease-coding-agent-illusion/banner.png",
+        "public/images/blog/decrease-coding-agent-illusion/context7-cli-install.png",
+        "public/images/blog/decrease-coding-agent-illusion/context7-mcp-resolve-library-id.png",
+        "public/images/blog/decrease-coding-agent-illusion/context7-repo-tasks-dashboard.png",
+        "public/images/blog/decrease-coding-agent-illusion/context7-scanning-repo.png",
+        "public/images/blog/decrease-coding-agent-illusion/context7-search-custom-repo.png",
+        "public/images/blog/decrease-coding-agent-illusion/context7-skills-search-vue.png"
+      ]
+    },
+    {
+      "source": "internal-signoz.md",
+      "route": "/blog/internal-signoz",
+      "sourceHash": "c1e690de84d4a2dcfa53b05299f01fc683dbf42f1dcee1cbd66f5f28c1de4016",
+      "assets": [
+        "public/images/blog/internal-signoz/banner.png",
+        "public/images/blog/internal-signoz/signoz-custom-filter-otel-attributes.png"
+      ]
+    },
+    {
+      "source": "Leetcode Contest/leetcode-biweekly-191.md",
+      "route": "/blog/leetcode-contest/leetcode-biweekly-191",
+      "sourceHash": "56b339b7df8a5828cc6dd968057fd8215ff263b3f4dd816375326df5c628a72f",
+      "assets": []
+    },
+    {
+      "source": "Leetcode Contest/leetcode-weekly-591.md",
+      "route": "/blog/leetcode-contest/leetcode-weekly-591",
+      "sourceHash": "7a1a0d78edd4ce8713f8c3f7cdbd7d0f1ec9c880639568b17ea1b811e75ea6cb",
+      "assets": []
+    },
+    {
+      "source": "python-gil-introduction.md",
+      "route": "/blog/python-gil-introduction",
+      "sourceHash": "c2be98e1f17a7ee53e90809e69291766692eff74d084baa04a39fba459c7077b",
+      "assets": []
+    },
+    {
+      "source": "strands-agents-tool-executor.md",
+      "route": "/blog/strands-agents-tool-executor",
+      "sourceHash": "234b8911def19a4b4ef3e3adeb3a049c5924142be73b7c05597ab255549418e4",
+      "assets": [
+        "public/images/blog/strands-agents-tool-executor/agent-loop.png",
+        "public/images/blog/strands-agents-tool-executor/banner.jpeg",
+        "public/images/blog/strands-agents-tool-executor/concurrent-result.png",
+        "public/images/blog/strands-agents-tool-executor/sequential-result.png"
+      ]
+    },
+    {
+      "source": "uv-and-ruff.md",
+      "route": "/blog/uv-and-ruff",
+      "sourceHash": "5a6adc0cb5664367570bfa70e5b0d4783db8617e9a59c1e8bcf7d25c5232bea9",
+      "assets": []
+    }
+  ],
+  "withdrawn": [
+    "/blog/how-i-get-saa"
+  ],
+  "files": {
+    "content/blog/2025-review.md": "98191b2a353da243673de3eccb7d0957b3ae56cb009fb514ea7abe15b1f05038",
+    "content/blog/2025q3q4-career.md": "f20e8b0ef412de0e1bbd51f2903dfe9c4e07430a00621d26fa02fda73050f6fd",
+    "content/blog/20260304-troublemaker.md": "e35e0fd64052de4b551187ab44c27b01ea47333e04a8eb1b77a2bf94ca990436",
+    "content/blog/20260801-goingclolud-speaking.md": "b045117d75710ddbab2177cfc3deb022f66ec557875ef0992e2d65d11c4f450a",
+    "content/blog/2026q1-insights.md": "3fd8b5818e81e41dd9e7159838dd78b868f6af2b36fd53b770e7500d4486a765",
+    "content/blog/Leetcode Contest/leetcode-biweekly-191.md": "56b339b7df8a5828cc6dd968057fd8215ff263b3f4dd816375326df5c628a72f",
+    "content/blog/Leetcode Contest/leetcode-weekly-591.md": "7a1a0d78edd4ce8713f8c3f7cdbd7d0f1ec9c880639568b17ea1b811e75ea6cb",
+    "content/blog/concurrency.md": "e5684fed5113d58d2d79d3a47ed8b5cf5d1e4ceea4c259d89b9087e07918b34b",
+    "content/blog/decrease-coding-agent-illusion.md": "ab61b62e2bce6060df3d69dcc3b0a29e7ef7ff906efde90ca4df093e3f760385",
+    "content/blog/internal-signoz.md": "d13238314ddfa0bb2e6b37e646ffbec6f9f5e37b98ca23638b2e373e90c8185a",
+    "content/blog/python-gil-introduction.md": "c2be98e1f17a7ee53e90809e69291766692eff74d084baa04a39fba459c7077b",
+    "content/blog/strands-agents-tool-executor.md": "8abea9c19826da829b74f4565386ef1593b1b09e6eccb63dc0827ff56d7c64ab",
+    "content/blog/uv-and-ruff.md": "5a6adc0cb5664367570bfa70e5b0d4783db8617e9a59c1e8bcf7d25c5232bea9",
+    "public/images/blog/20260304-troublemaker/banner.png": "771cf9fe31d64da44d15c16b12bf35e26a349aa2271e9550d9f85d17a8fa3424",
+    "public/images/blog/decrease-coding-agent-illusion/banner.png": "3a0a38514095a4f7b58b5ee4de581eec2053a9baeeb20e7c703d30dfcee71665",
+    "public/images/blog/decrease-coding-agent-illusion/context7-cli-install.png": "43fca08c83aba77ea77fe3b97fbcaef5ee37c7b6213c6c39891719cef50dda27",
+    "public/images/blog/decrease-coding-agent-illusion/context7-mcp-resolve-library-id.png": "b30dfe12a49d9d113cb4677ba1692f9f4b9927977e23a3383013b05bf2122422",
+    "public/images/blog/decrease-coding-agent-illusion/context7-repo-tasks-dashboard.png": "c53f4652b389daa5b26899859574701fe9ff3763a8ad5cb1bb68b1f8922e35a3",
+    "public/images/blog/decrease-coding-agent-illusion/context7-scanning-repo.png": "d123a6c4ed043e126c1902d5ae7f4bca7553aa8f2556de107e7ce5d8751bf4b9",
+    "public/images/blog/decrease-coding-agent-illusion/context7-search-custom-repo.png": "144212dad8f6ffa01423d613e36a506206560c784a4f3411d56715acc7586462",
+    "public/images/blog/decrease-coding-agent-illusion/context7-skills-search-vue.png": "99f7200cfa6423d57f3612503f1b8dbb372d82832a508d8765478c083ecfb0d3",
+    "public/images/blog/internal-signoz/banner.png": "f82b60ee16cce773572f8fe49f2389bc84da96f1cd4bab98f7794b0cc214dfdf",
+    "public/images/blog/internal-signoz/signoz-custom-filter-otel-attributes.png": "191b60a5cf8e0a8946a461176fc29cde33d122e7e66c8e4d9741327134e8c928",
+    "public/images/blog/strands-agents-tool-executor/agent-loop.png": "2d386c51d8883624e4961616500846614b663093aaac4bc24fe4972008a9a145",
+    "public/images/blog/strands-agents-tool-executor/banner.jpeg": "b9e6b37e36689b816930d92b66b6c64be7835196420eeba7f12d22b1a13b640b",
+    "public/images/blog/strands-agents-tool-executor/concurrent-result.png": "435732196537cacf1dec1d27fd4c8365da5ac4aedb6e8c64b12ffcef416f0730",
+    "public/images/blog/strands-agents-tool-executor/sequential-result.png": "ae4c7f9a0c8cfa62306d2fffdb87473ff2d3a88a350f2b6f59f6dbba06b63651"
+  }
+}

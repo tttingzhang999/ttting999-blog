@@ -1,3 +1,5 @@
+<!-- Generated from Obsidian .claude/project-configs/ttting999-blog/CLAUDE.md by install.sh. Edit the Vault original. -->
+
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
@@ -26,7 +28,7 @@ This is a personal portfolio website built with **Nuxt 3**, designed to showcase
 │   ├── resume.vue      # Resume page (placeholder)
 │   ├── blog/
 │   │   ├── index.vue   # Blog list with filtering (✅ implemented)
-│   │   └── [slug].vue  # Individual article page (✅ implemented)
+│   │   └── [...slug].vue  # Individual article page (✅ implemented)
 │   └── projects/
 │       └── index.vue   # Project list (placeholder)
 ├── content/            # Markdown content (Nuxt Content)
@@ -83,7 +85,7 @@ This is a personal portfolio website built with **Nuxt 3**, designed to showcase
 
 5. **✅ Blog System** (Phase 5)
    - Blog list page with category and tag filtering (`pages/blog/index.vue`)
-   - Individual article pages with TOC and related articles (`pages/blog/[slug].vue`)
+   - Individual article pages with TOC and related articles (`pages/blog/[...slug].vue`)
    - Article card component with image, metadata, and tags (`components/ArticleCard.vue`)
    - Nuxt Content v3 collection configuration with Zod schema validation
    - 3 sample articles with full content
@@ -109,7 +111,7 @@ npm install
 
 # Start dev server with HMR at http://localhost:3000
 # do not `npm run dev` if the prompt does not ask you to do so
-npm run dev 
+npm run dev
 
 # Build for production (standard build)
 npm run build
@@ -158,7 +160,7 @@ Core configuration includes:
 ### content.config.ts
 
 Nuxt Content v3 uses collection-based architecture with Zod schemas:
-- **Blog Collection**: Validates title, description, date, tags, category, author, image, draft status
+- **Blog Collection**: Validates title, description, date, tags, category, author, image, optional language/updatedAt
 - **Projects Collection**: Validates title, description, date, tags, github, demo, image, featured status
 - Collections use `type: 'page'` for full-page markdown content
 
@@ -206,10 +208,9 @@ v3 uses SQL-style operators in `.where()` clauses:
 #### Example Usage
 
 ```typescript
-// Fetch all non-draft blog posts, sorted by date
+// Fetch all published blog posts, sorted by date
 const { data: articles } = await useAsyncData('blog-articles', () =>
   queryCollection('blog')
-    .where('draft', '!=', true)
     .order('date', 'DESC')
     .all()
 )
@@ -225,7 +226,6 @@ const { data: article } = await useAsyncData(`blog-${slug}`, () =>
 const { data: featured } = await useAsyncData('featured-posts', () =>
   queryCollection('blog')
     .where('featured', '=', true)
-    .andWhere('draft', '!=', true)
     .order('date', 'DESC')
     .limit(3)
     .all()
@@ -255,7 +255,6 @@ tags: ['nuxt', 'vue', 'typescript'] # Required (array)
 category: 'frontend'                # Required
 author: 'Ting Zhang'                # Optional (defaults to 'Ting Zhang')
 image: '/images/blog/cover.jpg'     # Optional
-draft: false                        # Optional (defaults to false)
 ---
 ```
 
@@ -322,7 +321,7 @@ The design follows a modern, professional aesthetic inspired by a digital crafts
 
 ### File Naming
 - Components: PascalCase (e.g., `ArticleCard.vue`, `ResumeHero.vue`)
-- Pages: kebab-case or [dynamic] (e.g., `resume.vue`, `[slug].vue`)
+- Pages: kebab-case or [dynamic] (e.g., `resume.vue`, `[...slug].vue`)
 - Content: kebab-case (e.g., `my-first-post.md`)
 - Types: kebab-case (e.g., `blog.ts`, `resume.ts`)
 - Data files: kebab-case with locale suffix (e.g., `resume-zh-TW.ts`, `resume-en.ts`)
@@ -445,7 +444,6 @@ If build fails with missing module errors, install these explicitly.
    // ❌ Wrong (v2 API - removed in v3)
    const { data } = await useAsyncData('blog', () =>
      queryContent('blog')
-       .where({ draft: { $ne: true } })
        .sort({ date: -1 })
        .find()
    )
@@ -453,7 +451,6 @@ If build fails with missing module errors, install these explicitly.
    // ✅ Correct (v3 API)
    const { data } = await useAsyncData('blog', () =>
      queryCollection('blog')
-       .where('draft', '!=', true)
        .order('date', 'DESC')
        .all()
    )
@@ -511,7 +508,7 @@ If build fails with missing module errors, install these explicitly.
 
 **Files to Check**:
 - `pages/blog/index.vue` - Article list query
-- `pages/blog/[slug].vue` - Single article query
+- `pages/blog/[...slug].vue` - Single article query
 - `components/ArticleCard.vue` - Path field usage in template
 - `types/blog.ts` or `types/project.ts` - TypeScript interfaces
 
@@ -577,7 +574,7 @@ console.log(articles.value)
    - `components/layout/Sidebar.vue` - Mobile menu links
    - `pages/index.vue` - Quick navigation cards
    - `components/ArticleCard.vue` - Blog article links
-   - `pages/blog/[slug].vue` - Back to blog link
+   - `pages/blog/[...slug].vue` - Back to blog link
    - Any other component with `<NuxtLink>` to internal pages
 
 3. **Verify locale prefix** in browser URL:
@@ -592,31 +589,18 @@ console.log(articles.value)
    - Verify URL contains correct locale prefix
    - Verify content displays in selected language
 
-## Tools: Cross-Platform Article Publisher
+## Blog publishing
 
-Located at `tools/publisher/`. A Python CLI tool that publishes blog articles from `content/blog/` to external platforms.
+All article text and images originate in Obsidian. Use the globally installed
+write-article skill to write/edit/proofread Vault articles, and cook-blog-publish
+for publishing. Do not recreate project-local copies of those skills.
 
-**Tech Stack**: Python + uv, typer + rich + questionary (interactive CLI), httpx (HTTP), python-frontmatter (reading), sqlite3 (state)
-
-**Current Status**: DEV.to adapter complete with create/update/publish/unpublish/stats. Phase 2 planned (Hashnode). Phase 3 planned (Medium/Vocus via Playwright).
-
-**Usage**:
-```bash
-cd tools/publisher
-uv sync
-cp .env.example .env   # Fill in DEVTO_API_KEY
-uv run publish          # Main menu: publish/update, dashboard, exit
-uv run publish status   # Show crosspost status table
-```
-
-**Key Points**:
-- Crosspost state stored in SQLite (`tools/publisher/publisher.db`, gitignored)
-- Markdown files stay clean — no crosspost metadata in frontmatter
-- Auto-detects create vs update based on DB records
-- Platform dashboard: view stats, publish/unpublish drafts
-- Adapter pattern: all platforms implement `PlatformAdapter` Protocol with capabilities enum
-- Detailed docs: `tools/publisher/CLAUDE.md`
-- Plan document: `docs/plan-cross-platform-publisher.md`
+The whole Vault `03 Writing/blog/**` tree is mirrored into `content/blog/**`.
+`drafts/**` is excluded; folder moves withdraw articles on the next full sync.
+No draft frontmatter or publication quality gate. Preserve nested relative paths.
+Use `npm run blog:plan`, `npm run blog:sync`, and `npm run blog:status -- --verify`.
+See README.md for prerequisites, conflict recovery and deployment semantics.
+The cross-platform publisher document is historical; tools/publisher is absent.
 
 ## References
 
