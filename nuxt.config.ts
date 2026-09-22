@@ -3,7 +3,17 @@ const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || "https://info.tttingzhang999
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  content: { build: { pathMeta: { slugifyOptions: blogSlugifyOptions } } },
+  content: {
+    build: {
+      pathMeta: { slugifyOptions: blogSlugifyOptions },
+      markdown: {
+        highlight: { langs: ["python"] },
+        remarkPlugins: {
+          [new URL("./utils/markdown/python-language.mjs", import.meta.url).href]: {},
+        },
+      },
+    },
+  },
 
   compatibilityDate: "2025-07-15",
 
