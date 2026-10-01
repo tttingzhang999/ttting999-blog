@@ -17,14 +17,11 @@
 import type { Project } from "~/types/project";
 definePageMeta({ layout: "editorial" });
 
-// "Selected Work" display order: products first, then power-grid platforms.
+// "Selected Work" display order: personal projects.
 const REEL_ORDER = [
   "moniit-asset-management",
   "eatswiper",
   "promptlingo",
-  "solar-pv-monitoring-system",
-  "ev-charging-management-system",
-  "power-transfer-management-system",
 ];
 
 const projects = useProjectsData();

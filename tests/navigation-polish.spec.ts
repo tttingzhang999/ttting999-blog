@@ -31,7 +31,7 @@ test('header routes dissolve and home owns every scene',async({page})=>{
 test('a header destination requested during a dissolve is not discarded',async({page})=>{
  await page.goto('/resume');
  await page.locator('.site-primary a[href="/projects"]').click();
- await expect(page.locator('.case-study')).toHaveCount(6);
+ await expect(page.locator('.case-study')).toHaveCount(3);
  await expect(page.locator('.site-header')).toHaveAttribute('aria-busy','true');
  await page.locator('.site-primary a[href="/blog"]').dispatchEvent('click',{button:0});
  await expect(page).toHaveURL(/\/blog$/);
