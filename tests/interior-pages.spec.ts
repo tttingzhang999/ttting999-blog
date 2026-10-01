@@ -6,7 +6,8 @@ for (const prefix of ['', '/en', '/ja']) {
   await expect(page.locator('.career-entry')).not.toHaveCount(0);
   await expect(page.locator('a[href="/resume.pdf"]')).toBeVisible();
   await page.locator('.site-primary a[href$="/projects"]').click();
-  await expect(page.locator('.case-study')).toHaveCount(6);
+  await expect(page.locator('.case-study')).toHaveCount(3);
+  expect(await page.locator('.case-study').evaluateAll(elements => elements.map(element => element.id))).toEqual(['moniit-asset-management', 'eatswiper', 'promptlingo']);
   const details=page.locator('.case-study details').first();
   await details.locator('summary').focus();await page.keyboard.press('Enter');
   await expect(details).toHaveAttribute('open','');

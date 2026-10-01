@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 for (const sample of [
- {path:'/en/projects',link:'.chapter-nav a[href="#solar-pv-monitoring-system"]',target:'#solar-pv-monitoring-system',root:'.editorial-projects'},
+ {path:'/en/projects',link:'.chapter-nav a[href="#eatswiper"]',target:'#eatswiper',root:'.editorial-projects'},
  {path:'/en/resume',link:'.chapter-nav a[href="#skills"]',target:'#skills',root:'.editorial-resume'},
  {path:'/blog/concurrency',link:'.reader-toc a[href="#範例程式碼"]',target:'#範例程式碼',root:'.reader-page'},
 ]) test(`chapter click scrolls continuously without replacing content: ${sample.path}`,async({page})=>{

@@ -1,8 +1,10 @@
 import {test,expect} from '@playwright/test';
 test('navigation keeps geometry and language through article routes',async({page})=>{
  await page.goto('/en/projects');
+ await expect(page.locator('.site-header')).toHaveAttribute('aria-busy','false');
  const start=await page.locator('.site-primary').boundingBox();
  await page.locator('.site-primary a[href="/blog"]').click();
+ await expect(page).toHaveURL(/\/blog$/);
  await expect(page.locator('.site-primary a[href="/en/resume"]')).toBeVisible();
  const end=await page.locator('.site-primary').boundingBox();
  expect(Math.abs(start!.x-end!.x)).toBeLessThan(2);
@@ -24,10 +26,10 @@ test('mobile menu and TOC work without hydration layout changes',async({browser,
 });
 test('chapter navigation and gallery respond to explicit actions',async({page})=>{
  await page.goto('/en/projects');
- await page.locator('.chapter-nav a[href="#solar-pv-monitoring-system"]').click();
- await expect(page.locator('.chapter-nav a[aria-current="location"]')).toHaveAttribute('href','#solar-pv-monitoring-system');
- await page.locator('#solar-pv-monitoring-system summary').click();
- const gallery=page.locator('#solar-pv-monitoring-system .project-gallery');
+ await page.locator('.chapter-nav a[href="#eatswiper"]').click();
+ await expect(page.locator('.chapter-nav a[aria-current="location"]')).toHaveAttribute('href','#eatswiper');
+ await page.locator('#eatswiper summary').click();
+ const gallery=page.locator('#eatswiper .project-gallery');
  await gallery.getByRole('button',{name:'Next image'}).click();
  await expect(gallery.locator('[aria-live]')).toHaveText('2 / 3');
  await page.goto('/blog/concurrency');
