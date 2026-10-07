@@ -1,5 +1,5 @@
 ---
-title: LeetCode Weekly Contest 591 解錄
+title: LeetCode Weekly Contest 591 紀錄
 description: Weekly Contest 591 過程思路與心得
 date: 2026-09-19
 tags:
