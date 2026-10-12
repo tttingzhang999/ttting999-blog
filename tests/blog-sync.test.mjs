@@ -221,3 +221,14 @@ test('callout-looking prose outside a blockquote remains literal', t => {
   assert.match(text, /\[!note\] literal prose/);
   assert.match(text, /\*\*Tip: Callout\*\*/);
 });
+
+test("obsidian table-of-contents blocks are removed; other code blocks stay", (t) => {
+  const f = setup(t);
+  f.source(
+    "one.md",
+    article("```table-of-contents\n\n```\n\n## Intro\n\n```python\nx = 1\n```"),
+  );
+  const text = planSync(f).desired["content/blog/one.md"].toString();
+  assert.doesNotMatch(text, /table-of-contents/);
+  assert.match(text, /---\n\n## Intro\n\n```python\nx = 1\n```/);
+});
