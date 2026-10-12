@@ -137,7 +137,11 @@ export function transformArticle({ vault, relative, raw, assetFiles }) {
     const start = n.position?.start.offset,
       end = n.position?.end.offset;
     const original = body.slice(start, end);
-    if (n.type === "image") {
+    if (n.type === "code" && n.lang === "table-of-contents") {
+      // Obsidian renders this plugin block as a TOC; the site would show an empty code block.
+      const trailing = body.slice(end).match(/^\n*/)[0].length;
+      edits.push({ start, end: end + trailing, text: "" });
+    } else if (n.type === "image") {
       const url = imageUrl(n.url);
       edits.push({
         start,
@@ -162,8 +166,10 @@ export function transformArticle({ vault, relative, raw, assetFiles }) {
         })
         .replace(
           /^\[!([\w-]+)\][+-]?(?:[ \t]+([^\n]+))?/,
-          (match, type, title) => !inQuote ? match :
-            `**${type[0].toUpperCase() + type.slice(1)}${title ? ": " + title : ""}**`,
+          (match, type, title) =>
+            !inQuote
+              ? match
+              : `**${type[0].toUpperCase() + type.slice(1)}${title ? ": " + title : ""}**`,
         );
       if (text !== original) edits.push({ start, end, text });
     } else if (n.type === "html") {
@@ -174,7 +180,9 @@ export function transformArticle({ vault, relative, raw, assetFiles }) {
       );
       if (text !== original) edits.push({ start, end, text });
     }
-    n.children?.forEach(child => visit(child, inQuote || n.type === "blockquote"));
+    n.children?.forEach((child) =>
+      visit(child, inQuote || n.type === "blockquote"),
+    );
   }
   visit(tree);
   const transformed = edits
