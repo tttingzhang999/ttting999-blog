@@ -27,7 +27,7 @@ jobs:
       - run: npm run typecheck
       - run: npm run test:views && npm run test:release && npm run test:handoff
       - if: env.RELEASE_ENABLED != 'true'
-        run: npm run generate
+        run: npm run test:generate-provider
       - if: env.RELEASE_ENABLED == 'true'
         run: |
           npm run release:build
