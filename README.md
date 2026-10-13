@@ -53,8 +53,15 @@ npm test
 npm run typecheck
 npm run generate
 npm run test:seo-build
+npm run test:blog-build
+npm run test:static
 npx playwright test tests/blog-nested.spec.ts tests/blog-experience.spec.ts
 ```
+
+`test:static` 使用 Node 24 與本機 Chrome，在本機 Workers runtime 讀取完整的
+`.output/public`；執行前須先 `npm run generate`。測試會拒絕動態內容／圖片請求，
+並驗證無 JavaScript 閱讀、文章導覽與篩選。`tests/fixtures/static-runtime` 僅為本機
+測試設定，不含正式帳號、綁定或部署設定；正式部署由 infra repo 管理。
 
 文章與圖片的 SHA-256、路徑、下架網址存於 `.blog-sync/manifest.json`。
 不保存校稿狀態或部署成功時間；Production 狀態從 GitHub 部署紀錄讀取。
