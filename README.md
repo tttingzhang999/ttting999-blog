@@ -53,8 +53,15 @@ npm test
 npm run typecheck
 npm run generate
 npm run test:seo-build
+npm run test:blog-build
+npm run test:static
 npx playwright test tests/blog-nested.spec.ts tests/blog-experience.spec.ts
 ```
+
+`test:static` 使用 Node 24 與本機 Chrome，在本機 Workers runtime 讀取完整的
+`.output/public`；執行前須先 `npm run generate`。測試會拒絕動態內容／圖片請求，
+並驗證無 JavaScript 閱讀、文章導覽與篩選。`tests/fixtures/static-runtime` 僅為本機
+測試設定，不含正式帳號、綁定或部署設定；正式部署由 infra repo 管理。
 
 文章與圖片的 SHA-256、路徑、下架網址存於 `.blog-sync/manifest.json`。
 不保存校稿狀態或部署成功時間；Production 狀態從 GitHub 部署紀錄讀取。
@@ -67,3 +74,18 @@ npx playwright test tests/blog-nested.spec.ts tests/blog-experience.spec.ts
 同步 Claude、Codex 與本 repo 的設定副本。runtime cache 不遷入 Vault。
 
 `docs/plan-cross-platform-publisher.md` 是歷史規劃，並非已安裝工具。
+
+## Cloudflare 靜態路由（遷移準備）
+
+過渡期間 `vercel.json` 是兩個平台共用的 headers／redirects 政策來源。
+`npm run generate` 在 SSG 完成後產生 `.output/public/_headers` 與 `_redirects`，
+保留全部 22 個 308 永久轉址、安全 headers 與 `/_nuxt/*` 的一年 immutable 快取。
+不要另行維護生成檔；不支援的 Vercel pattern 會讓轉換失敗，避免默默改變行為。
+Vercel 仍讀原設定，新增輸出不會自行切換目前的正式部署。
+
+Cloudflare 部署須採 `assets.html_handling = "drop-trailing-slash"` 與
+`assets.not_found_handling = "404-page"`（本機 fixture 已採用），保持無尾斜線
+canonical URL。Cloudflare 對尾斜線／index.html 正規化回傳 307；既有 legacy
+aliases 則保留 308。找不到的文章使用生成的 `404.html` 回傳真正 404，不能啟用 SPA
+fallback。`_headers`／`_redirects` 僅適用靜態資產回應；API 自行管理 headers。
+`test:static` 在實際本機 Workers runtime 驗證轉址、路由及 headers；正式設定在 infra。
