@@ -97,7 +97,7 @@ async function changeLanguage(event: Event) {
 </script>
 
 <template>
-  <header class="site-header writing-nav" :aria-busy="!hydrated || switching">
+  <header class="site-header writing-nav" :lang="language" :aria-busy="!hydrated || switching">
     <NuxtLink class="site-logo" :to="localLink('/')" aria-label="Ting Zhang" @click.capture="navigateHeader($event, localLink('/'))">Ting Zhang<span aria-hidden="true">↗</span></NuxtLink>
     <nav class="site-primary" :aria-label="labels.menu">
       <NuxtLink v-for="link in links" :key="link.key" :to="link.path" :aria-current="active === link.key ? 'page' : undefined" @click.capture="navigateHeader($event, link.path)">{{ link.label }}</NuxtLink>
