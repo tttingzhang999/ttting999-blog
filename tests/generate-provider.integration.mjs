@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { access, readFile, rm } from 'node:fs/promises';
+import { access, glob, readFile, rm } from 'node:fs/promises';
 import test from 'node:test';
 import { staticPolicy } from '../scripts/static-policy.mjs';
 
@@ -31,4 +31,16 @@ test('Vercel generation produces the shared static output and verified article a
   assert.deepEqual(routes, manifest.articles.map(({ route }) => route).toSorted());
   for (const route of routes) await access(`.output/public${route}/index.html`);
   await access('.output/public/404.html');
+  let imageCount = 0;
+  for await (const file of glob('.output/public/**/*.html')) {
+    const html = await readFile(file, 'utf8');
+    assert.doesNotMatch(html, /\/_vercel\/image/, `${file} depends on Vercel image optimization`);
+    for (const [tag] of html.matchAll(/<img\b[^>]*>/g)) {
+      const src = tag.match(/\bsrc="([^"]+)"/)?.[1].replaceAll('&amp;', '&');
+      assert.ok(src?.startsWith('/') && !src.startsWith('//'), `Non-local image in ${file}: ${src}`);
+      await access(`.output/public${decodeURIComponent(src.split('?')[0])}`);
+      imageCount += 1;
+    }
+  }
+  assert.ok(imageCount > 0, 'Generated HTML must include static images');
 });

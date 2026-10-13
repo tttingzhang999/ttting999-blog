@@ -89,8 +89,10 @@ npx playwright test tests/blog-nested.spec.ts tests/blog-experience.spec.ts
 過渡期間 `vercel.json` 是兩個平台共用的 headers／redirects 政策來源。
 `generate` 明確使用 Nitro `static` preset，讓本機、CI 與 Vercel 都輸出至
 `.output/public`，避免 Vercel 自動偵測改用 `.vercel/output/static`。
+Nuxt Image 明確使用 `ipx`，生成時轉為 `ipxStatic` 並輸出圖片檔案，
+避免 Vercel 環境自動改用需要線上服務的 `/_vercel/image`。
 `test:generate-provider` 會清除 `.output` 與 `.vercel/output`，以 `VERCEL=1`
-執行完整生成，驗證政策檔及每篇 allowlist 文章的 HTML；CI 也會執行此回歸測試。
+執行完整生成，驗證政策檔、每篇 allowlist 文章的 HTML 與靜態圖片檔案；CI 也會執行此回歸測試。
 `npm run generate` 在 SSG 完成後產生 `.output/public/_headers` 與 `_redirects`，
 保留全部 22 個 308 永久轉址、安全 headers 與 `/_nuxt/*` 的一年 immutable 快取。
 不要另行維護生成檔；不支援的 Vercel pattern 會讓轉換失敗，避免默默改變行為。
