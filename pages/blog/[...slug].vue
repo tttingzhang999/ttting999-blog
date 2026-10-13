@@ -5,7 +5,7 @@
     <header class="reader-heading">
       <p class="reader-category">{{ article.category }}</p>
       <h1>{{ article.title }}</h1>
-      <div class="reader-meta"><span>{{ article.author || 'Ting Zhang' }}</span><time :datetime="article.date">{{ formatDate(article.date) }}</time><span>{{ readingTime }} min read</span></div>
+      <div class="reader-meta"><span>{{ article.author || 'Ting Zhang' }}</span><time :datetime="article.date">{{ formatDate(article.date) }}</time><span>{{ readingTime }} min read</span><ArticleViews :key="articlePath" :slug="articlePath" /></div>
       <p v-if="article.description" class="reader-description">{{ article.description }}</p>
       <div class="reader-tags"><NuxtLink v-for="tag in article.tags" :key="tag" :to="{path:'/blog',query:{q:tag}}">#{{ tag }}</NuxtLink></div>
     </header>
