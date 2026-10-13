@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
@@ -24,7 +25,7 @@ const run = (command, args) => execFileSync(command, args, { cwd: root, env, std
 run('npm', ['ci']);
 run('npm', ['run', 'generate']);
 await writeFile(`${root}/.output/bundle.json`, JSON.stringify({ name: 'blog-local-bundle', main: '../worker/index.mjs', compatibility_date: '2026-10-13' }));
-run('node', ['node_modules/wrangler/bin/wrangler.js', 'deploy', '--dry-run', '--config', '.output/bundle.json', '--outdir', '.output/worker-bundle']);
+run('node', ['node_modules/wrangler/bin/wrangler.js', 'deploy', '--dry-run', '--config', '.output/bundle.json', '--outdir', resolve(root, '.output/worker-bundle')]);
 const output = '.output/release';
 await rm(output, { recursive: true, force: true });
 await mkdir(`${output}/worker`, { recursive: true });

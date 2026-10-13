@@ -54,3 +54,21 @@ for (const name of ['static/.env', 'static/terraform.tfstate', 'static/drafts/se
   await mkdir(join(root, name, '..'), { recursive: true }); await writeFile(join(root, name), 'private');
   await assert.rejects(sealRelease(root, { sourceSha, contentManifestDigest }));
 });
+
+import { execFileSync, spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+const builder = fileURLToPath(new URL('../scripts/build-release.mjs', import.meta.url));
+test('release builder rejects dirty and symlink source before running builds', async t => {
+  const root = await mkdtemp(join(tmpdir(), 'release-source-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const git = (...args) => execFileSync('git', args, { cwd: root, stdio: 'pipe' });
+  git('init'); git('config', 'user.email', 'test@example.invalid'); git('config', 'user.name', 'Release test');
+  await writeFile(join(root, 'source.txt'), 'committed'); git('add', '.'); git('commit', '-m', 'test fixture');
+  await writeFile(join(root, 'source.txt'), 'mixed source');
+  const dirty = spawnSync(process.execPath, [builder, sourceSha], { cwd: root, encoding: 'utf8' });
+  assert.notEqual(dirty.status, 0); assert.match(dirty.stderr, /clean committed checkout/);
+  git('checkout', '--', 'source.txt');
+  await symlink('/etc/hosts', join(root, 'private-link')); git('add', '.'); git('commit', '-m', 'symlink fixture');
+  const linked = spawnSync(process.execPath, [builder], { cwd: root, encoding: 'utf8' });
+  assert.notEqual(linked.status, 0); assert.match(linked.stderr, /Source symlinks are forbidden/);
+});
