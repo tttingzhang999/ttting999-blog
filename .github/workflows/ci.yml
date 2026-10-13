@@ -1,0 +1,49 @@
+name: Blog CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: blog-ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  test-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      WRANGLER_SEND_METRICS: 'false'
+      RELEASE_ENABLED: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'tttingzhang999/ttting999-blog' && vars.INFRA_HANDOFF_ENABLED == 'true' }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+      - run: npm ci
+      - run: npm test
+      - run: npm run typecheck
+      - run: npm run test:views && npm run test:release && npm run test:handoff
+      - if: env.RELEASE_ENABLED != 'true'
+        run: npm run generate
+      - if: env.RELEASE_ENABLED == 'true'
+        run: |
+          npm run release:build
+          cp -R .output/release/static .output/public
+          cp .output/release/published-routes.json .output/published-routes.json
+      - run: npm run test:seo-build && npm run test:blog-build
+      - run: npx playwright install --with-deps chrome
+      - run: npm run test:static
+      - if: env.RELEASE_ENABLED == 'true'
+        run: node scripts/release-transport.mjs
+      - if: env.RELEASE_ENABLED == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: blog-release
+          path: .output/blog-release.tar.gz
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+          overwrite: false
