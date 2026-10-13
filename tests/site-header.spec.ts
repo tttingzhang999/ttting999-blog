@@ -1,5 +1,35 @@
 import { test, expect } from '@playwright/test';
 
+for (const width of [1024, 1440]) {
+  for (const prefix of ['', '/en', '/ja']) {
+    test(`primary links keep their positions across routes at ${width}px in ${prefix || 'zh-TW'}`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(prefix || '/');
+      const header = page.locator('.site-header');
+      const links = header.locator('.site-primary a');
+      await expect(header).toHaveAttribute('aria-busy', 'false');
+      await page.evaluate(() => document.fonts.ready);
+      const positions = () => links.evaluateAll(elements => elements.map(element => {
+        const { x, y, width, height } = element.getBoundingClientRect();
+        return { x, y, width, height };
+      }));
+      const initial = await positions();
+      for (const path of [`${prefix}/resume`, `${prefix}/projects`, '/blog', prefix || '/']) {
+        await header.locator(`.site-primary a[href="${path}"]`).click();
+        await expect(page).toHaveURL(url => url.pathname === path);
+        await expect(header).toHaveAttribute('aria-busy', 'false');
+        await page.evaluate(() => document.fonts.ready);
+        const current = await positions();
+        for (const [index, bounds] of current.entries()) {
+          for (const key of ['x', 'y', 'width', 'height'] as const) {
+            expect(Math.abs(bounds[key] - initial[index]![key]), `${path}: link ${index} ${key}`).toBeLessThan(1);
+          }
+        }
+      }
+    });
+  }
+}
+
 test('one persistent header connects home and editorial destinations', async ({ page }) => {
   await page.goto('/en');
  await expect(page.locator(".site-header")).toHaveAttribute("aria-busy", "false");
