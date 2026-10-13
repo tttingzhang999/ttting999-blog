@@ -81,6 +81,10 @@ export default defineNuxtConfig({
   },
 
   // Static site generation (SSG) configuration
+  image: {
+    // Nuxt Image uses ipxStatic during generation, regardless of the host.
+    provider: "ipx",
+  },
   nitro: {
     prerender: {
       crawlLinks: true,
