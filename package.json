@@ -5,7 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate && node scripts/static-policy.mjs",
+    "generate": "nuxt generate && node scripts/static-policy.mjs && node scripts/build-published-routes.mjs",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "test": "node --test --experimental-test-coverage tests/*.test.mjs",
@@ -17,7 +17,8 @@
     "blog:sync": "node scripts/blog/cli.mjs sync",
     "test:blog-build": "node scripts/check-blog-build.mjs",
     "test:static": "playwright test --config playwright.static.config.ts",
-    "test:static:serve": "WRANGLER_SEND_METRICS=false wrangler dev --local --config tests/fixtures/static-runtime/wrangler.json --ip 127.0.0.1 --port 8787"
+    "test:static:serve": "WRANGLER_SEND_METRICS=false wrangler dev --local --config tests/fixtures/static-runtime/wrangler.json --ip 127.0.0.1 --port 8787",
+    "test:views": "WRANGLER_SEND_METRICS=false node --test --experimental-test-coverage --test-coverage-include=worker/*.mjs --test-coverage-include=scripts/published-routes.mjs --test-coverage-lines=80 --test-coverage-branches=80 --test-coverage-functions=80 tests/article-views*.test.mjs"
   },
   "dependencies": {
     "@nuxt/content": "^3.7.1",
