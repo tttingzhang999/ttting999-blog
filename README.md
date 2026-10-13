@@ -89,3 +89,11 @@ canonical URL。Cloudflare 對尾斜線／index.html 正規化回傳 307；既�
 aliases 則保留 308。找不到的文章使用生成的 `404.html` 回傳真正 404，不能啟用 SPA
 fallback。`_headers`／`_redirects` 僅適用靜態資產回應；API 自行管理 headers。
 `test:static` 在實際本機 Workers runtime 驗證轉址、路由及 headers；正式設定在 infra。
+
+### Cloudflare release bundle
+
+`npm run release:build` (Node 24, clean committed checkout) rebuilds the exact
+current Git commit and creates `.output/release/` for the infra repository.
+It only performs local SSG and Wrangler dry-run bundling; it does not deploy.
+See [artifact v1 contract](docs/release-artifact.md) for identity, hashes and
+binding requirements. Run `npm run test:release` for artifact validation tests.
