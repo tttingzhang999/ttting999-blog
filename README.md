@@ -26,8 +26,13 @@ npm run blog:status -- --verify
 全部清空只能在確定下架所有文章時使用 `--allow-empty`；來源不可讀永遠停止。
 
 Skill 的「同步部落格」會串起 plan → sync → 測試／建置 → commit/push → 部署驗證。
-Production 的 manifest 必須符合本機輸出，公開網址回應 200、下架網址回應 404，
-才是已驗證上線。Preview 與本機同步不代表正式網站已更新。
+`status --verify` 要求最新成功 Production 紀錄的 manifest 符合本機內容，且正式網域
+`/release.json` 的 `sourceSha` 等於該部署的 blog commit、`contentManifestDigest` 等於
+該 commit 中 `.blog-sync/manifest.json` 原始 bytes 的 SHA-256；公開文章須回應 200、
+下架網址須回應 404，全部通過才是已驗證上線。只更新程式、文章未變時仍會檢查 source SHA。
+Preview 不算 Production；最新部署失敗會保留失敗狀態與前次成功的 `productionSha`，
+不宣稱新版本已上線。未加 `--verify` 的狀態僅反映 GitHub 紀錄與內容比對。
+目前 Vercel 若沒有 release.json，驗證會明確失敗；產物建置完成不表示 Cloudflare 遷移完成。
 
 ## 內容格式
 
