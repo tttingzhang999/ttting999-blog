@@ -1,3 +1,4 @@
+import assert from "node:assert/strict";
 import { test, expect } from "@playwright/test";
 import { readFileSync, readdirSync } from "node:fs";
 
@@ -7,8 +8,10 @@ test("all legacy aliases keep their 308 destination and query", async ({ request
   for (const { source, destination } of policy.redirects) {
     const response = await request.get(`${source}?from=legacy`, { maxRedirects: 0 });
     expect(response.status(), source).toBe(308);
-    expect(new URL(response.headers().location, response.url()).pathname).toBe(destination);
-    expect(new URL(response.headers().location, response.url()).search).toBe("?from=legacy");
+    const location = response.headers().location;
+    assert.ok(location, `${source}: missing redirect Location`);
+    expect(new URL(location, response.url()).pathname).toBe(destination);
+    expect(new URL(location, response.url()).search).toBe("?from=legacy");
   }
 });
 
@@ -18,7 +21,9 @@ test("HTML canonical forms and missing articles use asset routing", async ({ req
     for (const suffix of ["/", "/index.html"]) {
       const response = await request.get(path + suffix, { maxRedirects: 0 });
       expect(response.status()).toBe(307);
-      expect(new URL(response.headers().location, response.url()).pathname).toBe(path);
+      const location = response.headers().location;
+      assert.ok(location, `${path + suffix}: missing redirect Location`);
+      expect(new URL(location, response.url()).pathname).toBe(path);
     }
   }
   for (const path of ["/blog/withdrawn-article", "/blog/not-published/深層文章", "/unknown-page"]) {

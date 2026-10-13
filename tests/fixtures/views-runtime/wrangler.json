@@ -1,0 +1,10 @@
+{
+  "name": "article-views-local-test",
+  "compatibility_date": "2026-10-13",
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "article-views-local-test",
+    "database_id": "00000000-0000-0000-0000-000000000001",
+    "migrations_dir": "../../../migrations"
+  }]
+}
