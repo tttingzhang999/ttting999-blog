@@ -1,0 +1,72 @@
+name: Notify infra
+on:
+  workflow_run:
+    workflows: [Blog CI]
+    types: [completed]
+permissions:
+  actions: read
+concurrency:
+  group: notify-${{ github.event.workflow_run.id }}
+  cancel-in-progress: false
+jobs:
+  notify:
+    if: >-
+      vars.INFRA_HANDOFF_ENABLED == 'true' &&
+      github.repository == 'tttingzhang999/ttting999-blog' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_repository.full_name == 'tttingzhang999/ttting999-blog'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      # No checkout, downloads, npm or application code in this privileged job.
+      - id: verify
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        with:
+          retries: 0
+          script: |
+            const source = 'tttingzhang999/ttting999-blog';
+            const event = context.payload.workflow_run;
+            const positive = value => Number.isSafeInteger(value) && value > 0;
+            if (!positive(event.id)) throw new Error('Invalid run identity');
+            const { data: run } = await github.rest.actions.getWorkflowRun({
+              owner: 'tttingzhang999', repo: 'ttting999-blog', run_id: event.id,
+            });
+            if (run.repository?.full_name !== source || run.head_repository?.full_name !== source ||
+                run.status !== 'completed' || run.conclusion !== 'success' || run.event !== 'push' ||
+                run.head_branch !== 'main' || run.path !== '.github/workflows/ci.yml' ||
+                !positive(run.id) || run.id !== event.id || run.head_sha !== event.head_sha ||
+                !/^[a-f0-9]{40}$/.test(run.head_sha)) throw new Error('Untrusted producer run');
+            const { data } = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: 'tttingzhang999', repo: 'ttting999-blog', run_id: run.id, per_page: 100,
+            });
+            if (data.total_count !== 1 || data.artifacts.length !== 1) throw new Error('Expected one release artifact');
+            const artifact = data.artifacts[0];
+            if (artifact.name !== 'blog-release' || !positive(artifact.id) || artifact.expired !== false ||
+                !(Date.parse(artifact.expires_at) > Date.now()) || !positive(artifact.size_in_bytes) ||
+                artifact.size_in_bytes > 100 * 1024 * 1024 || !/^sha256:[a-f0-9]{64}$/.test(artifact.digest) ||
+                artifact.workflow_run?.id !== run.id || artifact.workflow_run?.head_sha !== run.head_sha ||
+                artifact.workflow_run?.head_branch !== 'main') throw new Error('Invalid or expired release artifact');
+            core.setOutput('payload', JSON.stringify({ source_repository: source, source_sha: run.head_sha,
+              run_id: run.id, artifact_id: artifact.id, artifact_digest: artifact.digest }));
+      - id: app
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+        with:
+          app-id: ${{ vars.INFRA_DISPATCH_APP_ID }}
+          private-key: ${{ secrets.INFRA_DISPATCH_APP_PRIVATE_KEY }}
+          owner: tttingzhang999
+          repositories: ttting999-cloudflare-infra
+          permission-contents: write
+      - name: Notify exact release
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        env:
+          RELEASE_PAYLOAD: ${{ steps.verify.outputs.payload }}
+        with:
+          github-token: ${{ steps.app.outputs.token }}
+          retries: 0
+          script: |
+            await github.rest.repos.createDispatchEvent({
+              owner: 'tttingzhang999', repo: 'ttting999-cloudflare-infra',
+              event_type: 'blog-release', client_payload: JSON.parse(process.env.RELEASE_PAYLOAD),
+            });
