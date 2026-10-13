@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -11,10 +12,14 @@ const content = {
   encoding: "base64",
   content: Buffer.from(manifestBytes).toString("base64"),
 };
-const sha = "a".repeat(40);
+const sha = execFileSync("git", ["rev-parse", "HEAD"], {
+  encoding: "utf8",
+}).trim();
 const release = { sourceSha: sha, contentManifestDigest: hash(manifestBytes) };
 test("sync, deploy, failed deployment and previous successful version remain separate", () => {
   const base = {
+    intendedSha: sha,
+    productionSha: sha,
     localChanges: false,
     localManifest: manifest,
     productionManifest: null,
@@ -209,5 +214,60 @@ test("failed latest release preserves previous successful SHA without claiming v
   });
   assert.equal(result.state, "部署失敗");
   assert.equal(result.productionSha, previous);
+  assert.equal(result.verified, false);
+});
+
+test("old successful record and matching old live release do not verify newer checkout HEAD", async (t) => {
+  const previous = "b".repeat(40);
+  t.mock.method(globalThis, "fetch", async (url) =>
+    url.pathname === "/release.json"
+      ? Response.json({ ...release, sourceSha: previous })
+      : new Response("ok"),
+  );
+  const result = await inspectDeployment(plan, {
+    gh: github([{ id: 1, sha: previous, environment: "Production" }]),
+    verify: true,
+  });
+  assert.equal(result.verified, false);
+  assert.equal(result.state, "已同步，待部署");
+  assert.equal(result.intendedSha, sha);
+  assert.equal(result.productionSha, previous);
+});
+for (const latestState of ["pending", "queued", "in_progress"]) {
+  test(
+    latestState + " intended release preserves previous successful identity",
+    async (t) => {
+      t.mock.method(globalThis, "fetch", () =>
+        assert.fail("pending source cannot verify"),
+      );
+      const previous = "b".repeat(40);
+      const result = await inspectDeployment(plan, {
+        gh: github(
+          [
+            { id: 2, sha, environment: "Production" },
+            { id: 1, sha: previous, environment: "Production" },
+          ],
+          { 2: latestState },
+        ),
+        verify: true,
+      });
+      assert.equal(result.state, "部署中");
+      assert.equal(result.verified, false);
+      assert.equal(result.productionSha, previous);
+    },
+  );
+}
+test("a failed unrelated revision does not label the intended revision failed", async () => {
+  const result = await inspectDeployment(plan, {
+    gh: github(
+      [
+        { id: 2, sha: "c".repeat(40), environment: "Production" },
+        { id: 1, sha: "b".repeat(40), environment: "Production" },
+      ],
+      { 2: "failure" },
+    ),
+  });
+  assert.equal(result.state, "已同步，待部署");
+  assert.equal(result.latestState, "failure");
   assert.equal(result.verified, false);
 });

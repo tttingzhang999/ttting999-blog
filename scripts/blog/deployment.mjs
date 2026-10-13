@@ -3,6 +3,8 @@ import { hash } from "./files.mjs";
 import { manifestPath } from "./sync.mjs";
 
 export function deploymentState({
+  intendedSha,
+  productionSha,
   localChanges,
   localManifest,
   productionManifest,
@@ -10,6 +12,8 @@ export function deploymentState({
   latestMatches = false,
 }) {
   const equal =
+    productionSha &&
+    productionSha === intendedSha &&
     productionManifest &&
     hash(JSON.stringify(localManifest.files)) ===
       hash(JSON.stringify(productionManifest.files));
@@ -27,6 +31,12 @@ export async function inspectDeployment(
   plan,
   { verify = false, origin = "https://info.tttingzhang999.com", gh } = {},
 ) {
+  // Publishing commits and pushes this checkout before asking for status.
+  const intendedSha = execFileSync("git", ["rev-parse", "HEAD"], {
+    cwd: plan.repo,
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  }).trim();
   const run =
     gh ??
     ((args) =>
@@ -48,7 +58,7 @@ export async function inspectDeployment(
     `repos/${repository}/deployments?environment=Production&per_page=30`,
   ]).filter((deployment) => deployment.environment === "Production");
   if (!deployments.length)
-    return { state: "尚無 Production 部署紀錄", verified: false };
+    return { state: "尚無 Production 部署紀錄", intendedSha, verified: false };
   let latestState,
     latestMatches = false,
     production = null,
@@ -82,6 +92,7 @@ export async function inspectDeployment(
       latestState = status?.state;
       const manifest = contentAt(deployment.sha)?.manifest;
       latestMatches =
+        deployment.sha === intendedSha &&
         !!manifest &&
         hash(JSON.stringify(manifest.files)) ===
           hash(JSON.stringify(plan.manifest.files));
@@ -95,6 +106,8 @@ export async function inspectDeployment(
     }
   }
   const state = deploymentState({
+    intendedSha,
+    productionSha: production?.sha,
     localChanges: plan.changes.length > 0 || plan.manifestChanged,
     localManifest: plan.manifest,
     productionManifest,
@@ -103,6 +116,7 @@ export async function inspectDeployment(
   });
   const result = {
     state,
+    intendedSha,
     latestState,
     productionSha: production?.sha ?? null,
     verified: false,
