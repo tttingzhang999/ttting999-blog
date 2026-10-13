@@ -59,6 +59,7 @@ URL 衝突會在寫入前停止，既有根目錄網址保持不變。
 ```sh
 npm test
 npm run typecheck
+npm run test:generate-provider
 npm run generate
 npm run test:seo-build
 npm run test:blog-build
@@ -86,6 +87,10 @@ npx playwright test tests/blog-nested.spec.ts tests/blog-experience.spec.ts
 ## Cloudflare 靜態路由（遷移準備）
 
 過渡期間 `vercel.json` 是兩個平台共用的 headers／redirects 政策來源。
+`generate` 明確使用 Nitro `static` preset，讓本機、CI 與 Vercel 都輸出至
+`.output/public`，避免 Vercel 自動偵測改用 `.vercel/output/static`。
+`test:generate-provider` 會清除 `.output` 與 `.vercel/output`，以 `VERCEL=1`
+執行完整生成，驗證政策檔及每篇 allowlist 文章的 HTML；CI 也會執行此回歸測試。
 `npm run generate` 在 SSG 完成後產生 `.output/public/_headers` 與 `_redirects`，
 保留全部 22 個 308 永久轉址、安全 headers 與 `/_nuxt/*` 的一年 immutable 快取。
 不要另行維護生成檔；不支援的 Vercel pattern 會讓轉換失敗，避免默默改變行為。
