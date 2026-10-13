@@ -46,20 +46,27 @@ export async function inspectDeployment(
   const deployments = run([
     "api",
     `repos/${repository}/deployments?environment=Production&per_page=30`,
-  ]);
-  if (!deployments.length) return { state: "尚無 Production 部署紀錄" };
+  ]).filter((deployment) => deployment.environment === "Production");
+  if (!deployments.length)
+    return { state: "尚無 Production 部署紀錄", verified: false };
   let latestState,
     latestMatches = false,
     production = null,
-    productionManifest = null;
+    productionManifest = null,
+    productionDigest = null;
   const contentAt = (sha) => {
     try {
-      return run([
+      const file = run([
         "api",
         `repos/${repository}/contents/${manifestPath}?ref=${sha}`,
-        "--jq",
-        ".content | @base64d | fromjson",
       ]);
+      if (file.encoding !== "base64" || typeof file.content !== "string")
+        throw new Error("Deployment manifest content is unavailable");
+      const bytes = Buffer.from(file.content, "base64");
+      return {
+        manifest: JSON.parse(bytes.toString("utf8")),
+        digest: hash(bytes),
+      };
     } catch (error) {
       if (String(error.stderr ?? error.message).includes("404")) return null;
       throw error;
@@ -73,7 +80,7 @@ export async function inspectDeployment(
     ])[0];
     if (i === 0) {
       latestState = status?.state;
-      const manifest = contentAt(deployment.sha);
+      const manifest = contentAt(deployment.sha)?.manifest;
       latestMatches =
         !!manifest &&
         hash(JSON.stringify(manifest.files)) ===
@@ -81,7 +88,9 @@ export async function inspectDeployment(
     }
     if (status?.state === "success") {
       production = deployment;
-      productionManifest = contentAt(deployment.sha);
+      const content = contentAt(deployment.sha);
+      productionManifest = content?.manifest;
+      productionDigest = content?.digest;
       break;
     }
   }
@@ -107,6 +116,36 @@ export async function inspectDeployment(
       })),
     ];
     const failures = [];
+    try {
+      const response = await fetch(new URL("/release.json", origin), {
+        redirect: "manual",
+        cache: "no-store",
+        signal: AbortSignal.timeout(15000),
+      });
+      if (response.status !== 200) {
+        await response.body?.cancel();
+        failures.push({
+          route: "/release.json",
+          expected: 200,
+          actual: response.status,
+        });
+      } else {
+        const live = await response.json();
+        if (
+          live?.sourceSha !== production.sha ||
+          live?.contentManifestDigest !== productionDigest
+        )
+          failures.push({
+            route: "/release.json",
+            reason: "release_identity_mismatch",
+          });
+      }
+    } catch {
+      failures.push({
+        route: "/release.json",
+        reason: "release_metadata_unavailable",
+      });
+    }
     for (const check of checks) {
       const url = new URL(check.route, origin);
       const response = await fetch(url, {

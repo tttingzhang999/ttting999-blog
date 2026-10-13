@@ -26,8 +26,13 @@ npm run blog:status -- --verify
 全部清空只能在確定下架所有文章時使用 `--allow-empty`；來源不可讀永遠停止。
 
 Skill 的「同步部落格」會串起 plan → sync → 測試／建置 → commit/push → 部署驗證。
-Production 的 manifest 必須符合本機輸出，公開網址回應 200、下架網址回應 404，
-才是已驗證上線。Preview 與本機同步不代表正式網站已更新。
+`status --verify` 要求最新成功 Production 紀錄的 manifest 符合本機內容，且正式網域
+`/release.json` 的 `sourceSha` 等於該部署的 blog commit、`contentManifestDigest` 等於
+該 commit 中 `.blog-sync/manifest.json` 原始 bytes 的 SHA-256；公開文章須回應 200、
+下架網址須回應 404，全部通過才是已驗證上線。只更新程式、文章未變時仍會檢查 source SHA。
+Preview 不算 Production；最新部署失敗會保留失敗狀態與前次成功的 `productionSha`，
+不宣稱新版本已上線。未加 `--verify` 的狀態僅反映 GitHub 紀錄與內容比對。
+目前 Vercel 若沒有 release.json，驗證會明確失敗；產物建置完成不表示 Cloudflare 遷移完成。
 
 ## 內容格式
 
@@ -89,3 +94,52 @@ canonical URL。Cloudflare 對尾斜線／index.html 正規化回傳 307；既�
 aliases 則保留 308。找不到的文章使用生成的 `404.html` 回傳真正 404，不能啟用 SPA
 fallback。`_headers`／`_redirects` 僅適用靜態資產回應；API 自行管理 headers。
 `test:static` 在實際本機 Workers runtime 驗證轉址、路由及 headers；正式設定在 infra。
+
+### Cloudflare release bundle
+
+`npm run release:build` (Node 24, clean committed checkout) rebuilds the exact
+current Git commit and creates `.output/release/` for the infra repository.
+It only performs local SSG and Wrangler dry-run bundling; it does not deploy.
+See [artifact v1 contract](docs/release-artifact.md) for identity, hashes and
+binding requirements. Run `npm run test:release` for artifact validation tests.
+
+### GitHub Actions 雙 repo 交付
+
+`.github/workflows/ci.yml` 在 PR／main push 使用標準 `ubuntu-24.04`、Node 24
+執行測試、型別檢查、SSG、SEO／文章與靜態閱讀測試。沒有 Cloudflare 憑證、cache、
+排程或付費 runner。PR 不上傳產物；過期分支 CI 會取消，單次上限 25 分鐘。
+
+`INFRA_HANDOFF_ENABLED` 未設定時，交付預設關閉。PW-003 完成 receiver、憑證和
+帳單檢查後才可設為 `true`：GitHub 個人帳號的 Actions 預算必須為 **$0**，且
+**Stop usage when budget limit is reached = Yes**。此設定由帳號管理，workflow
+不能替代；公開 runner 免費不代表 artifact storage 無限制。額度阻擋只影響新交付，
+不會移除 Cloudflare 已發布的網站。
+
+啟用後，main push 從乾淨 commit 建置 `.output/release/`，只上傳一個
+`blog-release` artifact，內容是 `blog-release.tar.gz`（根目錄為 artifact v1
+檔案）。壓縮包最多 100 MiB 減 1 KiB，預留外層 ZIP metadata 空間；通知再確認
+GitHub 回報的 artifact 大小不超過 100 MiB。保留 **1 天**，不永久保留回滾檔。
+`artifact_digest` 是 GitHub 回報的外層 artifact ZIP `sha256:` digest，不是 tar.gz
+或 release-manifest 的 digest。infra 下載時須驗證 ZIP digest，再驗證內部 manifest。
+
+producer 完成成功後，獨立 `workflow_run` 才會驗證 API run／artifact 對應並通知
+`tttingzhang999/ttting999-cloudflare-infra` 的 `repository_dispatch`，event type
+為 `blog-release`。固定 payload：`source_repository`、完整 `source_sha`、`run_id`、
+`artifact_id`、`artifact_digest`。通知不 checkout、不下載／執行產物、不自動重試，
+也不代表已部署成功。過期產物須重建明確指定的受信任 commit，不得替換為 latest main。
+
+PW-003 設定下列 blog repository variables／secret（此票不建立或啟用）：
+
+- Variable `INFRA_HANDOFF_ENABLED`: 啟用時才設 `true`。
+- Variable `INFRA_DISPATCH_APP_ID`: 專用 GitHub App ID。
+- Secret `INFRA_DISPATCH_APP_PRIVATE_KEY`: 該 App private key。
+
+App 僅安裝至 infra repo，僅授予 **Contents: write**（repository_dispatch API
+所需）及 GitHub 隱含的 Metadata: read；不授予 Actions／Workflows 寫入權限。
+這仍是 repo Contents 寫權，非 dispatch-only 權限。短效 installation token 明確限制
+目標 repo／Contents 權限，action 結束會撤銷。Cloudflare／R2 憑證只留 infra，
+不得提供給 blog CI。receiver 必須再獨立驗證來源與產物，不直接信任 dispatch payload。
+
+本機：`npm run test:handoff`；workflow 語法另以 `actionlint` 驗證。
+官方參考：[workflow_run](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_run)、
+[repository dispatch](https://docs.github.com/en/rest/repos/repos#create-a-repository-dispatch-event)。
