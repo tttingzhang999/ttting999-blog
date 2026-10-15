@@ -1,6 +1,6 @@
 # Ting's Portfolio & Blog
 
-Nuxt 4 + Nuxt Content 3，靜態部署於 [Vercel](https://info.tttingzhang999.com/)。
+Nuxt 4 + Nuxt Content 3 的靜態個人網站與部落格，正式網址為 [info.tttingzhang999.com](https://info.tttingzhang999.com/)。
 使用 Node 24（`.nvmrc`）與 `npm ci`。
 
 ## 寫作與發布
@@ -98,10 +98,12 @@ Nuxt Image 明確使用 `ipx`，生成時轉為 `ipxStatic` 並輸出圖片檔�
 不要另行維護生成檔；不支援的 Vercel pattern 會讓轉換失敗，避免默默改變行為。
 Vercel 仍讀原設定，新增輸出不會自行切換目前的正式部署。
 
-Cloudflare 部署須採 `assets.html_handling = "drop-trailing-slash"` 與
-`assets.not_found_handling = "404-page"`（本機 fixture 已採用），保持無尾斜線
-canonical URL。Cloudflare 對尾斜線／index.html 正規化回傳 307；既有 legacy
-aliases 則保留 308。找不到的文章使用生成的 `404.html` 回傳真正 404，不能啟用 SPA
+infra 的 Cloudflare 部署採 `assets.html_handling = "auto-trailing-slash"` 與
+`assets.not_found_handling = "404-page"`；目錄型文章 `/blog/slug` 以 307
+正規化至 `/blog/slug/`，既有 legacy aliases 則保留 308。counter API 仍使用
+published allowlist 中不含尾斜線的 `/blog/slug`，不可直接改用正規化後的網址。
+本機 static fixture 另採 `drop-trailing-slash`，不代表正式部署設定。
+找不到的文章使用生成的 `404.html` 回傳真正 404，不能啟用 SPA
 fallback。`_headers`／`_redirects` 僅適用靜態資產回應；API 自行管理 headers。
 `test:static` 在實際本機 Workers runtime 驗證轉址、路由及 headers；正式設定在 infra。
 
@@ -114,6 +116,13 @@ See [artifact v1 contract](docs/release-artifact.md) for identity, hashes and
 binding requirements. Run `npm run test:release` for artifact validation tests.
 
 ### GitHub Actions 雙 repo 交付
+
+blog repo 負責測試、SSG 與建置綁定 commit／檔案雜湊的不可變 release artifact；
+[infra repo](https://github.com/tttingzhang999/ttting999-cloudflare-infra) 獨立驗證來源與產物後，
+以固定官方 Wrangler 4.151.0 上傳 Worker 版本與選定服務版本，不重新建置應用程式。
+Terraform 管理 Worker 基礎設施、獨立 D1、DNS／Custom Domain 與私有 R2 state；
+D1 schema 由 checksum migration helper 管理。Cloudflare／R2 憑證只留 infra repo。
+產物交付與 Preview 成功都不代表正式網域已切換；正式上線仍以 Production 紀錄及網域驗證為準。
 
 `.github/workflows/ci.yml` 在 PR／main push 使用標準 `ubuntu-24.04`、Node 24
 執行測試、型別檢查、SSG、SEO／文章與靜態閱讀測試。沒有 Cloudflare 憑證、cache、
