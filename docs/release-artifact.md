@@ -24,7 +24,7 @@ Infra owns actual resource IDs, binding values, routing and deployment commands.
 `Cache-Control: no-store`. The manifest excludes its own hash to avoid circularity.
 No generated file is written into tracked source directories.
 
-PW-003 must validate every file hash, reject missing/extra files, symlinks and
+Infra must validate every file hash, reject missing/extra files, symlinks and
 unsafe paths, and compare sourceSha with the independently verified successful
 blog CI run. A digest manifest detects corruption; it is not a signature or
 proof of trusted provenance by itself. Never execute an artifact before source
@@ -35,5 +35,9 @@ Vault, draft files, credentials, Terraform state and node_modules are excluded.
 CI transports one artifact from main, with one-day retention and a 100 MiB
 compressed ceiling. Transport expires; infra keeps its deployment receipt and
 Cloudflare version identifiers for rollback. Release creation does not report
-Production deployment success. Workflow activation and billing enforcement are
-separate PW-003 checks.
+Production deployment success. After a PR merges to main, successful main-push
+CI notifies infra, which independently verifies the artifact and deploys directly
+to the single Production environment. There is no Preview or manual promotion.
+Success requires live verification and an authenticated Production receipt.
+Rollback selects a verified retained Production version without upload or
+migrations. Workflow activation and billing enforcement remain separate gates.
