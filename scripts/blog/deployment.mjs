@@ -162,11 +162,34 @@ export async function inspectDeployment(
     }
     for (const check of checks) {
       const url = new URL(check.route, origin);
-      const response = await fetch(url, {
+      let response = await fetch(url, {
         redirect: "manual",
         signal: AbortSignal.timeout(15000),
       });
       await response.body?.cancel();
+      if (
+        check.expected === 200 &&
+        response.status === 307 &&
+        url.origin === new URL(origin).origin &&
+        !url.pathname.endsWith("/") &&
+        !url.search &&
+        !url.hash
+      ) {
+        const canonical = new URL(url);
+        canonical.pathname += "/";
+        const location = response.headers.get("location");
+        if (
+          location &&
+          URL.canParse(location, url) &&
+          new URL(location, url).href === canonical.href
+        ) {
+          response = await fetch(canonical, {
+            redirect: "manual",
+            signal: AbortSignal.timeout(15000),
+          });
+          await response.body?.cancel();
+        }
+      }
       if (response.status !== check.expected)
         failures.push({ ...check, actual: response.status });
     }
