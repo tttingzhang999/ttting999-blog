@@ -1,6 +1,6 @@
 # Ting's Portfolio & Blog
 
-Nuxt 4 + Nuxt Content 3 的靜態個人網站與部落格，正式網址為 [info.tttingzhang999.com](https://info.tttingzhang999.com/)。
+Nuxt 4 + Nuxt Content 3 的靜態個人網站與部落格，部署於 Cloudflare Workers，正式網址為 [info.tttingzhang999.com](https://info.tttingzhang999.com/)。
 使用 Node 24（`.nvmrc`）與 `npm ci`。
 
 ## 寫作與發布
@@ -33,9 +33,8 @@ Skill 的「同步部落格」會串起 plan → sync → 測試／建置 → co
 `/release.json` 的 `sourceSha` 等於該部署的 blog commit、`contentManifestDigest` 等於
 該 commit 中 `.blog-sync/manifest.json` 原始 bytes 的 SHA-256；公開文章須回應 200、
 下架網址須回應 404，全部通過才是已驗證上線。只更新程式、文章未變時仍會檢查 source SHA。
-Preview 不算 Production；預期版本的最新部署失敗會保留失敗狀態與前次成功的 `productionSha`，
+預期版本的最新部署失敗會保留失敗狀態與前次成功的 `productionSha`，
 不宣稱新版本已上線。未加 `--verify` 的狀態僅反映 GitHub 紀錄與預期 SHA／內容比對。
-目前 Vercel 若沒有 release.json，驗證會明確失敗；產物建置完成不表示 Cloudflare 遷移完成。
 
 ## 內容格式
 
@@ -84,9 +83,9 @@ npx playwright test tests/blog-nested.spec.ts tests/blog-experience.spec.ts
 
 `docs/plan-cross-platform-publisher.md` 是歷史規劃，並非已安裝工具。
 
-## Cloudflare 靜態路由（遷移準備）
+## Cloudflare 靜態路由
 
-過渡期間 `vercel.json` 是兩個平台共用的 headers／redirects 政策來源。
+`vercel.json` 保留為 headers／redirects 政策來源。
 `generate` 明確使用 Nitro `static` preset，讓本機、CI 與 Vercel 都輸出至
 `.output/public`，避免 Vercel 自動偵測改用 `.vercel/output/static`。
 Nuxt Image 明確使用 `ipx`，生成時轉為 `ipxStatic` 並輸出圖片檔案，
@@ -96,7 +95,6 @@ Nuxt Image 明確使用 `ipx`，生成時轉為 `ipxStatic` 並輸出圖片檔�
 `npm run generate` 在 SSG 完成後產生 `.output/public/_headers` 與 `_redirects`，
 保留全部 22 個 308 永久轉址、安全 headers 與 `/_nuxt/*` 的一年 immutable 快取。
 不要另行維護生成檔；不支援的 Vercel pattern 會讓轉換失敗，避免默默改變行為。
-Vercel 仍讀原設定，新增輸出不會自行切換目前的正式部署。
 
 infra 的 Cloudflare 部署採 `assets.html_handling = "auto-trailing-slash"` 與
 `assets.not_found_handling = "404-page"`；目錄型文章 `/blog/slug` 以 307
@@ -122,14 +120,16 @@ blog repo 負責測試、SSG 與建置綁定 commit／檔案雜湊的不可變 r
 以固定官方 Wrangler 4.151.0 上傳 Worker 版本與選定服務版本，不重新建置應用程式。
 Terraform 管理 Worker 基礎設施、獨立 D1、DNS／Custom Domain 與私有 R2 state；
 D1 schema 由 checksum migration helper 管理。Cloudflare／R2 憑證只留 infra repo。
-產物交付與 Preview 成功都不代表正式網域已切換；正式上線仍以 Production 紀錄及網域驗證為準。
+目前只保留 Production，不設 Preview 環境。PR 合併至 main 後，成功的 main CI 會交付產物，
+infra 驗證後自動部署至正式站，不需要手動 promotion。正式上線以 Production 成功紀錄及網域驗證為準；
+回滾由 infra 選取已驗證且仍保留的 Production 版本，不重新上傳產物或執行 migration。
 
 `.github/workflows/ci.yml` 在 PR／main push 使用標準 `ubuntu-24.04`、Node 24
 執行測試、型別檢查、SSG、SEO／文章與靜態閱讀測試。沒有 Cloudflare 憑證、cache、
 排程或付費 runner。PR 不上傳產物；過期分支 CI 會取消，單次上限 25 分鐘。
 
-`INFRA_HANDOFF_ENABLED` 未設定時，交付預設關閉。PW-003 完成 receiver、憑證和
-帳單檢查後才可設為 `true`：GitHub 個人帳號的 Actions 預算必須為 **$0**，且
+`INFRA_HANDOFF_ENABLED` 未設定時，交付預設關閉。啟用前須確認 receiver、憑證和
+帳單檢查：GitHub 個人帳號的 Actions 預算必須為 **$0**，且
 **Stop usage when budget limit is reached = Yes**。此設定由帳號管理，workflow
 不能替代；公開 runner 免費不代表 artifact storage 無限制。額度阻擋只影響新交付，
 不會移除 Cloudflare 已發布的網站。
@@ -147,7 +147,7 @@ producer 完成成功後，獨立 `workflow_run` 才會驗證 API run／artifact
 `artifact_id`、`artifact_digest`。通知不 checkout、不下載／執行產物、不自動重試，
 也不代表已部署成功。過期產物須重建明確指定的受信任 commit，不得替換為 latest main。
 
-PW-003 設定下列 blog repository variables／secret（此票不建立或啟用）：
+blog repository 使用下列 variables／secret：
 
 - Variable `INFRA_HANDOFF_ENABLED`: 啟用時才設 `true`。
 - Variable `INFRA_DISPATCH_APP_ID`: 專用 GitHub App ID。
