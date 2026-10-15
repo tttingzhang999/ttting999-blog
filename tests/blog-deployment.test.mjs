@@ -271,3 +271,82 @@ test("a failed unrelated revision does not label the intended revision failed", 
   assert.equal(result.latestState, "failure");
   assert.equal(result.verified, false);
 });
+
+test("approved article canonical slash redirect verifies one same-origin hop", async (t) => {
+  // Captured PW-004 preview policy: this untrailed article returns 307 to its
+  // exact slash path; the slash route returns 200 under auto-trailing-slash.
+  const route = "/blog/decrease-coding-agent-illusion";
+  const origin = "https://info.tttingzhang999.com";
+  for (const location of [route + "/", origin + route + "/"]) {
+    const calls = [];
+    t.mock.method(globalThis, "fetch", async (url, options) => {
+      calls.push(url.href);
+      assert.equal(options.redirect, "manual");
+      if (url.pathname === "/release.json") return Response.json(release);
+      if (url.pathname === route)
+        return new Response("", { status: 307, headers: { Location: location } });
+      assert.equal(url.pathname, route + "/");
+      return new Response("article", { status: 200 });
+    });
+    const result = await inspectDeployment(
+      { ...plan, articles: [{ route }] },
+      { gh: github(), verify: true, origin },
+    );
+    assert.equal(result.verified, true);
+    assert.equal(result.state, "已上線");
+    assert.deepEqual(calls, [origin + "/release.json", origin + route, origin + route + "/"]);
+  }
+});
+
+test("article verification rejects unrelated, cross-origin and malformed canonical redirects", async (t) => {
+  const origin = "https://info.tttingzhang999.com";
+  for (const [status, location] of [
+    [307, undefined], [307, "https://other.example/blog/a/"],
+    [307, "http://info.tttingzhang999.com/blog/a/"], [307, "/blog/other/"],
+    [307, "/blog/a/?extra=1"], [307, "/blog/a/#section"],
+    [307, "https://user:pass@info.tttingzhang999.com/blog/a/"],
+    [307, "http://[invalid"], [301, "/blog/a/"], [302, "/blog/a/"], [308, "/blog/a/"],
+  ]) {
+    const calls = [];
+    t.mock.method(globalThis, "fetch", async (url, options) => {
+      assert.equal(options.redirect, "manual");calls.push(url.pathname);
+      if (url.pathname === "/release.json") return Response.json(release);
+      assert.equal(url.pathname, "/blog/a");
+      return new Response("", { status, headers: location ? { Location: location } : {} });
+    });
+    const result = await inspectDeployment(plan, { gh: github(), verify: true, origin });
+    assert.equal(result.verified, false);
+    assert.deepEqual(calls, ["/release.json", "/blog/a"]);
+  }
+});
+
+test("canonical verification rejects a second redirect or a non-200 destination", async (t) => {
+  for (const finalStatus of [307, 404, 503]) {
+    const calls = [];
+    t.mock.method(globalThis, "fetch", async (url, options) => {
+      assert.equal(options.redirect, "manual");calls.push(url.pathname);
+      if (url.pathname === "/release.json") return Response.json(release);
+      if (url.pathname === "/blog/a") return new Response("", { status: 307, headers: { Location: "/blog/a/" } });
+      assert.equal(url.pathname, "/blog/a/");
+      return new Response("", { status: finalStatus, headers: { Location: "/blog/a/further/" } });
+    });
+    const result = await inspectDeployment(plan, { gh: github(), verify: true });
+    assert.equal(result.verified, false);
+    assert.deepEqual(calls, ["/release.json", "/blog/a", "/blog/a/"]);
+  }
+});
+
+test("release metadata and withdrawn routes cannot use the article redirect exception", async (t) => {
+  for (const redirected of ["/release.json", "/blog/old"]) {
+    const calls = [];
+    t.mock.method(globalThis, "fetch", async (url) => {
+      calls.push(url.pathname);
+      if (url.pathname === redirected) return new Response("", { status: 307, headers: { Location: redirected + "/" } });
+      if (url.pathname === "/release.json") return Response.json(release);
+      return new Response("", { status: 200 });
+    });
+    const result = await inspectDeployment({ ...plan, manifest: { ...manifest, withdrawn: ["/blog/old"] } }, { gh: github(), verify: true });
+    assert.equal(result.verified, false);
+    assert.equal(calls.some((path) => path === redirected + "/"), false);
+  }
+});
