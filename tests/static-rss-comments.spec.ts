@@ -5,6 +5,11 @@ const manifest = JSON.parse(readFileSync('.blog-sync/manifest.json', 'utf8'));
 const first = '/blog/concurrency';
 const second = '/blog/python-gil-introduction';
 
+async function approachComments(page: import('@playwright/test').Page) {
+  await expect(page.locator('.site-header')).toHaveAttribute('aria-busy', 'false');
+  await page.locator('#comments').evaluate(section => section.scrollIntoView({ behavior: 'instant', block: 'center' }));
+}
+
 async function mockGiscus(page: import('@playwright/test').Page, error?: string) {
   await page.route('https://giscus.app/**', route => route.fulfill({
     contentType: 'text/html',
@@ -49,17 +54,23 @@ test('RSS is valid static XML, advertises itself and includes only published can
   await expect(page.getByRole('link', { name: 'RSS 訂閱' })).toHaveAttribute('href', '/feed.xml');
 });
 
-test('comments load only on request, map the canonical path, follow theme and clean up on navigation', async ({ page }) => {
+test('comments load automatically near the viewport once, map the canonical path and follow theme/navigation', async ({ page }) => {
   const requests: string[] = [];
   page.on('request', request => { if (request.url().startsWith('https://giscus.app')) requests.push(request.url()); });
   await mockGiscus(page);
-  await page.goto(`${first}?from=rss#comments`);
-  await expect(page.getByRole('button', { name: '載入留言', exact: true })).toBeVisible();
+  await page.goto(`${first}?from=rss`);
+  await expect(page.locator('.site-header')).toHaveAttribute('aria-busy', 'false');
+  await expect(page.getByRole('heading', { name: '留言', exact: true })).toHaveCount(1);
+  await expect(page.getByRole('button', { name: '載入留言', exact: true })).toHaveCount(0);
+  await expect(page.getByText('留言需登入 GitHub，內容會公開儲存在此網站的 GitHub 討論區。')).toHaveCount(0);
   expect(requests).toHaveLength(0);
-  await page.getByRole('button', { name: '載入留言', exact: true }).click();
+  await approachComments(page);
   const iframe = page.locator('giscus-widget iframe');
   await expect(iframe).toBeVisible();
   await expect(page.getByText('留言載入中…', { exact: true })).not.toBeVisible();
+  await page.locator('.reader-heading').evaluate(heading => heading.scrollIntoView({ behavior: 'instant' }));
+  await approachComments(page);
+  expect(requests.filter(url => new URL(url).pathname.endsWith('/widget'))).toHaveLength(1);
   const url = new URL((await iframe.getAttribute('src'))!);
   expect(url.searchParams.get('repo')).toBe('tttingzhang999/ttting999-blog');
   expect(url.searchParams.get('term')).toBe(first);
@@ -79,7 +90,7 @@ test('comments load only on request, map the canonical path, follow theme and cl
   await expect(page).toHaveURL('http://127.0.0.1:8787/blog');
   await expect(page.locator('giscus-widget')).toHaveCount(0);
   await page.locator(`a[href="${second}"]`).first().click();
-  await page.getByRole('button', { name: '載入留言', exact: true }).click();
+  await approachComments(page);
   await expect(page.locator('giscus-widget')).toHaveAttribute('term', second);
   await expect(page.locator('giscus-widget iframe')).toHaveCount(1);
 });
@@ -87,7 +98,7 @@ test('comments load only on request, map the canonical path, follow theme and cl
 test('a new article with no discussion remains ready for its first comment', async ({ page }) => {
   await mockGiscus(page, 'Discussion not found');
   await page.goto(first);
-  await page.getByRole('button', { name: '載入留言', exact: true }).click();
+  await approachComments(page);
   await expect(page.locator('giscus-widget iframe')).toBeVisible();
   await expect(page.getByText('留言載入中…', { exact: true })).not.toBeVisible();
   await expect(page.getByText('留言暫時無法載入。')).toHaveCount(0);
@@ -98,7 +109,7 @@ test('service errors are isolated from articles and provide retry and GitHub fal
   await page.route('**/api/views', route => route.fulfill({ status: 503, body: 'unavailable' }));
   await page.goto(first);
   const content = await page.locator('.prose').innerText();
-  await page.getByRole('button', { name: '載入留言', exact: true }).click();
+  await approachComments(page);
   await expect(page.getByText('留言暫時無法載入。')).toBeVisible();
   await expect(page.locator('.prose')).toHaveText(content, { useInnerText: true });
   await expect(page.getByRole('link', { name: '在 GitHub 查看討論' })).toHaveAttribute('href', /github.com\/tttingzhang999\/ttting999-blog\/discussions/);
@@ -112,7 +123,7 @@ test('blocked third-party requests time out; forged messages cannot hide the fai
   await page.clock.install();
   await page.route('https://giscus.app/**', route => route.abort());
   await page.goto(first);
-  await page.getByRole('button', { name: '載入留言', exact: true }).click();
+  await approachComments(page);
   await expect(page.locator('giscus-widget')).toHaveCount(1);
   await page.evaluate(() => window.dispatchEvent(new MessageEvent('message', {
     origin: 'https://giscus.app', source: window, data: { giscus: { resizeHeight: 200 } },
@@ -144,7 +155,7 @@ test('an expired GitHub session is cleared by giscus and recovers without a retr
     });
   });
   await page.goto(first);
-  await page.getByRole('button', { name: '載入留言', exact: true }).click();
+  await approachComments(page);
   await expect.poll(() => page.evaluate(() => localStorage.getItem('giscus-session'))).toBeNull();
   await expect(page.locator('giscus-widget iframe')).toBeVisible();
   await expect(page.getByText('留言載入中…', { exact: true })).not.toBeVisible();
@@ -162,7 +173,7 @@ test('blocked local storage cannot break article reading when loading comments',
     };
   });
   await page.goto(first);
-  await page.getByRole('button', { name: '載入留言', exact: true }).click();
+  await approachComments(page);
   await expect(page.getByText('留言暫時無法載入。')).toBeVisible();
   await expect(page.locator('.prose')).toBeVisible();
 });

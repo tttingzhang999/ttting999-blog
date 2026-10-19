@@ -12,9 +12,9 @@ The feed is an ordinary static asset outside `/api/*`, included automatically in
 
 Comments use the official `giscus` web component and GitHub Discussions in the public `tttingzhang999/ttting999-blog` repository, category **Announcements**. GitHub Discussions has been enabled; Ting installed the giscus App for this repo. The public giscus category API confirmed the repository/category IDs used by `ArticleComments.vue`.
 
-- Reading an article makes no giscus request. Clicking **載入留言** imports the widget and connects to `giscus.app`. Readers need a GitHub account and authorize giscus to post comments; comments are public.
+- The section is titled **留言** and loads automatically when it comes within 300px of the viewport. Reading the top of a long article makes no giscus request. The observer disconnects on first entry, so scrolling back does not reload comments. Readers still need a GitHub account and authorize giscus to post comments; comments are public.
 - The widget uses strict, explicit matching on the canonical `/blog/...` path. Query strings, navigation language, title edits and URL fragments do not change the discussion identity.
-- Site light/dark changes update the widget theme. Vue unmount removes the widget, timer and parent message listener; the official widget removes its own listener.
+- Site light/dark changes update the widget theme. Vue unmount removes the observer, widget, timer and parent message listener; the official widget removes its own listener.
 - The giscus OAuth callback automatically loads the widget to consume/remove its session query parameter. Expired sessions are cleared by the official widget and reload with a bounded recovery timeout. Sharing links always use the canonical article URL, never the OAuth session or tracking query.
 - A 15-second timeout or service error displays a retry button and a GitHub discussion-category fallback. No third-party error details are rendered. A missing discussion is normal: giscus creates it on the first comment or reaction. Article content and D1 view counts remain independent of comments.
 
@@ -33,4 +33,4 @@ npm run test:blog-build
 npm run test:static
 ```
 
-RSS tests cover inventory isolation, ordering/limits, identity, dates and XML safety. Static browser tests parse the real generated feed and exercise opt-in loading, mapping, theme changes, SPA cleanup, OAuth return, blocked storage, missing discussions, third-party errors/timeouts and spoofed messages. They do not prove an authenticated GitHub comment has been submitted; that requires a real reader session after deployment.
+RSS tests cover inventory isolation, ordering/limits, identity, dates and XML safety. Static browser tests parse the real generated feed and exercise automatic loading near the viewport, mapping, theme changes, SPA cleanup, OAuth return, blocked storage, missing discussions, third-party errors/timeouts and spoofed messages. They do not prove an authenticated GitHub comment has been submitted; that requires a real reader session after deployment.
