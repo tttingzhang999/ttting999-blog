@@ -65,6 +65,7 @@ export default defineNuxtConfig({
         },
       ],
       link: [
+        { rel: "alternate", type: "application/rss+xml", title: "Ting Zhang — Writing", href: new URL("/feed.xml", siteUrl).href },
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         {

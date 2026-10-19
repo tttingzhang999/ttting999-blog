@@ -1,7 +1,7 @@
 <template>
   <div class="writing-shell">
     <main><slot /></main>
-    <footer class="writing-footer"><NuxtLink :to="home">{{ isArticle ? '回到首頁文章區' : homeLabel }}</NuxtLink><span>Ting Zhang</span></footer>
+    <footer class="writing-footer"><NuxtLink :to="home">{{ isArticle ? '回到首頁文章區' : homeLabel }}</NuxtLink><a href="/feed.xml">RSS 訂閱</a><span>Ting Zhang</span></footer>
   </div>
 </template>
 <script setup lang="ts">
