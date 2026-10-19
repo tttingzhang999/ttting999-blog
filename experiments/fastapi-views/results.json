@@ -1,0 +1,340 @@
+{
+  "generatedAt": "2026-10-19T06:58:37.214Z",
+  "samples": [
+    {
+      "batch": 1,
+      "sequence": 1,
+      "colo": "SIN",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 244,
+      "wallMs": 377,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 1,
+      "sequence": 2,
+      "colo": "SIN",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 78,
+      "wallMs": 180,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 1,
+      "sequence": 3,
+      "colo": "SIN",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 35,
+      "wallMs": 123,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 1,
+      "sequence": 4,
+      "colo": "SIN",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 17,
+      "wallMs": 122,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 1,
+      "sequence": 5,
+      "colo": "SIN",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 17,
+      "wallMs": 107,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 1,
+      "sequence": 6,
+      "colo": "SIN",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 24,
+      "wallMs": 129,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 1,
+      "sequence": 7,
+      "colo": "SIN",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 26,
+      "wallMs": 121,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 1,
+      "sequence": 8,
+      "colo": "SIN",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 19,
+      "wallMs": 111,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 1,
+      "sequence": 9,
+      "colo": "SIN",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 15,
+      "wallMs": 96,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 1,
+      "sequence": 10,
+      "colo": "SIN",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 19,
+      "wallMs": 179,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 1,
+      "sequence": 11,
+      "colo": "SIN",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 16,
+      "wallMs": 98,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 1,
+      "sequence": 12,
+      "colo": "SIN",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 13,
+      "wallMs": 102,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 2,
+      "sequence": 1,
+      "colo": "SJC",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 87,
+      "wallMs": 201,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 2,
+      "sequence": 2,
+      "colo": "SJC",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 27,
+      "wallMs": 152,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 2,
+      "sequence": 3,
+      "colo": "SJC",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 22,
+      "wallMs": 134,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 2,
+      "sequence": 4,
+      "colo": "SJC",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 9,
+      "wallMs": 128,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 2,
+      "sequence": 5,
+      "colo": "SJC",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 11,
+      "wallMs": 124,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 2,
+      "sequence": 6,
+      "colo": "SJC",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 12,
+      "wallMs": 138,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 2,
+      "sequence": 7,
+      "colo": "SJC",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 8,
+      "wallMs": 121,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 2,
+      "sequence": 8,
+      "colo": "SJC",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 11,
+      "wallMs": 138,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 2,
+      "sequence": 9,
+      "colo": "SJC",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 10,
+      "wallMs": 123,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 2,
+      "sequence": 10,
+      "colo": "SJC",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 9,
+      "wallMs": 133,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 2,
+      "sequence": 11,
+      "colo": "SJC",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 9,
+      "wallMs": 133,
+      "outcome": "ok",
+      "matches": 1
+    },
+    {
+      "batch": 2,
+      "sequence": 12,
+      "colo": "SJC",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 9,
+      "wallMs": 134,
+      "outcome": "ok",
+      "matches": 1
+    }
+  ],
+  "all": {
+    "requests": 24,
+    "measured": 24,
+    "missing": 0,
+    "min": 8,
+    "p50": 16,
+    "p99": 244,
+    "max": 244,
+    "atOrAbove10": 19
+  },
+  "batches": [
+    {
+      "batch": 1,
+      "firstTwo": {
+        "requests": 2,
+        "measured": 2,
+        "missing": 0,
+        "min": 78,
+        "p50": 78,
+        "p99": 244,
+        "max": 244,
+        "atOrAbove10": 2
+      },
+      "later": {
+        "requests": 10,
+        "measured": 10,
+        "missing": 0,
+        "min": 13,
+        "p50": 17,
+        "p99": 35,
+        "max": 35,
+        "atOrAbove10": 10
+      }
+    },
+    {
+      "batch": 2,
+      "firstTwo": {
+        "requests": 2,
+        "measured": 2,
+        "missing": 0,
+        "min": 27,
+        "p50": 27,
+        "p99": 87,
+        "max": 87,
+        "atOrAbove10": 2
+      },
+      "later": {
+        "requests": 10,
+        "measured": 10,
+        "missing": 0,
+        "min": 8,
+        "p50": 9,
+        "p99": 22,
+        "max": 22,
+        "atOrAbove10": 5
+      }
+    }
+  ],
+  "staticProof": {
+    "before": 200,
+    "api": 503,
+    "body": {
+      "success": false,
+      "data": null,
+      "error": {
+        "code": "UNAVAILABLE"
+      }
+    },
+    "after": 200,
+    "exactBytes": true
+  }
+}
