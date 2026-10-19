@@ -10,6 +10,7 @@ const output = resolve(".output/public");
 test.beforeEach(async ({ page }) => {
   await page.route("**/*", async route => {
     const url = new URL(route.request().url());
+    if (url.origin === "https://giscus.app") return route.abort();
     if (url.origin !== "http://127.0.0.1:8787") return route.continue();
     if (url.pathname === "/api/views") {
       return route.fulfill({ status: 503, contentType: "text/html", body: "Quota exhausted" });
