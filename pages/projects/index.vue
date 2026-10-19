@@ -17,24 +17,18 @@
 import type { Project } from "~/types/project";
 definePageMeta({ layout: "editorial" });
 
-// "Selected Work" display order: personal projects.
-const REEL_ORDER = [
-  "moniit-asset-management",
-  "eatswiper",
-  "promptlingo",
-];
-
 const projects = useProjectsData();
 
-const orderedProjects = computed<Project[]>(() => {
-  const byId = new Map(projects.value.map((p) => [p.id, p]));
-  const ordered = REEL_ORDER.map((id) => byId.get(id)).filter(
-    (p): p is Project => Boolean(p),
-  );
-  // Append any project not covered by REEL_ORDER so none silently disappears.
-  const extras = projects.value.filter((p) => !REEL_ORDER.includes(p.id));
-  return [...ordered, ...extras];
-});
+function projectEnd(project: Project): string {
+  const end = project.period?.split(" - ").at(-1);
+  return end === "Present"
+    ? "9999/12"
+    : end || project.date.slice(0, 7).replace("-", "/");
+}
+
+const orderedProjects = computed<Project[]>(() =>
+  [...projects.value].sort((a, b) => projectEnd(b).localeCompare(projectEnd(a))),
+);
 
 
 

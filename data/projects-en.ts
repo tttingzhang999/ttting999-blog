@@ -2,6 +2,74 @@ import type { Project } from "~/types/project";
 
 export const projects: Project[] = [
   {
+    id: "wedding",
+    title: "Wedding - Interactive Wedding Website",
+    description:
+      "I built this interactive website for my own wedding, weaving our photos and memories into a recap for family and friends to explore with taps and holds. From the opening music to envelopes and paper planes, it brings the story we wanted to share to life.",
+    highlights: [
+      "Data-driven recap chapters combine Vue, GSAP, and WebGL visuals",
+      "Connects the opening audio gesture, tap-and-hold playback, and envelope design into one journey",
+      "Customize paper, wax seals, and motifs, then compose an example letter and test-fly a paper plane",
+      "The public portfolio uses fictional letters and planes; interaction stays in page memory and sends nothing",
+    ],
+    role: "Interaction design and frontend development",
+    subtitle: "Our story, told through code",
+    kind: "Web · Interactive Experience",
+    date: "2026-06-15",
+    period: "2026/06",
+    tags: [
+      "Vue 3",
+      "TypeScript",
+      "GSAP",
+      "Three.js",
+      "Vite",
+      "Tailwind CSS",
+    ],
+    demo: "https://wedding.tttingzhang999.com/",
+    shortName: "Wedding",
+    image: "/images/projects/wedding/recap.webp",
+    images: [
+      "/images/projects/wedding/recap.webp",
+      "/images/projects/wedding/envelope.webp",
+      "/images/projects/wedding/flight.webp",
+    ],
+    screenshot: "/images/projects/wedding/recap.webp",
+  },
+  {
+    id: "aws-diagram",
+    title: "AWS Diagram - Architecture Diagram Skill",
+    description:
+      "A skill for Claude Code and Codex that turns requirements, source code, and Terraform evidence into editable draw.io diagrams with official AWS icons, while preserving manual layout edits.",
+    highlights: [
+      "Three scopes: connectivity, network, and ha, covering application calls, network placement, and availability",
+      "Records resources, relationships, and source evidence in architecture JSON, distinguishing confirmed and inferred connections",
+      "Validates draw.io structure, edge routing, and evidence consistency, checking overlapping edges and lines through icons",
+      "Supports targeted edits after manual adjustments and PNG/PDF/SVG exports; examples use the official AWS ECS full-stack Terraform sample",
+    ],
+    role: "Skill workflow, validation scripts, and example diagrams",
+    subtitle: "From code evidence to editable architecture",
+    kind: "Agent Skill · Developer Tools",
+    date: "2026-10-15",
+    period: "2026/10",
+    tags: [
+      "Agent Skill",
+      "Python",
+      "AWS",
+      "Terraform",
+      "draw.io",
+      "Claude Code",
+      "Codex",
+    ],
+    github: "https://github.com/tttingzhang999/aws-diagram",
+    shortName: "AWS Diagram",
+    image: "/images/projects/aws-diagram/network.webp",
+    images: [
+      "/images/projects/aws-diagram/network.webp",
+      "/images/projects/aws-diagram/ha.webp",
+    ],
+    screenshot: "/images/projects/aws-diagram/network.webp",
+  },
+  {
     id: "promptlingo",
     title: "Promptlingo - English Learning Skill for Claude Code",
     description:

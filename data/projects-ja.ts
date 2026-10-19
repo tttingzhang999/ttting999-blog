@@ -2,6 +2,74 @@ import type { Project } from "~/types/project";
 
 export const projects: Project[] = [
   {
+    id: "wedding",
+    title: "Wedding - インタラクティブ結婚式サイト",
+    description:
+      "自分の結婚式のために制作したインタラクティブなサイト。二人の写真と思い出をつなぎ、家族や友人がタップや長押しで物語をたどれるようにしました。オープニングの音楽から封筒や紙飛行機まで、分かち合いたい思い出を一つの体験にまとめています。",
+    highlights: [
+      "データ駆動のチャプター構成に Vue、GSAP、WebGL の表現を組み合わせる",
+      "音楽を有効にするオープニングからタップ・長押し再生、封筒デザインまでを一つの体験に統合",
+      "便箋・封蝋・モチーフを選び、サンプルの手紙を書いて紙飛行機を飛ばせる",
+      "公開デモは架空の手紙と紙飛行機を使用。操作内容はページのメモリ内だけに保持し、実際には送信しない",
+    ],
+    role: "インタラクション設計・フロントエンド開発",
+    subtitle: "コードでつづる、私たちの物語",
+    kind: "Web · インタラクティブ体験",
+    date: "2026-06-15",
+    period: "2026/06",
+    tags: [
+      "Vue 3",
+      "TypeScript",
+      "GSAP",
+      "Three.js",
+      "Vite",
+      "Tailwind CSS",
+    ],
+    demo: "https://wedding.tttingzhang999.com/",
+    shortName: "Wedding",
+    image: "/images/projects/wedding/recap.webp",
+    images: [
+      "/images/projects/wedding/recap.webp",
+      "/images/projects/wedding/envelope.webp",
+      "/images/projects/wedding/flight.webp",
+    ],
+    screenshot: "/images/projects/wedding/recap.webp",
+  },
+  {
+    id: "aws-diagram",
+    title: "AWS Diagram - アーキテクチャ図生成スキル",
+    description:
+      "要件・ソースコード・Terraform の根拠を整理し、AWS 公式アイコンを使った編集可能な draw.io 図を生成する Claude Code・Codex 向けスキル。手作業で調整したレイアウトも保持します。",
+    highlights: [
+      "connectivity・network・ha の3段階で、サービス間通信・ネットワーク配置・可用性を表現",
+      "architecture JSON にリソース・関係・根拠を記録し、確認済みと推論の接続を区別",
+      "draw.io の構造・配線・根拠との整合性を検証し、線の重複やアイコンを横切る経路を検出",
+      "手動調整後の部分編集と PNG・PDF・SVG 出力に対応。AWS 公式 ECS full-stack Terraform サンプルを作例に使用",
+    ],
+    role: "スキルのワークフロー・検証スクリプト・作例の制作",
+    subtitle: "コードの根拠から、編集できる構成図へ",
+    kind: "Agent Skill · 開発ツール",
+    date: "2026-10-15",
+    period: "2026/10",
+    tags: [
+      "Agent Skill",
+      "Python",
+      "AWS",
+      "Terraform",
+      "draw.io",
+      "Claude Code",
+      "Codex",
+    ],
+    github: "https://github.com/tttingzhang999/aws-diagram",
+    shortName: "AWS Diagram",
+    image: "/images/projects/aws-diagram/network.webp",
+    images: [
+      "/images/projects/aws-diagram/network.webp",
+      "/images/projects/aws-diagram/ha.webp",
+    ],
+    screenshot: "/images/projects/aws-diagram/network.webp",
+  },
+  {
     id: "promptlingo",
     title: "Promptlingo - Claude Code 向け英語学習スキル",
     description:
