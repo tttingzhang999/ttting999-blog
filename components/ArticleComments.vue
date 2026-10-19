@@ -1,8 +1,6 @@
 <template>
-  <section id="comments" class="article-comments" aria-labelledby="comments-heading">
-    <h2 id="comments-heading">文章留言</h2>
-    <p>留言需登入 GitHub，內容會公開儲存在此網站的 GitHub 討論區。</p>
-    <button v-if="status === 'idle'" type="button" @click="loadComments">載入留言</button>
+  <section id="comments" ref="section" class="article-comments" aria-labelledby="comments-heading">
+    <h2 id="comments-heading">留言</h2>
     <p v-if="status === 'loading'" role="status">留言載入中…</p>
     <div v-if="status === 'error'" role="status">
       <p>留言暫時無法載入。</p>
@@ -19,12 +17,14 @@ import type { GiscusWidget } from 'giscus';
 const props = defineProps<{ slug: string }>();
 const colorMode = useColorMode();
 const theme = computed(() => colorMode.value === 'dark' ? 'dark_dimmed' : 'light');
+const section = ref<HTMLElement | null>(null);
 const container = ref<HTMLElement | null>(null);
 const status = ref<'idle' | 'loading' | 'ready' | 'error'>('idle');
 let widget: GiscusWidget | undefined;
 let timeout: ReturnType<typeof setTimeout> | undefined;
 let disposed = false;
 let attempt: symbol | undefined;
+let observer: IntersectionObserver | undefined;
 
 function fail() {
   clearTimeout(timeout);
@@ -79,12 +79,22 @@ async function loadComments() {
 watch(theme, value => widget?.setAttribute('theme', value));
 onMounted(() => {
   window.addEventListener('message', onMessage);
-  // Complete giscus's OAuth return even when the opt-in button wasn't clicked again.
-  if (new URL(location.href).searchParams.has('giscus')) void loadComments();
+  // Consume the OAuth session immediately, including when the section is off-screen.
+  if (new URL(location.href).searchParams.has('giscus')) {
+    void loadComments();
+    return;
+  }
+  observer = new IntersectionObserver(entries => {
+    if (!entries.some(entry => entry.isIntersecting)) return;
+    observer?.disconnect();
+    void loadComments();
+  }, { rootMargin: '300px 0px' });
+  if (section.value) observer.observe(section.value);
 });
 onBeforeUnmount(() => {
   disposed = true;
   clearTimeout(timeout);
+  observer?.disconnect();
   window.removeEventListener('message', onMessage);
   widget?.remove();
 });
