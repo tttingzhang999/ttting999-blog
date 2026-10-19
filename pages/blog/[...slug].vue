@@ -18,6 +18,7 @@
         <div class="prose prose-lg"><ContentRenderer :value="article" /></div>
         <div class="reader-share"><span>分享文章</span><a :href="'https://twitter.com/intent/tweet?text=' + encodeURIComponent(article.title) + '&url=' + encodeURIComponent(shareUrl)" target="_blank" rel="noopener noreferrer">X / Twitter</a><a :href="'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(shareUrl)" target="_blank" rel="noopener noreferrer">LinkedIn</a></div>
       </article>
+      <ArticleComments :key="articlePath" :slug="articlePath" />
     </div>
     <section v-if="relatedArticles?.length" class="reader-related"><h2>繼續閱讀</h2><NuxtLink v-for="related in relatedArticles" :key="related.path" :to="related.path"><span>{{ related.category }}</span><h3>{{ related.title }}</h3></NuxtLink></section>
   </div>
@@ -93,9 +94,6 @@ const formatDate = (dateString: string) => {
 
 // Share URL
 const shareUrl = computed(() => {
-  if (import.meta.client) {
-    return window.location.href;
-  }
   return new URL(articlePath, "https://info.tttingzhang999.com").href;
 });
 

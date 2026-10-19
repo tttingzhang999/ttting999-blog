@@ -5,7 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate --preset static && node scripts/static-policy.mjs && node scripts/build-published-routes.mjs",
+    "generate": "nuxt generate --preset static && node scripts/static-policy.mjs && node scripts/build-published-routes.mjs && node scripts/build-feed.mjs",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "test": "node --test --experimental-test-coverage tests/*.test.mjs",
@@ -33,6 +33,7 @@
     "@vueuse/motion": "^3.0.3",
     "better-sqlite3": "^12.4.1",
     "fullpage.js": "^4.0.37",
+    "giscus": "1.6.0",
     "gsap": "^3.13.0",
     "nuxt": "^4.1.3",
     "sharp": "^0.34.4",
