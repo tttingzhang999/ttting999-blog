@@ -148,6 +148,7 @@ export default {
     title: "專案作品",
     pageTitle: "參與計畫",
     allProjects: "所有專案",
+    featured: "精選專案",
     filterByTech: "依技術篩選",
     all: "全部",
     viewProject: "查看專案",
