@@ -148,6 +148,7 @@ export default {
     title: "プロジェクト",
     pageTitle: "プロジェクト",
     allProjects: "全プロジェクト",
+    featured: "注目のプロジェクト",
     filterByTech: "技術でフィルター",
     all: "全て",
     viewProject: "プロジェクトを見る",
