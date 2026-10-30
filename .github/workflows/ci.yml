@@ -22,10 +22,9 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '24.22.1'
+      # Unit tests run locally before a PR; CI keeps type checks, builds and browser checks.
       - run: npm ci
-      - run: npm test
       - run: npm run typecheck
-      - run: npm run test:views && npm run test:release && npm run test:handoff
       - if: env.RELEASE_ENABLED != 'true'
         run: npm run test:generate-provider
       - if: env.RELEASE_ENABLED == 'true'
