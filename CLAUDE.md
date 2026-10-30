@@ -6,611 +6,140 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a personal portfolio website built with **Nuxt 3**, designed to showcase professional work, technical articles, and project experience. The site is intended for deployment on **Vercel** with static site generation (SSG).
+Ting's personal portfolio and blog: a **Nuxt 4 + Nuxt Content 3** site, generated statically and served from **Cloudflare Workers** at https://info.tttingzhang999.com/. Node 24 (`.nvmrc`), install with `npm ci`.
 
-**Previous State**: This repository previously contained a Hugo static site. All Hugo files have been removed as part of migration to Nuxt 3.
+`README.md` (Traditional Chinese) is the operational reference for the blog sync, the Cloudflare static routing and the release handoff. Read it before changing any of those; this file only summarises them.
 
-**Current State**: Phase 0-2 completed (Core layout, navigation, homepage). Phase 3 complete (Resume page with i18n). Successfully deployed to Vercel at https://info.tttingzhang999.com/. Ready for Phase 4 (Projects system enhancement) and Phase 5+ (Content migration, SEO).
+The site was migrated from Hugo and was once hosted on Vercel. Neither is in use any more, but `vercel.json` is still read (see Deployment).
+
+## Commands
+
+```bash
+npm ci                       # Node 24; runs `nuxt prepare` on postinstall
+npm run dev                  # http://localhost:3000; do not start it unless asked
+npm run typecheck            # nuxt typecheck (typeCheck is off in nuxt.config for build speed)
+npm run generate             # static SSG to .output/public + _headers/_redirects, published-routes.json, feed.xml
+
+# Unit tests: CI no longer runs these, so run them locally before every PR
+npm test                     # node --test tests/*.test.mjs
+node --test tests/blog-sync.test.mjs          # a single unit test file
+npm run test:views           # Worker + D1 view counter in a local wrangler runtime, 80% coverage gate
+npm run test:release         # release artifact, 80% coverage gate
+npm run test:handoff         # CI → infra handoff, 80% coverage gate
+
+# Build and browser checks (CI runs these)
+npm run test:generate-provider   # full generate under VERCEL=1; checks policy files and static images
+npm run test:seo-build && npm run test:blog-build   # need a prior `npm run generate`
+npm run test:static              # Playwright against .output/public in a local Workers runtime; needs `npm run generate` and local Chrome
+npx playwright test tests/blog-nested.spec.ts      # a single Playwright spec (playwright.config.ts)
+
+npm run release:build        # clean committed checkout only; builds .output/release/ for infra, never deploys
+```
+
+`tests/*.test.mjs` are `node --test` unit tests and `tests/*.spec.ts` are Playwright specs. `playwright.static.config.ts` serves the generated site; `playwright.config.ts` runs against the app.
+
+## Deployment
+
+There is only Production; there is no Preview environment.
+
+1. When a PR is merged into `main`, `.github/workflows/ci.yml` runs on the push. It runs typecheck, `release:build`, the SEO and blog build checks and `test:static`. It then uploads exactly one `blog-release` artifact, but only when the repo variable `INFRA_HANDOFF_ENABLED` is `true`.
+2. `.github/workflows/notify-infra.yml` runs on `workflow_run`. It checks the producing run and its artifact through the API. It then sends a `blog-release` `repository_dispatch` to `tttingzhang999/ttting999-cloudflare-infra`. This job has no checkout and runs no application code; keep it that way.
+3. The infra repo verifies the source and the artifact on its own, then deploys with Wrangler. Cloudflare and R2 credentials, Terraform, D1 resources and bindings all live in infra, never in this repo.
+
+A release counts as live only when infra records a successful Production deployment and the `sourceSha` in the domain's `/release.json` matches. The artifact contract is in `docs/release-artifact.md`.
+
+`vercel.json` is still the source of the security headers and the 22 permanent redirects:
+
+- `npm run generate` converts it into `.output/public/_headers` and `_redirects`, through `scripts/static-policy.mjs`.
+- `server/middleware/legacy-blog.ts` applies the same redirects in dev.
+- Do not hand-maintain the generated files. If the converter cannot express a Vercel pattern, the build fails on purpose.
+
+Two settings are pinned so the output never depends on the host:
+
+- `generate` forces the Nitro `static` preset, so the output is always `.output/public`.
+- Nuxt Image is forced to `ipx`, so generation emits real image files instead of `/_vercel/image` URLs.
+
+Production uses `auto-trailing-slash`: article directories redirect `/blog/slug` → `/blog/slug/` with a 307. An unknown article must return the generated `404.html` with a real 404; never enable SPA fallback.
 
 ## Architecture
 
-### Core Structure
+- `app.vue` sits in the repository root, and there is no `app/` directory. Nuxt 4 uses an `app/` directory as `srcDir`, so creating one would move the source root. Keep everything at the repository root.
+- `pages/` holds:
+  - `index.vue`: the home scenes, built with fullpage.js and GSAP
+  - `resume.vue`
+  - `projects/index.vue`
+  - `blog/index.vue`
+  - `blog/[...slug].vue`
+- `layouts/` holds `default`, `home` and `editorial`. `app.vue` renders `SiteHeader`. `components/layout/` holds TopBar, Sidebar, Footer and HomeControls.
+- Resume and projects data live in `data/`, one file per locale (`resume-{locale}.ts`, `projects-{locale}.ts`). Pages read them through `useResumeData` and `useProjectsData`. Projects are **not** a Content collection; the old collection is commented out in `content.config.ts`.
+- `content.config.ts` defines a single collection, `blog` (`type: 'page'`, `blog/**/*.md`), validated with Zod:
+  - Required fields: title, description, date (string), tags, category.
+  - Optional fields: `updatedAt`, `language` (default `zh-TW`), `author` (default `Ting Zhang`), `image`.
+- `nuxt.config.ts` sets two Content options:
+  - It takes the slugify options from `utils/blog/path.ts`, which keep CJK characters in URLs.
+  - It adds Python highlighting through a remark plugin in `utils/markdown/`.
+- `worker/` is the Cloudflare Worker that counts article views:
+  - `views-api.mjs` is the HTTP layer.
+  - `article-views.mjs` is the D1 storage.
+  - Allowed keys come from the generated `.output/published-routes.json`.
+  - For a schema change, add a new file in `migrations/`. Never edit `0001`, and never wipe the database. See `docs/article-views.md`.
+- `scripts/build-feed.mjs` generates the RSS feed. `giscus.json` and `ArticleComments.vue` provide comments. Both are documented in `docs/rss-comments.md`.
 
-**IMPORTANT**: `app.vue` must be in the **root directory**, NOT in an `app/` subdirectory. This is the correct Nuxt 3 structure.
+### Internationalization
 
-```
-/
-├── app.vue             # Root component (MUST be in root directory)
-├── components/          # Auto-imported Vue components
-│   └── layout/         # TopBar.vue, Footer.vue, Sidebar.vue (✅ implemented)
-├── pages/              # File-based routing
-│   ├── index.vue       # Homepage (✅ complete with animations)
-│   ├── resume.vue      # Resume page (placeholder)
-│   ├── blog/
-│   │   ├── index.vue   # Blog list with filtering (✅ implemented)
-│   │   └── [...slug].vue  # Individual article page (✅ implemented)
-│   └── projects/
-│       └── index.vue   # Project list (placeholder)
-├── content/            # Markdown content (Nuxt Content)
-│   ├── blog/          # Technical articles (.md)
-│   └── projects/      # Project descriptions (.md)
-├── layouts/            # Layout templates
-│   └── default.vue    # Main layout with TopBar + Sidebar + Footer (✅ implemented)
-├── composables/        # Auto-imported Vue composables
-│   └── useSidebarState.ts  # Sidebar state management (✅ implemented)
-├── types/              # TypeScript type definitions
-│   └── resume.ts      # Resume data types (✅ defined)
-├── utils/              # Auto-imported utility functions
-└── public/             # Static assets (images, fonts)
-```
-
-### Key Features (Implementation Status)
-
-1. **✅ Navigation System** (Phase 1)
-   - **TopBar**: Fixed navigation bar with logo, desktop navigation links (Home, Resume, Projects, Blog), and dark/light mode toggle
-   - **Sidebar**: Mobile-responsive slide-in menu with same navigation links and theme toggle
-   - **Footer**: Social links (Email, LinkedIn, GitHub, GitLab) and technology stack info
-   - **State Management**: `useSidebarState` composable for managing sidebar open/close state
-   - **Responsive Design**: Desktop menu in TopBar, mobile hamburger menu triggers Sidebar
-   - **Theme Toggle**: Integrated `@nuxtjs/color-mode` with system preference detection
-   - **Language Switcher**: Cycling through zh-TW, en, ja with `LanguageSwitcher` component
-
-2. **✅ Homepage** (Phase 2)
-   - Hero Section with gradient avatar, animated name reveal, CTA buttons
-   - Motto/Quote section with bilingual display (Chinese + English)
-   - About Me section with personal bio and tech stack cards
-   - Quick navigation cards (Resume, Projects, Blog) with gradient overlays
-   - Contact section with social links (Email, LinkedIn, GitHub, GitLab)
-   - Full @vueuse/motion animations (scroll-triggered, staggered reveals)
-   - SEO optimized with Schema.org Person structured data
-   - Fully internationalized with i18n
-
-3. **✅ Resume Page** (Phase 3)
-   - Implemented with 4 major components:
-     - `ResumeHero`: Personal info header with contact links
-     - `ResumeExperienceTimeline`: Work experience with timeline UI
-     - `ResumeSideProjects`: Side project showcase
-     - `ResumeSkillsGrid`: Technical skills categorization
-   - Full i18n support with separate data files per locale (`data/resume-{locale}.ts`)
-   - `useResumeData()` composable for locale-aware data fetching
-   - TypeScript types defined in `types/resume.ts`
-   - SEO optimized with Schema.org Person structured data
-
-4. **✅ Projects System** (Phase 4)
-   - Project list page with filtering by technology tags
-   - Modal-based project detail view (`ProjectModal`)
-   - Project card component with hover effects
-   - Integrated with Nuxt Content v3 for markdown-based projects
-   - Full i18n support with locale-based content
-
-5. **✅ Blog System** (Phase 5)
-   - Blog list page with category and tag filtering (`pages/blog/index.vue`)
-   - Individual article pages with TOC and related articles (`pages/blog/[...slug].vue`)
-   - Article card component with image, metadata, and tags (`components/ArticleCard.vue`)
-   - Nuxt Content v3 collection configuration with Zod schema validation
-   - 3 sample articles with full content
-   - SEO optimization with structured data
-   - Markdown rendering with `<ContentRenderer>`
-
-6. **✅ Internationalization (i18n)** (Integrated across all phases)
-   - Three locales: zh-TW (default), en, ja
-   - Strategy: `prefix_except_default` (default locale has no prefix)
-   - Cookie-based locale persistence (`i18n_redirected`)
-   - Translation files in `i18n/locales/` with structured organization
-   - **CRITICAL**: All internal navigation links MUST use `localePath()` to preserve language state
-   - Resume data separated by locale in `data/resume-{locale}.ts`
-   - Locale-aware composables (`useResumeData`)
-
-## Development Commands
-
-### Development
-
-```bash
-# Install dependencies (first time setup)
-npm install
-
-# Start dev server with HMR at http://localhost:3000
-# do not `npm run dev` if the prompt does not ask you to do so
-npm run dev
-
-# Build for production (standard build)
-npm run build
-
-# Build for static site generation (SSG) - use this for Vercel
-npm run generate
-
-# Preview production build locally
-npm run preview
-
-# Generate Nuxt type definitions (runs automatically on postinstall)
-npm run postinstall
-```
-
-### Deployment
-
-```bash
-# Build static site for Vercel
-npm run generate
-
-# Output will be in .output/public/
-```
-
-**Vercel Configuration**:
-- Build Command: `npm run generate`
-- Output Directory: `.output/public`
-- Framework Preset: Nuxt.js
-
-## Configuration Architecture
-
-### nuxt.config.ts
-
-Core configuration includes:
-- **Modules**: `@nuxt/content` (v3), `@nuxt/image`, `@nuxtjs/tailwindcss`, `@nuxtjs/color-mode`, `@vueuse/motion/nuxt`, `@nuxtjs/sitemap`, `@nuxtjs/i18n`
-- **TypeScript**: Strict mode enabled, typeCheck disabled for faster builds (run separately if needed)
-- **Nitro Prerender**: Configured to crawl links and prerender sitemap/robots.txt
-- **Color Mode**: System preference detection with 'light' fallback, no class suffix
-- **SEO**: Default meta tags, fonts preconnected (Google Fonts: Inter + Noto Sans TC)
-- **Runtime Config**: Public siteUrl for SEO/metadata
-- **i18n Configuration**:
-  - Locales: zh-TW (default), en, ja
-  - Strategy: `prefix_except_default` - default locale has no URL prefix
-  - Browser detection with cookie persistence
-  - Lazy-loaded translation files from `i18n/locales/`
-
-### content.config.ts
-
-Nuxt Content v3 uses collection-based architecture with Zod schemas:
-- **Blog Collection**: Validates title, description, date, tags, category, author, image, optional language/updatedAt
-- **Projects Collection**: Validates title, description, date, tags, github, demo, image, featured status
-- Collections use `type: 'page'` for full-page markdown content
+- Locales are `zh-TW` (default), `en` and `ja`, with strategy `prefix_except_default`. Catalogs live in `i18n/locales/`. `tests/i18n-catalogs.test.mjs` enforces that every locale has the same keys.
+- Every **non-blog** internal link must go through `localePath()`. A hardcoded `/resume` sends a user on `/en` back to zh-TW.
+- Blog routes are **not** locale-prefixed; each article has one URL:
+  - On `/blog`, the UI language comes from the `editorial-language` cookie (see `composables/useSiteLanguage.ts`).
+  - On those routes `app.vue` suppresses the hreflang alternates.
+  - Old `/en/blog/...` and `/ja/blog/...` URLs exist only as redirects.
 
 ### Nuxt Content v3 API
 
-**CRITICAL**: This project uses **Nuxt Content v3** (`@nuxt/content: ^3.7.1`), which has **breaking changes** from v2. The old API is completely removed with no backward compatibility.
-
-#### v2 to v3 Migration Reference
-
-| Feature | v2 API (❌ Removed) | v3 API (✅ Use This) |
-|---------|---------------------|----------------------|
-| Query initialization | `queryContent('blog')` | `queryCollection('blog')` |
-| Simple filter | `.where({ field: value })` | `.where('field', '=', value)` |
-| Not equal | `.where({ field: { $ne: value } })` | `.where('field', '!=', value)` |
-| Multiple AND conditions | `.where({ a: 1, b: 2 })` | `.where('a', '=', 1).andWhere('b', '=', 2)` |
-| Sorting | `.sort({ date: -1 })` | `.order('date', 'DESC')` |
-| Get multiple items | `.find()` | `.all()` |
-| Get single item | `.findOne()` | `.first()` |
-| Query by path | `.where({ _path: path })` | `.path(path)` |
-| Path field | `article._path` | `article.path` |
-| ID field | `article._id` | `article.id` |
-
-#### Built-in Fields for `type: 'page'` Collections
-
-Collections with `type: 'page'` automatically include these fields (no need to define in schema):
-- `path` - Generated route path (e.g., `/blog/my-article`)
-- `title` - Page title (can be overridden in schema)
-- `description` - Page description (can be overridden in schema)
-- `seo` - SEO metadata for `useSeoMeta()`
-- `body` - Parsed content as AST (for `<ContentRenderer>`)
-- `navigation` - Page navigation configuration
-
-#### SQL-based Operators
-
-v3 uses SQL-style operators in `.where()` clauses:
-- `=` - Equal
-- `!=` or `<>` - Not equal
-- `>` - Greater than
-- `<` - Less than
-- `>=` - Greater than or equal
-- `<=` - Less than or equal
-- `LIKE` - Pattern matching (e.g., `.where('path', 'LIKE', '/blog%')`)
-- `IN` - Value in list (e.g., `.where('category', 'IN', ['tech', 'blog'])`)
-
-#### Example Usage
-
-```typescript
-// Fetch all published blog posts, sorted by date
-const { data: articles } = await useAsyncData('blog-articles', () =>
-  queryCollection('blog')
-    .order('date', 'DESC')
-    .all()
-)
-
-// Fetch a single article by path
-const { data: article } = await useAsyncData(`blog-${slug}`, () =>
-  queryCollection('blog')
-    .path(`/blog/${slug}`)
-    .first()
-)
-
-// Complex query with multiple conditions
-const { data: featured } = await useAsyncData('featured-posts', () =>
-  queryCollection('blog')
-    .where('featured', '=', true)
-    .order('date', 'DESC')
-    .limit(3)
-    .all()
-)
-```
-
-### tailwind.config.ts
-
-Extended configuration:
-- **Dark Mode**: Class-based (`class` mode)
-- **Color Palette**: Primary (blue/purple), Secondary (purple), Accent (pink/purple) with 50-900 shades
-- **Typography**: Inter + Noto Sans TC font stack, custom prose styles for light/dark modes
-- **Animations**: Fade-in, slide-up, slide-down with keyframes
-- **Plugin**: `@tailwindcss/typography` for markdown content styling
-
-### Content Structure & Schema
-
-Content schemas are enforced via `content.config.ts` using Zod validation.
-
-**Blog Posts** (`content/blog/*.md`):
-```yaml
----
-title: 'Article Title'              # Required
-description: 'Brief description'    # Required
-date: '2025-01-15'                  # Required (string format)
-tags: ['nuxt', 'vue', 'typescript'] # Required (array)
-category: 'frontend'                # Required
-author: 'Ting Zhang'                # Optional (defaults to 'Ting Zhang')
-image: '/images/blog/cover.jpg'     # Optional
----
-```
-
-**Projects** (`content/projects/*.md`):
-```yaml
----
-title: 'Project Name'               # Required
-description: 'Project description'  # Required
-date: '2025-01-15'                  # Required (string format)
-tags: ['vue', 'node', 'postgresql'] # Required (array)
-github: 'https://github.com/...'    # Optional
-demo: 'https://demo.example.com'    # Optional
-image: '/images/projects/cover.jpg' # Optional
-featured: false                     # Optional (defaults to false)
----
-```
-
-## Design System
-
-### Theme: "Digital Artisan's Studio"
-
-The design follows a modern, professional aesthetic inspired by a digital craftsman's workspace.
-
-### Color Scheme
-- **Primary**: Blue/Purple gradient (`#667eea`, `#764ba2`) - Technology/creativity blend
-- **Background**:
-  - Light: White (`bg-white`)
-  - Dark: Navy/charcoal (`bg-gray-900`)
-- **TopBar/Sidebar**:
-  - Semi-transparent with backdrop blur (`bg-white/80 dark:bg-gray-900/80 backdrop-blur-md`)
-  - Creates depth and modern glass-morphism effect
-- **Accent Colors**: Defined in `tailwind.config.ts` with 50-900 shades
-- All components MUST support both light and dark modes
-
-### Typography
-- **Primary Font**: Inter (English)
-- **Secondary Font**: Noto Sans TC (Chinese/Traditional)
-- Loaded via Google Fonts with preconnect optimization for performance
-- Logo uses code bracket symbols: `<Ting Zhang/>`
-
-### Responsive Breakpoints
-- **Mobile**: < 768px (md breakpoint)
-  - Hamburger menu triggers Sidebar
-  - Navigation links in mobile Sidebar only
-- **Tablet**: 768px - 1024px
-  - Desktop navigation starts at `md:` breakpoint
-- **Desktop**: > 1024px
-  - Full horizontal navigation in TopBar
-  - Sidebar hidden
-
-### Layout Measurements
-- **TopBar Height**: 64px (`h-16`) - Fixed positioning at top
-- **Content Padding Top**: 64px (`pt-16`) - To accommodate fixed TopBar
-- **Sidebar Width**: 256px (`w-64`) - Mobile slide-in menu
-- **Container Max Width**: Responsive (`container mx-auto`)
-
-### Animations & Transitions
-- **Theme Toggle**: Smooth color transitions (`transition-colors duration-300`)
-- **Sidebar**: Slide-in from right (`transform translateX(100%)`)
-- **Navigation Links**: Underline animation on hover (desktop)
-- **Backdrop**: Semi-transparent overlay when Sidebar is open on mobile
-
-## Important Conventions
-
-### File Naming
-- Components: PascalCase (e.g., `ArticleCard.vue`, `ResumeHero.vue`)
-- Pages: kebab-case or [dynamic] (e.g., `resume.vue`, `[...slug].vue`)
-- Content: kebab-case (e.g., `my-first-post.md`)
-- Types: kebab-case (e.g., `blog.ts`, `resume.ts`)
-- Data files: kebab-case with locale suffix (e.g., `resume-zh-TW.ts`, `resume-en.ts`)
-- i18n files: locale code (e.g., `zh-TW.ts`, `en.ts`, `ja.ts`)
-
-### Component Organization
-- Layout components in `components/layout/` (TopBar, Sidebar, Footer)
-- Resume components in `components/resume/` (ResumeHero, ResumeExperienceTimeline, etc.)
-- Project components at root `components/` (ProjectCard, ProjectModal)
-- Generic UI components in `components/ui/`
-- All components are auto-imported by Nuxt
-
-### TypeScript
-- Strict mode enabled
-- Define interfaces for all data structures
-- Use `defineProps` and `defineEmits` with TypeScript
-- Type definitions in `types/` directory
-
-### Internationalization (i18n)
-- **CRITICAL**: ALL internal navigation links MUST use `localePath()` function
-  ```vue
-  <!-- ❌ Wrong - breaks language persistence -->
-  <NuxtLink to="/resume">Resume</NuxtLink>
-
-  <!-- ✅ Correct - preserves language state -->
-  <NuxtLink :to="localePath('/resume')">{{ $t('nav.resume') }}</NuxtLink>
-  ```
-- Use `useLocalePath()` composable in script setup:
-  ```typescript
-  const localePath = useLocalePath()
-  const resumeLink = localePath('/resume') // Returns /en/resume when locale is 'en'
-  ```
-- Translation keys should be organized hierarchically (e.g., `nav.resume`, `home.hero.title`)
-- Content that varies by locale should use separate data files (e.g., resume data)
-- Use `useI18n()` composable for accessing `t()` and `locale` in components
-
-### SEO
-- Every page must have `useSeoMeta()` or `useHead()` with proper meta tags
-- Include Open Graph and Twitter Card metadata
-- Add structured data (Schema.org) for Person type on homepage and resume
-- Use locale-aware titles and descriptions from i18n
-
-## Performance Requirements
-
-- Lighthouse score target: 90+ on all metrics
-- Use `<NuxtImg>` for all images with lazy loading
-- Implement code splitting for heavy components
-- Configure proper caching strategies for static assets
-- Enable prerender for all static routes
-
-## Critical Dependencies
-
-The project requires these non-optional dependencies:
-- **better-sqlite3**: Required by @nuxt/content for database operations
-- **sharp**: Required by @nuxt/image for image optimization on darwin-arm64
-- **@tailwindcss/typography**: Required for markdown prose styling
-
-If build fails with missing module errors, install these explicitly.
-
-## Common Issues & Troubleshooting
-
-### White Screen / Content Not Showing
-
-**Problem**: Fixed `TopBar` (height: 64px / 4rem) covers page content.
-
-**Solution**: All page content must account for TopBar height:
-- Use `min-h-[calc(100vh-4rem)]` instead of `min-h-screen` for full-height sections
-- Main layout has `pt-16` (padding-top: 4rem) to push content below TopBar
-- Example from `pages/index.vue`:
-  ```vue
-  <div class="min-h-[calc(100vh-4rem)] flex items-center justify-center">
-  ```
-
-### app.vue Location
-
-**Problem**: Nuxt shows default welcome page instead of custom layout.
-
-**Solution**: `app.vue` MUST be in the **root directory**, not in an `app/` subdirectory. Check:
-```bash
-# Correct location
-/app.vue
-
-# Wrong location (will not work)
-/app/app.vue
-```
-
-### Development Server Issues
-
-**Common errors**:
-- Port conflicts: Dev server will auto-select alternative port (e.g., 3001 if 3000 is taken)
-- Nitro build errors after file structure changes: Clear cache and rebuild:
-  ```bash
-  rm -rf .nuxt .output
-  ```
-
-### Layout Not Appearing
-
-**Check**:
-1. `app.vue` exists in root and contains `<NuxtLayout><NuxtPage /></NuxtLayout>`
-2. `layouts/default.vue` exists and is properly structured
-3. Page components don't override background colors conflicting with layout
-4. Clear Nuxt cache: `rm -rf .nuxt`
-
-### Nuxt Content v3: Content Not Displaying / `undefined` Errors
-
-**Problem**: Articles show as empty, "No articles found", or navigation fails with `/blog/undefined` errors.
-
-**Root Cause**: Using deprecated v2 API (`queryContent`, `_path` field) with Nuxt Content v3.
-
-**Symptoms**:
-- Empty article list on `/blog` page
-- Browser console shows `queryContent is not defined`
-- Article links show `/blog/undefined()` or cause navigation errors
-- `article._path` returns `undefined`
-
-**Solution Checklist**:
-
-1. **Replace v2 query API with v3**:
-   ```typescript
-   // ❌ Wrong (v2 API - removed in v3)
-   const { data } = await useAsyncData('blog', () =>
-     queryContent('blog')
-       .sort({ date: -1 })
-       .find()
-   )
-
-   // ✅ Correct (v3 API)
-   const { data } = await useAsyncData('blog', () =>
-     queryCollection('blog')
-       .order('date', 'DESC')
-       .all()
-   )
-   ```
-
-2. **Update field names** (remove underscore prefix):
-   ```typescript
-   // ❌ Wrong (v2 field names)
-   :to="`/blog/${article._path}`"
-   :key="article._id"
-
-   // ✅ Correct (v3 field names)
-   :to="`/blog/${article.path}`"
-   :key="article.id"
-   ```
-
-3. **Update TypeScript interfaces**:
-   ```typescript
-   // ❌ Wrong
-   interface Article {
-     _path: string
-     _id: string
-   }
-
-   // ✅ Correct
-   interface Article {
-     path: string
-     id: string
-   }
-   ```
-
-4. **Verify collection configuration** in `content.config.ts`:
-   ```typescript
-   export default defineContentConfig({
-     collections: {
-       blog: defineCollection({
-         type: 'page',
-         source: 'blog/**/*.md',
-         schema: z.object({
-           // Define custom fields only
-           // Built-in fields (path, title, description, body) are auto-generated
-           date: z.string(),
-           tags: z.array(z.string()),
-           // ...
-         })
-       })
-     }
-   })
-   ```
-
-5. **Check dev server output** for successful content processing:
-   ```
-   [@nuxt/content] ✔ Processed 2 collections and 3 files in 251ms
-   ```
-
-**Files to Check**:
-- `pages/blog/index.vue` - Article list query
-- `pages/blog/[...slug].vue` - Single article query
-- `components/ArticleCard.vue` - Path field usage in template
-- `types/blog.ts` or `types/project.ts` - TypeScript interfaces
-
-**Quick Test**:
-```typescript
-// In browser console on /blog page
-console.log(articles.value)
-// Should show array with 'path' field (not '_path')
-```
-
-### Nuxt Content v3: Collection Not Found Errors
-
-**Problem**: `Error: No collection found for 'blog'` or similar errors.
-
-**Solution**:
-1. Verify `content.config.ts` exists in project root
-2. Ensure collection name matches exactly (case-sensitive):
-   ```typescript
-   // content.config.ts
-   collections: {
-     blog: defineCollection({ ... })  // Collection name is 'blog'
-   }
-
-   // pages/blog/index.vue
-   queryCollection('blog')  // Must match exactly
-   ```
-3. Restart dev server after modifying `content.config.ts`
-4. Check that markdown files exist in the correct source directory:
-   ```typescript
-   source: 'blog/**/*.md'  // Files must be in content/blog/
-   ```
-
-### i18n: Language Not Persisting Across Pages
-
-**Problem**: Language switches back to default when navigating between pages.
-
-**Root Cause**: Internal navigation links using hardcoded paths instead of `localePath()`.
-
-**Symptoms**:
-- Switch to English (`/en`) on homepage
-- Click Resume link → URL becomes `/resume` instead of `/en/resume`
-- Page displays in default language (zh-TW)
-
-**Solution**:
-
-1. **Update all navigation links** to use `localePath()`:
-   ```vue
-   <script setup>
-   const localePath = useLocalePath()
-   </script>
-
-   <template>
-     <!-- ❌ Wrong -->
-     <NuxtLink to="/resume">Resume</NuxtLink>
-
-     <!-- ✅ Correct -->
-     <NuxtLink :to="localePath('/resume')">Resume</NuxtLink>
-   </template>
-   ```
-
-2. **Check these files** for hardcoded paths:
-   - `components/layout/TopBar.vue` - Navigation links and logo
-   - `components/layout/Sidebar.vue` - Mobile menu links
-   - `pages/index.vue` - Quick navigation cards
-   - `components/ArticleCard.vue` - Blog article links
-   - `pages/blog/[...slug].vue` - Back to blog link
-   - Any other component with `<NuxtLink>` to internal pages
-
-3. **Verify locale prefix** in browser URL:
-   - Default locale (zh-TW): `/resume`, `/blog`
-   - English: `/en/resume`, `/en/blog`
-   - Japanese: `/ja/resume`, `/ja/blog`
-
-4. **Test navigation flow**:
-   - Start on homepage
-   - Switch language using language switcher
-   - Navigate to different pages
-   - Verify URL contains correct locale prefix
-   - Verify content displays in selected language
+The project uses Content **v3**. The v2 API was removed. If you call it anyway, lists come back empty and links render as `/blog/undefined`, without an error.
+
+| v2 (removed)                    | v3 (use)                                                                   |
+| ------------------------------- | -------------------------------------------------------------------------- |
+| `queryContent('blog')`          | `queryCollection('blog')`                                                  |
+| `.where({ f: v })`              | `.where('f', '=', v)` (`!=`, `>`, `LIKE`, `IN`, …; chain with `.andWhere`) |
+| `.sort({ date: -1 })`           | `.order('date', 'DESC')`                                                   |
+| `.find()` / `.findOne()`        | `.all()` / `.first()`                                                      |
+| `.where({ _path })`             | `.path(path)`                                                              |
+| `article._path` / `article._id` | `article.path` / `article.id`                                              |
+
+`type: 'page'` collections get `path`, `title`, `description`, `seo`, `body` and `navigation` automatically. Restart the dev server after editing `content.config.ts`.
 
 ## Blog publishing
 
-All article text and images originate in Obsidian. Use the globally installed
-write-article skill to write/edit/proofread Vault articles, and cook-blog-publish
-for publishing. Do not recreate project-local copies of those skills.
+All article text and images originate in the Obsidian vault. To write, edit or proofread a vault article, use the globally installed `write-article` skill. To publish, use `cook-blog-publish`. Do not create project-local copies of either skill.
 
-The whole Vault `03 Writing/blog/**` tree is mirrored into `content/blog/**`.
-`drafts/**` is excluded; folder moves withdraw articles on the next full sync.
-No draft frontmatter or publication quality gate. Preserve nested relative paths.
-Use `npm run blog:plan`, `npm run blog:sync`, and `npm run blog:status -- --verify`.
-See README.md for prerequisites, conflict recovery and deployment semantics.
-The cross-platform publisher document is historical; tools/publisher is absent.
+- The sync mirrors the vault's `03 Writing/blog/**` tree into `content/blog/**` and keeps nested relative paths. It skips `drafts/**`. When an article is moved back to drafts, deleted or renamed, the next full sync withdraws it.
+- There is no `draft` frontmatter and no publication quality gate.
+- Never edit `content/blog/**`, the managed images or `.blog-sync/manifest.json` by hand. The sync reports a manual edit as a conflict. To recover, copy the changes you want to keep back into the vault; never fix the manifest hash.
+- The commands run in this order:
+  1. `npm run blog:plan` and `npm run blog:status` are read-only.
+  2. `npm run blog:sync` writes local files only; it never commits or pushes.
+  3. `npm run blog:status -- --verify` checks the live domain.
+- `docs/plan-cross-platform-publisher.md` is historical; `tools/publisher` does not exist.
 
-## References
+## Conventions
 
-- Detailed implementation guide: `NUXT3_MIGRATION_GUIDE.md`
-- Task breakdown and progress: `TODO.md`
-- Official docs: https://nuxt.com/docs
-- Nuxt Content v3: https://content.nuxt.com
+- Components use PascalCase and are auto-imported. They are grouped by area: `layout/`, `home/`, `resume/`, `projects/`, `editorial/`. Pages and content files use kebab-case. Locale data files take a locale suffix.
+- TypeScript runs in strict mode. Shared types live in `types/`. Type `defineProps` and `defineEmits`.
+- Every component must work in both light and dark mode:
+  - Colors come from the CSS variables in `assets/css/site-colors.css` (for example `--color-surface`, `--color-foreground`).
+  - `tailwind.config.ts` exposes them as classes such as `bg-surface` and `text-foreground`.
+  - Fonts are Inter with Noto Sans TC, Fraunces for display, and JetBrains Mono.
+- The fixed TopBar is 64px tall (`h-16`). A full-height section in the default layout uses `min-h-[calc(100vh-4rem)]`, not `min-h-screen`.
+- Every page sets `useSeoMeta` or `useHead` with locale-aware text. The home and resume pages also emit Schema.org `Person` data. Article SEO lives in `utils/seo/article.ts`.
 
-## md files (notes) instrustions
+## Troubleshooting
 
-- always use tradional chinese if not mentioned in prompt
-- help me to make the content more engaging and interesting
-- help me to make the content more easy to read and understand
+- A Nitro error after files move: run `rm -rf .nuxt .output`.
+- `better-sqlite3` (used by Content) and `sharp` (used by Image) are native modules, built for Node 24. Other Node major versions may fail to build them.
+- `test:static` and `test:views` use the configs in `tests/fixtures/*-runtime`. Those hold only fake IDs and local bindings, and never touch the cloud.
+
+## Notes and docs
+
+- Write Markdown notes and docs in Traditional Chinese unless the prompt says otherwise.
+- Make them engaging, easy to read and easy to understand.
