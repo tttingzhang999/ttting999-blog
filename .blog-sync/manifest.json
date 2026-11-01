@@ -93,6 +93,12 @@
       "assets": []
     },
     {
+      "source": "Leetcode Problem/Leetcode-57.md",
+      "route": "/blog/leetcode-problem/leetcode-57",
+      "sourceHash": "62e6006c951bbb706f105e56ebe55180e5458bb5b8076d78d56d12d17040d3c7",
+      "assets": []
+    },
+    {
       "source": "Leetcode Problem/Leetcode-678.md",
       "route": "/blog/leetcode-problem/leetcode-678",
       "sourceHash": "1fd9c0eae02e4e24fe68b0a29c4d96e648bd2ffe79e5fcde586e8c6c07bff863",
@@ -154,6 +160,7 @@
     "content/blog/Leetcode Problem/Leetcode-134.md": "d54384c3960ea022aa4cad0df64eccc170e8d9e2335419f6653e4667166972e7",
     "content/blog/Leetcode Problem/Leetcode-139.md": "7ba66045867a47b361822817aeb828cfbe51cfa88536fe527d7e84eef1fda352",
     "content/blog/Leetcode Problem/Leetcode-45.md": "0b6c449ba6c71df168c1efa885f61fdbf630b804dbe45f07d97459165df71f88",
+    "content/blog/Leetcode Problem/Leetcode-57.md": "269317f84c149b59ac3de7d549551fd777a6855cc177aafc8bc80f52ab9ef67e",
     "content/blog/Leetcode Problem/Leetcode-678.md": "803924274fcc4cfabc64582318be6e97f8b88b8dd930dcae6f5acba7a93fcaa8",
     "content/blog/Leetcode Problem/Leetcode-739.md": "4d003a0561d953927dc0ed9ae0fe3102ef3d445023d00416c386e8fe43b7983a",
     "content/blog/Leetcode Problem/Leetcode-763.md": "5b7a337ec869f11f3bfc2d52ab97e879a977f9bf920ecb613589ddf3f0f9a837",
