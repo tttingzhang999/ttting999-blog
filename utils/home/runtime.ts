@@ -14,9 +14,36 @@ export function mountHomeScenes(
   const sections = [...root.querySelectorAll<HTMLElement>(".section")];
   const anchors = ["intro", "writing", "practice"];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-  const desktop = matchMedia("(min-width: 1001px) and (min-height: 820px)");
   const context = gsap.context(() => {}, root);
   const filament = createFilament(root);
+  const composition = root.querySelector<HTMLElement>(".journal-composition")!;
+  const articleItems = [...root.querySelectorAll<HTMLElement>(".article-item")];
+  let visibleArticles = articles;
+  const fitArticles = () => {
+    articleItems.forEach((item) => {
+      item.hidden = false;
+    });
+    const top = composition.getBoundingClientRect().top;
+    const bottom =
+      innerHeight - parseFloat(getComputedStyle(composition).paddingBottom);
+    const overflowIndex = articleItems.findIndex(
+      (item) => item.getBoundingClientRect().bottom - top > bottom,
+    );
+    const count = overflowIndex < 0 ? articleItems.length : overflowIndex;
+    articleItems.forEach((item, index) => {
+      item.hidden = index >= count;
+    });
+    const paths = new Set(
+      articleItems.slice(0, count).map((item) => item.dataset.path),
+    );
+    visibleArticles = articles.filter((article) => paths.has(article.path));
+  };
+  fitArticles();
+  const articleLayout = new ResizeObserver(fitArticles);
+  articleLayout.observe(composition);
+  articleLayout.observe(root.querySelector(".journal-heading")!);
+  articleItems.forEach((item) => articleLayout.observe(item));
+  document.fonts.addEventListener("loadingdone", fitArticles, { signal });
   let api: fullpage | undefined, intro: gsap.core.Timeline | undefined;
   let observer: IntersectionObserver | undefined;
   let pendingWriting = false;
@@ -74,7 +101,7 @@ export function mountHomeScenes(
     pendingWriting = false;
     if (playWriting) {
       root.dataset.journalIntro = "playing";
-      intro = articleTimeline(root, articles, () => stopIntro(), filament);
+      intro = articleTimeline(root, visibleArticles, () => stopIntro(), filament);
     } else {
       // Arrival is already visible. Never replay a hidden start frame over it.
       stopIntro(false);
@@ -102,7 +129,7 @@ export function mountHomeScenes(
   };
   const setup = () => {
     if (disposed) return;
-    const nextMode = desktop.matches && !reduced.matches ? "scenes" : "reading";
+    const nextMode = reduced.matches ? "reading" : "scenes";
     if (mode === nextMode) return;
     pendingWriting = false;
     stopIntro();
@@ -124,7 +151,7 @@ export function mountHomeScenes(
         scrollingSpeed: 950,
         easingcss3: "cubic-bezier(.76,0,.24,1)",
         verticalCentered: false,
-        scrollOverflow: false,
+        scrollOverflow: true,
         keyboardScrolling: false,
         observer: false,
         credits: {
@@ -136,9 +163,10 @@ export function mountHomeScenes(
           moveFocus = moveFocus || origin.item.contains(document.activeElement);
           pendingWriting =
             loaded &&
+            innerWidth > 700 &&
             destination.index === 1 &&
             origin.index === 0 &&
-            articles.length > 0;
+            visibleArticles.length > 0;
           if (destination.index === 1) {
             stopIntro(false);
             if (pendingWriting)
@@ -154,7 +182,7 @@ export function mountHomeScenes(
           root.dataset.backdrop = pendingWriting ? "scan" : "ambient";
           filament.scene(
             destination.index,
-            destination.index === 1 && origin.index === 0 ? articles.length : 0,
+            destination.index === 1 && origin.index === 0 ? visibleArticles.length : 0,
           );
 
           destination.item.inert = false;
@@ -259,6 +287,7 @@ export function mountHomeScenes(
     () => {
       pendingWriting = false;
       stopIntro();
+      fitArticles();
       context.add(setup);
     },
     { signal },
@@ -283,6 +312,7 @@ export function mountHomeScenes(
   );
   context.add(setup);
   return () => {
+    articleLayout.disconnect();
     disposed = true;
     abort.abort();
     observer?.disconnect();

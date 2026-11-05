@@ -9,7 +9,6 @@ import "fullpage.js/dist/fullpage.css";
 const props = defineProps<{
   articles: HomeArticle[];
   timeline: HomeArticle[];
-  total: number;
   failed: boolean;
 }>();
 const { locale } = useI18n();
@@ -82,7 +81,6 @@ onBeforeUnmount(() => {
         <div class="scene-content intro-composition">
           <div class="identity entrance">
             <p>Ting Zhang <span>張碩庭</span></p>
-            <p>{{ copy.role }}</p>
           </div>
           <h1 class="hero-type" id="intro-title">
             <span class="word plan">Plan<span class="period">.</span></span
@@ -91,9 +89,7 @@ onBeforeUnmount(() => {
             >
           </h1>
           <div class="hero-foot entrance">
-            <p class="hero-statement">{{ copy.motto }}</p>
             <div class="hero-copy">
-              <p>{{ copy.intro }}</p>
               <a href="#writing" class="text-link" data-go="writing"
                 >{{ copy.start }} <span aria-hidden="true">↓</span></a
               >
@@ -103,16 +99,14 @@ onBeforeUnmount(() => {
         </div>
       </section>
       <section
-        class="section writing"
+        class="section writing fp-noscroll"
         data-anchor="writing"
         aria-labelledby="writing-title"
       >
         <div class="article-panorama" aria-hidden="true" />
         <div class="scene-content journal-composition">
           <div class="journal-heading">
-            <p class="journal-count">{{ total }} {{ copy.count }}</p>
             <h2 id="writing-title">{{ copy.writingTitle }}</h2>
-            <p class="journal-intro">{{ copy.writingIntro }}</p>
             <NuxtLink class="text-link" to="/blog"
               >{{ copy.all }} <span aria-hidden="true">↗</span></NuxtLink
             >
@@ -186,9 +180,6 @@ onBeforeUnmount(() => {
             >
           </div>
           <div class="contact entrance">
-            <a class="contact-main" href="mailto:tttingzhang999@gmail.com"
-              >{{ copy.contact }}<span aria-hidden="true">↗</span></a
-            >
             <div>
               <a href="https://github.com/tttingzhang999">GitHub</a
               ><a href="https://www.linkedin.com/in/tingzhang98/">LinkedIn</a

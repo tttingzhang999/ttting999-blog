@@ -1,16 +1,11 @@
 .home-scenes .journal-composition {
   display: grid;
-  grid-template-columns: 30% 1fr;
-  column-gap: 9%;
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  column-gap: 8%;
+  align-items: start;
 }
 .home-scenes .journal-heading {
-  align-self: center;
-}
-.home-scenes .journal-count {
-  color: var(--amber);
-  font-size: 12px;
-  margin-bottom: 25px;
+  align-self: start;
 }
 .home-scenes .journal-heading h2 {
   font-size: clamp(40px, 4.8vw, 76px);
@@ -18,14 +13,8 @@
   line-height: 1.4;
   letter-spacing: -0.055em;
 }
-.home-scenes .journal-intro {
-  font-size: 13px;
-  line-height: 1.9;
-  color: var(--muted);
-  margin: 25px 0;
-}
 .home-scenes .journal-heading .text-link {
-  margin-top: 10px;
+  margin-top: 28px;
 }
 .home-scenes .journal-latest {
   min-width: 0;
@@ -47,6 +36,9 @@
   transition: color 0.2s;
   isolation: isolate;
 }
+.home-scenes .article-item[hidden] {
+  display: none;
+}
 .home-scenes .article-item:before {
   content: "";
   position: absolute;
@@ -54,13 +46,6 @@
   z-index: -1;
   background: radial-gradient(ellipse, color-mix(in srgb, var(--color-surface) 85%, transparent), transparent 80%);
   pointer-events: none;
-}
-.home-scenes .article-item:nth-child(2),
-.home-scenes .article-item:nth-child(4) {
-  margin-left: 24px;
-}
-.home-scenes .article-item:nth-child(3) {
-  margin-left: 42px;
 }
 .home-scenes .article-item:hover,
 .home-scenes .article-item:focus-visible {
@@ -106,25 +91,23 @@
 }
 @media (max-width: 1000px) {
   .home-scenes .journal-composition {
-    grid-template-columns: 30% 1fr;
-    gap: 7%;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    column-gap: 8%;
   }
   .home-scenes .article-title {
     font-size: 20px;
-  }
-  .home-scenes .article-item:nth-child(n) {
-    margin-left: 0;
   }
   .home-scenes .article-list {
     gap: 22px;
   }
 }
 @media (max-width: 700px) {
+  .home-scenes .journal-composition,
   .home-scenes[data-mode="reading"] .journal-composition {
     display: block;
     min-height: 0;
-    padding-top: 110px;
-    padding-bottom: 70px;
+    padding-top: 96px;
+    padding-bottom: 80px;
   }
   .home-scenes .journal-heading h2 {
     font-size: 42px;
@@ -133,15 +116,8 @@
   .home-scenes .journal-heading h2 br {
     display: none;
   }
-  .home-scenes .journal-count {
-    margin-bottom: 18px;
-  }
-  .home-scenes .journal-intro {
-    margin: 18px 0;
-    font-size: 12px;
-  }
   .home-scenes .journal-heading .text-link {
-    margin: 0 0 40px;
+    margin: 20px 0 40px;
   }
   .home-scenes .latest-label {
     margin-bottom: 25px;
@@ -203,9 +179,7 @@
   isolation: isolate;
   min-height: 100svh;
 }
-.home-scenes h2,
-.home-scenes .hero-copy > p,
-.home-scenes .journal-intro {
+.home-scenes h2 {
   white-space: pre-line;
 }
 .home-scenes .header-tools {

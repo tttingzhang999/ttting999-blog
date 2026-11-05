@@ -2,6 +2,39 @@ import type { Project } from "~/types/project";
 
 export const projects: Project[] = [
   {
+    "id": "baseball-public",
+    "date": "2026-08-01",
+    "period": "2026/08 - 2026/11",
+    "tags": [
+      "Vue 3",
+      "TypeScript",
+      "ECharts",
+      "Python",
+      "Elo",
+      "Cloudflare"
+    ],
+    "demo": "https://cpbl-elo.tttingzhang999.com/",
+    "image": "/images/projects/baseball-public/rankings.webp",
+    "images": [
+      "/images/projects/baseball-public/rankings.webp",
+      "/images/projects/baseball-public/formulas.webp"
+    ],
+    "title": "Baseball Public - CPBL Elo Analytics",
+    "description": "A baseball analytics website that turns CPBL plate-appearance data into player rankings and performance histories. Elo ratings, OPS+, tiers and an interactive formula calculator help fans explore how player performance changes over time.",
+    "highlights": [
+      "Filter rankings by season, player role and team, with Elo ratings, 14-day changes and percentile tiers",
+      "Explore daily and plate-appearance Elo histories alongside OPS+ charts and position rankings",
+      "Inspect Elo formulas and season parameters, then calculate the rating impact of a plate appearance",
+      "An offline Python pipeline collects, computes and exports versioned JSON, served by a Vue frontend and delivered through GitHub Actions to Cloudflare"
+    ],
+    "role": "Frontend, backend and data crawling",
+    "teamSize": "3 people",
+    "subtitle": "From plate appearances to player performance trends",
+    "kind": "Web · Sports Analytics",
+    "shortName": "Baseball Public",
+    "screenshot": "/images/projects/baseball-public/rankings.webp"
+  },
+  {
     id: "wedding",
     title: "Wedding - Interactive Wedding Website",
     description:

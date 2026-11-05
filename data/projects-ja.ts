@@ -2,6 +2,39 @@ import type { Project } from "~/types/project";
 
 export const projects: Project[] = [
   {
+    "id": "baseball-public",
+    "date": "2026-08-01",
+    "period": "2026/08 - 2026/11",
+    "tags": [
+      "Vue 3",
+      "TypeScript",
+      "ECharts",
+      "Python",
+      "Elo",
+      "Cloudflare"
+    ],
+    "demo": "https://cpbl-elo.tttingzhang999.com/",
+    "image": "/images/projects/baseball-public/rankings.webp",
+    "images": [
+      "/images/projects/baseball-public/rankings.webp",
+      "/images/projects/baseball-public/formulas.webp"
+    ],
+    "title": "Baseball Public - CPBL Elo 分析サイト",
+    "description": "台湾プロ野球の打席データを、選手ランキングと成績推移として閲覧できる分析サイト。Elo 相対評価、OPS+、ランク区分と計算シミュレーターを通じて、選手の変化を探れます。",
+    "highlights": [
+      "年度・投打の役割・球団でランキングを絞り込み、Elo、直近14日間の変化とランク区分を表示",
+      "日別・打席別の Elo と OPS+ の推移をインタラクティブなグラフで確認し、守備位置別ランキングも提供",
+      "Elo の計算式と年度パラメーターを公開し、各打席が評価に与える影響を試算",
+      "Python のオフライン処理で収集・計算したバージョン付き JSON を Vue で表示し、GitHub Actions から Cloudflare へ配信"
+    ],
+    "role": "フロントエンド・バックエンド開発とデータ収集",
+    "teamSize": "3人",
+    "subtitle": "打席データから選手の成績推移へ",
+    "kind": "Web · スポーツデータ分析",
+    "shortName": "Baseball Public",
+    "screenshot": "/images/projects/baseball-public/rankings.webp"
+  },
+  {
     id: "wedding",
     title: "Wedding - インタラクティブ結婚式サイト",
     description:

@@ -134,19 +134,26 @@
 }
 .home-scenes .scene-content {
   position: relative;
-  min-height: 780px;
+  min-height: 0;
   height: 100svh;
   padding: 125px var(--gutter) 100px;
+}
+.home-scenes[data-mode="scenes"] .scene-content {
+  height: auto;
+  min-height: 100svh;
+}
+.home-scenes .intro-composition {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 32px;
 }
 .home-scenes .hero-type {
   font-weight: 500;
   letter-spacing: -0.085em;
-  font-size: clamp(120px, min(15vw, 24vh), 245px);
+  font-size: clamp(96px, min(17vw, 23svh), 245px);
   line-height: 0.87;
-  position: absolute;
-  left: 17%;
-  top: 25%;
-  width: 78%;
+  align-self: center;
+  margin-left: 10%;
   perspective: 1000px;
 }
 .home-scenes .hero-type .word {
@@ -173,31 +180,14 @@
   margin-left: 16px;
   color: var(--muted);
 }
-.home-scenes .identity p + p {
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 5px;
-}
 .home-scenes .hero-foot {
-  position: absolute;
-  bottom: 13%;
-  left: var(--gutter);
-  right: var(--gutter);
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: flex-end;
   gap: 30px;
 }
-.home-scenes .hero-statement {
-  font-size: clamp(23px, 2.4vw, 38px);
-  font-weight: 500;
-  letter-spacing: 0.02em;
-}
 .home-scenes .hero-copy {
-  font-size: 14px;
-  line-height: 1.95;
-  width: 31%;
-  color: var(--muted);
+  width: max-content;
 }
 .home-scenes .text-link {
   display: inline-flex;
@@ -216,9 +206,6 @@
   color: var(--amber);
   font-size: 21px;
   line-height: 1;
-}
-.home-scenes .hero-copy .text-link {
-  margin-top: 15px;
 }
 .home-scenes .scene-note {
   position: absolute;
@@ -262,10 +249,10 @@
 }
 .home-scenes .practice-composition {
   display: grid;
-  grid-template-columns: 1.25fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   grid-template-rows: auto 1fr auto;
-  column-gap: 9vw;
-  row-gap: 35px;
+  column-gap: 8%;
+  row-gap: 48px;
 }
 .home-scenes .practice-heading {
   grid-column: 1 / -1;
@@ -310,7 +297,7 @@
 }
 .home-scenes .project-detail {
   align-self: center;
-  max-width: 360px;
+  max-width: 440px;
 }
 .home-scenes .project-kind {
   font-size: 19px;
@@ -329,20 +316,11 @@
   margin: 18px 0;
 }
 .home-scenes .contact {
-  grid-column: 1 / -1;
+  grid-column: 2;
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 25px;
-}
-.home-scenes .contact-main {
-  font-size: clamp(23px, 2.6vw, 40px);
-  font-weight: 500;
-}
-.home-scenes .contact-main span {
-  color: var(--amber);
-  display: inline-block;
-  margin-left: 24px;
 }
 .home-scenes .contact > div {
   display: flex;
@@ -364,10 +342,12 @@
 }
 .home-scenes[data-mode="reading"] .scene-content {
   height: auto;
-  min-height: 850px;
+  min-height: 0;
+  padding-top: 110px;
+  padding-bottom: 80px;
 }
-.home-scenes[data-mode="reading"] .practice-composition {
-  min-height: 900px;
+.home-scenes[data-mode="reading"] .intro-composition {
+  min-height: min(780px, 100svh);
 }
 .home-scenes[data-mode="reading"] .contact {
   padding-bottom: 20px;
@@ -394,9 +374,7 @@
   }
   .home-scenes .hero-type {
     font-size: 19vw;
-    left: 10%;
-    top: 28%;
-    width: 85%;
+    margin-left: 0;
   }
   .home-scenes .hero-type .execute {
     margin-left: 3%;
@@ -404,17 +382,20 @@
   .home-scenes .scene-note {
     display: none;
   }
-  .home-scenes .hero-copy {
-    width: 44%;
-  }
   .home-scenes .practice-composition {
-    column-gap: 7vw;
+    row-gap: 48px;
   }
   .home-scenes .project-names button {
     font-size: 6.3vw;
   }
 }
 @media (max-width: 700px) {
+  .home-scenes .scene-footer {
+    bottom: max(18px, env(safe-area-inset-bottom));
+  }
+  .home-scenes .scene-nav {
+    display: none;
+  }
   .home-scenes .masthead {
     padding: 20px var(--gutter);
   }
@@ -430,8 +411,11 @@
   }
   .home-scenes .scene-content,
   .home-scenes[data-mode="reading"] .scene-content {
-    padding: 110px var(--gutter) 55px;
-    min-height: 780px;
+    padding: 96px var(--gutter) 80px;
+    min-height: 0;
+  }
+  .home-scenes[data-mode="reading"] .intro-composition {
+    min-height: min(640px, 100svh);
   }
   .home-scenes .identity p:first-child {
     font-size: 16px;
@@ -440,37 +424,14 @@
     font-size: 12px;
   }
   .home-scenes .hero-type {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
     font-size: 20vw;
-    margin: 75px 0 60px;
     line-height: 0.98;
   }
   .home-scenes .hero-type .execute {
     margin-left: 0;
   }
   .home-scenes .hero-foot {
-    position: static;
-    display: block;
-  }
-  .home-scenes .hero-statement {
-    font-size: 24px;
-  }
-  .home-scenes .hero-copy {
-    width: auto;
-    margin-top: 23px;
-    font-size: 13px;
-  }
-  .home-scenes .hero-copy br {
-    display: none;
-  }
-  .home-scenes .hero-copy p {
-    max-width: 290px;
-  }
-  .home-scenes .hero-copy .text-link {
-    margin-top: 16px;
+    justify-content: flex-start;
   }
   .home-scenes .practice-composition,
   .home-scenes[data-mode="reading"] .practice-composition {
@@ -520,11 +481,8 @@
   .home-scenes .contact {
     display: block;
   }
-  .home-scenes .contact-main {
-    font-size: 26px;
-  }
   .home-scenes .contact > div {
-    margin-top: 26px;
+    margin-top: 0;
     gap: 28px;
   }
   .home-scenes .text-link {
@@ -570,9 +528,6 @@
   pointer-events: none;
 }
 @media (max-width: 1000px) {
-  .home-scenes .contact {
-    padding-bottom: 65px !important;
-  }
   .home-scenes #continuity {
     opacity: 0.55;
   }
