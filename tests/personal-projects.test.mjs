@@ -7,7 +7,7 @@ import { projects as ja } from '../data/projects-ja.ts';
 import { projects as legacy } from '../data/projects.ts';
 
 test('every portfolio dataset contains only personal projects', () => {
-  const personal = new Set(['moniit-asset-management', 'wedding', 'eatswiper', 'aws-diagram', 'promptlingo']);
+  const personal = new Set(['moniit-asset-management', 'baseball-public', 'wedding', 'eatswiper', 'aws-diagram', 'promptlingo']);
   for (const projects of [zh, en, ja, legacy]) {
     assert.ok(projects.length > 0);
     assert.ok(projects.every(project => personal.has(project.id)));
@@ -19,7 +19,7 @@ test('every portfolio dataset contains only personal projects', () => {
 
 test('new projects have usable galleries and only public destination links', () => {
   for (const projects of [zh, en, ja, legacy]) {
-    for (const id of ['wedding', 'aws-diagram']) {
+    for (const id of ['wedding', 'aws-diagram', 'baseball-public']) {
       const project = projects.find(project => project.id === id);
       assert.ok(project, `${id} must be present`);
       assert.ok(project.description && project.highlights.length >= 3);
@@ -37,5 +37,14 @@ test('new projects have usable galleries and only public destination links', () 
 test('employer screenshots and logos are absent from public assets', () => {
   for (const directory of ['csms', 'pv-ems', 'salesplatform']) {
     assert.equal(existsSync(new URL(`../public/images/projects/${directory}`, import.meta.url)), false);
+  }
+});
+
+test("baseball project uses the supplied period and public demo", () => {
+  for (const projects of [zh, en, ja, legacy]) {
+    const project = projects.find(project => project.id === "baseball-public");
+    assert.equal(project?.period, "2026/08 - 2026/11");
+    assert.equal(project.demo, "https://cpbl-elo.tttingzhang999.com/");
+    assert.equal(project.github, undefined);
   }
 });

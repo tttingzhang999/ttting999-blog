@@ -4,7 +4,7 @@ for (const prefix of ['', '/en', '/ja']) {
   test(`new project chapters, images and links ${prefix || 'zh'}`, async ({ page }) => {
     await page.goto(`${prefix}/projects`);
     await expect(page.locator('.site-header')).toHaveAttribute('aria-busy', 'false');
-    for (const [id, count] of [['wedding', 3], ['aws-diagram', 2]] as const) {
+    for (const [id, count] of [['wedding', 3], ['aws-diagram', 2], ['baseball-public', 2]] as const) {
       await page.locator(`.chapter-nav a[href="#${id}"]`).click();
       const chapter = page.locator(`#${id}`);
       await expect(chapter).toBeInViewport();
@@ -24,8 +24,9 @@ for (const prefix of ['', '/en', '/ja']) {
     }
     await expect(page.locator('#wedding .interior-links a')).toHaveAttribute('href', 'https://wedding.tttingzhang999.com/');
     await expect(page.locator('#aws-diagram .interior-links a')).toHaveAttribute('href', 'https://github.com/tttingzhang999/aws-diagram');
+    await expect(page.locator("#baseball-public .interior-links a")).toHaveAttribute("href", "https://cpbl-elo.tttingzhang999.com/");
     await page.setViewportSize({ width: 390, height: 844 });
-    for (const id of ['wedding', 'aws-diagram']) {
+    for (const id of ['wedding', 'aws-diagram', 'baseball-public']) {
       await page.locator(`#${id}`).scrollIntoViewIfNeeded();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
     }

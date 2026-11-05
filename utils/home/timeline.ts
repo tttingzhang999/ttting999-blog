@@ -44,8 +44,8 @@ export function articleTimeline(
     });
   });
   const composition = root.querySelector(".journal-composition");
-  const journey = Math.min(6, Math.max(3.7, articles.length * 0.36));
-  const end = journey + 0.3;
+  const journey = Math.min(1.5, Math.max(0.8, articles.length * 0.25));
+  const end = journey + 0.15;
   const tl = gsap.timeline({ onComplete: complete });
   tl.set(stage, { autoAlpha: 1 }).set(composition, { opacity: 0 });
   tl.to(
@@ -58,8 +58,8 @@ export function articleTimeline(
   entries.forEach((entry, i) => {
     tl.to(
       entry.node,
-      { opacity: 1, duration: 0.38 },
-      (i / Math.max(1, entries.length - 1)) * (journey - 0.8),
+      { opacity: 1, duration: 0.18 },
+      (i / Math.max(1, entries.length - 1)) * (journey - 0.3),
     );
     tl.to(
       entry.node,
@@ -69,11 +69,11 @@ export function articleTimeline(
   });
   tl.call(() => flow.finishScan(), [], end);
   // Keep both layouts fixed: retire the scan before revealing the real links.
-  tl.to(stage, { autoAlpha: 0, duration: 0.55, ease: "power1.inOut" }, end);
+  tl.to(stage, { autoAlpha: 0, duration: 0.2, ease: "power1.inOut" }, end);
   tl.to(
     composition,
-    { opacity: 1, duration: 0.85, ease: "power1.inOut" },
-    end + 0.65,
+    { opacity: 1, duration: 0.3, ease: "power1.inOut" },
+    end + 0.2,
   );
   return tl;
 }

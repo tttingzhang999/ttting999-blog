@@ -2,7 +2,6 @@
   <HomeScenes
     :articles="homeArticles.latest"
     :timeline="homeArticles.timeline"
-    :total="homeArticles.all.length"
     :failed="Boolean(error)"
   />
 </template>
