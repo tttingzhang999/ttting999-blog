@@ -5,7 +5,7 @@ test("SSR publishes metadata and real article links without animation JavaScript
 }) => {
   const page = await browser.newPage({ javaScriptEnabled: false });
   await page.goto("/");
-  await expect(page.locator(".article-item")).toHaveCount(5);
+  await expect(page.locator(".article-item")).toHaveCount(6);
   await expect(page.locator(".article-item").first()).toHaveAttribute(
     "href",
     /^\/blog\//,
@@ -24,8 +24,7 @@ test("scene navigation, repeated timeline, hover, routing cleanup and return", a
   await expect(root).toHaveAttribute("data-mode", "scenes");
   await page.locator('.scene-nav [data-go="writing"]').click();
   await expect(root).toHaveAttribute("data-journal-intro", "playing");
-  const total = Number((await page.locator(".journal-count").textContent())!.split(" ")[0]);
-  await expect(page.locator(".timeline-node")).toHaveCount(total);
+  await expect(page.locator(".timeline-node")).toHaveCount(6);
   await page.waitForTimeout(1600);
   const stage = await page.locator(".article-panorama").boundingBox();
   expect(Math.abs(stage!.y)).toBeLessThan(2);
@@ -70,7 +69,7 @@ test("deep link, reduced motion and mobile remain readable", async ({
     "data-mode",
     "reading",
   );
-  await expect(page.locator(".article-item")).toHaveCount(5);
+  await expect(page.locator(".article-item")).toHaveCount(6);
   await expect(page.locator(".home-scenes")).toHaveAttribute(
     "data-journal-intro",
     "done",

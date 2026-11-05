@@ -32,5 +32,6 @@ export function getHomeArticles(rows: readonly ArticleSource[]) {
       (a, b) =>
         Date.parse(b.date) - Date.parse(a.date) || a.path.localeCompare(b.path),
     );
-  return { all, latest: all.slice(0, 5), timeline: [...all].reverse() };
+  const latest = all.slice(0, 6);
+  return { all, latest, timeline: [...latest].reverse() };
 }
