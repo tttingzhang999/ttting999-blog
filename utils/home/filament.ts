@@ -80,8 +80,7 @@ export function createFilament(root: HTMLElement) {
         y,
       ]);
     }
-    const key = ["moniit", "eatswiper", "promptlingo"][state.project];
-    const item = contentBox(`[data-project="${key}"]`, 2);
+    const item = contentBox(`[data-project]:nth-child(${state.project + 1})`, 2);
     const x = item.x - 22,
       y = item.y + item.height * 0.52;
     return [0, 1, 2].map((i) => [

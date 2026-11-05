@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import test from 'node:test';
+import { sceneProjects } from '../data/home-scenes.ts';
 import { projects as zh } from '../data/projects-zh-TW.ts';
 import { projects as en } from '../data/projects-en.ts';
 import { projects as ja } from '../data/projects-ja.ts';
@@ -46,5 +47,15 @@ test("baseball project uses the supplied period and public demo", () => {
     assert.equal(project?.period, "2026/08 - 2026/11");
     assert.equal(project.demo, "https://cpbl-elo.tttingzhang999.com/");
     assert.equal(project.github, undefined);
+    assert.ok(project.title.startsWith("CPBL ELO - "));
+    assert.deepEqual(project.images, [
+      "/images/projects/baseball-public/rankings.webp",
+      "/images/projects/baseball-public/player.webp",
+    ]);
   }
+});
+
+test("homepage selects Moniit, CPBL ELO and AWS Diagram in order", () => {
+  assert.deepEqual(sceneProjects.map(project => project.id), ["moniit", "baseball-public", "aws-diagram"]);
+  assert.deepEqual(sceneProjects.map(project => project.name), ["Moniit", "CPBL ELO", "AWS Diagram"]);
 });

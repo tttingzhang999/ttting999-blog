@@ -17,9 +17,9 @@ export const projects: Project[] = [
     "image": "/images/projects/baseball-public/rankings.webp",
     "images": [
       "/images/projects/baseball-public/rankings.webp",
-      "/images/projects/baseball-public/formulas.webp"
+      "/images/projects/baseball-public/player.webp"
     ],
-    "title": "Baseball Public - CPBL Elo Analytics",
+    "title": "CPBL ELO - CPBL Elo Analytics",
     "description": "A baseball analytics website that turns CPBL plate-appearance data into player rankings and performance histories. Elo ratings, OPS+, tiers and an interactive formula calculator help fans explore how player performance changes over time.",
     "highlights": [
       "Filter rankings by season, player role and team, with Elo ratings, 14-day changes and percentile tiers",
@@ -31,7 +31,7 @@ export const projects: Project[] = [
     "teamSize": "3 people",
     "subtitle": "From plate appearances to player performance trends",
     "kind": "Web · Sports Analytics",
-    "shortName": "Baseball Public",
+    "shortName": "CPBL ELO",
     "screenshot": "/images/projects/baseball-public/rankings.webp"
   },
   {

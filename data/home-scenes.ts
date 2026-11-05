@@ -75,27 +75,27 @@ export const sceneProjects = [
     },
   },
   {
-    id: "eatswiper",
-    name: "EatSwiper",
-    tech: "Flutter / Google Places / SQLite",
-    url: "https://apps.apple.com/tw/app/eatswiper/id6755628087",
+    id: "baseball-public",
+    name: "CPBL ELO",
+    tech: "Vue 3 / TypeScript / ECharts / Python",
+    url: "https://cpbl-elo.tttingzhang999.com/",
     description: {
       "zh-TW":
-        "用 Flutter 與 Google Places 建立滑卡探索、收藏與餐廳抽選流程，讓「吃什麼」更容易決定。已上架 iOS。",
-      en: "Swipe, save and pick restaurants with Flutter and Google Places. Available on iOS.",
-      ja: "Flutter と Google Places でレストランを探し、保存し、選ぶアプリ。iOS で公開中。",
+        "以 Elo 評分、OPS+ 與互動圖表探索中職球員表現，從年度排行一路查看逐日與逐打席的變化。",
+      en: "Explore CPBL player performance through Elo ratings, OPS+ and interactive charts, from season rankings to daily and plate-appearance histories.",
+      ja: "Elo 評価、OPS+、インタラクティブなグラフで台湾プロ野球選手の成績を探り、年度ランキングから日別・打席別の推移まで確認。",
     },
   },
   {
-    id: "promptlingo",
-    name: "Promptlingo",
-    tech: "Claude Code Skill / CEFR A1–C2",
-    url: "https://github.com/tttingzhang999/promptlingo",
+    id: "aws-diagram",
+    name: "AWS Diagram",
+    tech: "Agent Skill / Python / AWS / Terraform / draw.io",
+    url: "https://github.com/tttingzhang999/aws-diagram",
     description: {
       "zh-TW":
-        "把真實開發對話轉成符合程度的英文學習素材，讓語言練習接上每天的工作。以 Claude Code Skill 形式使用。",
-      en: "A Claude Code Skill that turns real development conversations into English practice matched to your level.",
-      ja: "日々の開発で交わす会話を、習熟度に合った英語学習素材にする Claude Code Skill。",
+        "從需求、程式碼與 Terraform 整理架構，使用 AWS 官方圖示產出可編輯的 draw.io 架構圖。",
+      en: "Turn requirements, source code and Terraform into editable draw.io architecture diagrams using official AWS icons.",
+      ja: "要件・ソースコード・Terraform から構成を整理し、AWS 公式アイコンを使った編集可能な draw.io 構成図を生成。",
     },
   },
 ] as const;
