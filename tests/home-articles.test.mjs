@@ -20,9 +20,11 @@ test("technical metadata is published, current, ordered and body-free without mu
   ]);
   const result = getHomeArticles(input);
   assert.equal(result.all.length, 7);
-  assert.equal(result.latest.length, 5);
-  assert.equal(result.latest[0].path, "/blog/6");
-  assert.equal(result.timeline[0].path, "/blog/0");
+  assert.deepEqual(
+    result.latest.map((row) => row.path),
+    ["/blog/6", "/blog/5", "/blog/4", "/blog/3", "/blog/2", "/blog/1"],
+  );
+  assert.deepEqual(result.timeline, [...result.latest].reverse());
   assert.ok(!JSON.stringify(result).includes("private body"));
   assert.equal(input[0].path, "/blog/0");
   assert.equal(
