@@ -33,9 +33,9 @@ export const projects: Project[] = [
     "image": "/images/projects/baseball-public/rankings.webp",
     "images": [
       "/images/projects/baseball-public/rankings.webp",
-      "/images/projects/baseball-public/formulas.webp"
+      "/images/projects/baseball-public/player.webp"
     ],
-    "title": "Baseball Public - 中華職棒 ELO 資訊站",
+    "title": "CPBL ELO - 中華職棒 ELO 資訊站",
     "description": "將中職逐打席資料整理為球迷可探索的球員分析網站，以 Elo 相對評分、OPS+ 與牌位呈現球員表現，串接年度排行、球員歷史與公式試算，讓數據背後的變化更容易理解。",
     "highlights": [
       "依年度、投打角色與球隊篩選球員排行，結合 Elo、近 14 日變化與牌位",

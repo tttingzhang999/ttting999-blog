@@ -17,9 +17,9 @@ export const projects: Project[] = [
     "image": "/images/projects/baseball-public/rankings.webp",
     "images": [
       "/images/projects/baseball-public/rankings.webp",
-      "/images/projects/baseball-public/formulas.webp"
+      "/images/projects/baseball-public/player.webp"
     ],
-    "title": "Baseball Public - CPBL Elo 分析サイト",
+    "title": "CPBL ELO - CPBL Elo 分析サイト",
     "description": "台湾プロ野球の打席データを、選手ランキングと成績推移として閲覧できる分析サイト。Elo 相対評価、OPS+、ランク区分と計算シミュレーターを通じて、選手の変化を探れます。",
     "highlights": [
       "年度・投打の役割・球団でランキングを絞り込み、Elo、直近14日間の変化とランク区分を表示",
@@ -31,7 +31,7 @@ export const projects: Project[] = [
     "teamSize": "3人",
     "subtitle": "打席データから選手の成績推移へ",
     "kind": "Web · スポーツデータ分析",
-    "shortName": "Baseball Public",
+    "shortName": "CPBL ELO",
     "screenshot": "/images/projects/baseball-public/rankings.webp"
   },
   {

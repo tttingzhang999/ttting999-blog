@@ -41,8 +41,11 @@ test("scene navigation, repeated timeline, hover, routing cleanup and return", a
   await expect(root).toHaveAttribute("data-journal-intro", "done");
   await page.locator('.scene-nav [data-go="practice"]').click();
   await expect(root).toHaveAttribute("data-scene", "2");
-  await page.locator('[data-project="eatswiper"]').click();
-  await expect(page.locator("#project-description")).toContainText("Flutter");
+  await expect(page.locator("[data-project]")).toHaveText(["Moniit", "CPBL ELO", "AWS Diagram"]);
+  await page.locator('[data-project="baseball-public"]').click();
+  await expect(page.locator("#project-description")).toContainText("Elo");
+  await page.locator('[data-project="aws-diagram"]').click();
+  await expect(page.locator("#project-description")).toContainText("draw.io");
   await page.locator('.scene-nav [data-go="writing"]').click();
   await expect(root).toHaveAttribute("data-scene", "1");
   await expect(root).toHaveAttribute("data-journal-intro", "done");
