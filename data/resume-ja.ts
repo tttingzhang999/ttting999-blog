@@ -111,13 +111,19 @@ export const resumeDataJa: Resume = {
       name: 'AWS Certified Solutions Architect – Associate',
       issuer: 'Amazon Web Services',
       issueDate: '2026-04',
-      credentialUrl: 'https://www.credly.com/badges/69bf9e34-7820-4c1a-b7c7-7129f0f936eb/linked_in_profile'
+      credentialUrl: 'https://www.credly.com/badges/4fc04f61-4f4b-4ee9-a05e-4ba6ea68ecfd'
     },
     {
       name: 'AWS Certified AI Practitioner',
       issuer: 'Amazon Web Services',
       issueDate: '2026-05',
       credentialUrl: 'https://www.credly.com/badges/5cc2233e-7dc0-4608-8999-1c9ca210a904/linked_in_profile'
+    },
+    {
+      name: 'AWS Certified Solutions Architect – Professional',
+      issuer: 'Amazon Web Services',
+      issueDate: '2026-11',
+      credentialUrl: 'https://www.credly.com/badges/5ef20414-b691-4643-8ac2-07079bc7419d'
     }
   ],
 
